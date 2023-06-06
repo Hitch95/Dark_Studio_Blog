@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
-import { db } from "@/database/connectDB";
+import { db } from "@/utils/connectDB";
+import { v4 as uuidv4 } from "uuid";
+import { Session } from "next-auth";
+
 
 export const GET = async (request) => {
     const url = new URL(request.url);
 
-    const username = url.searchParams.get("username");
+    const id = url.searchParams.get("id");
 
     try {
         const connection = await db.classicConnection();
@@ -13,9 +16,9 @@ export const GET = async (request) => {
         let query = "SELECT * FROM posts";
         let params = [];
 
-        if (username) {
-            query += " WHERE username = ?";
-            params.push(username);
+        if (id) {
+            query += " WHERE id = ?";
+            params.push(id);
         }
 
         const [rows] = await connection.execute(query, params);
@@ -23,6 +26,7 @@ export const GET = async (request) => {
             id: row.id,
             title: row.title,
             description: row.description,
+            image: row.image,
             // Add other properties here based on your data structure
         }));
         console.log("Retrieved posts:", posts);
@@ -37,20 +41,29 @@ export const GET = async (request) => {
     }
 };
 
+
+
 export const POST = async (request) => {
     const body = await request.json();
 
-    const { title, description } = body;
+    const user_id = request.session.id;
+
+    const { title, description, content, image } = body;
+    console.log(body)
+    const id = uuidv4();
 
     try {
         const connection = await db.classicConnection();
+
+        const query = "INSERT INTO posts (id, user_id, title, description, content, image) VALUES (?, ?, ?, ?, ?, ?)";
+        const params = [id, user_id, title, description, content, image];
+
+        // Vérifier les valeurs undefined et les remplacer par null
+        const sanitizedParams = params.map((param) => (param !== undefined ? param : null));
         console.log("Connected to the database");
 
-        const query = "INSERT INTO posts (title, description) VALUES (?, ?)";
-        const params = [title, description];
-
-        await connection.execute(query, params);
-        console.log("Post inserted:", { title, description });
+        await connection.execute(query, sanitizedParams);
+        console.log("Post inserted:", { id, user_id, title, description, content, image });
 
         connection.end();
         console.log("Disconnected from the database");

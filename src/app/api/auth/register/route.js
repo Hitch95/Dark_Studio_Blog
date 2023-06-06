@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
-import db from "../../../../utils/connectDB";
+import { db } from "@/utils/connectDB";
 import bcrypt from 'bcrypt';
 
 export async function POST(request) {
