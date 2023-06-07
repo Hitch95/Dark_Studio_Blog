@@ -43,23 +43,33 @@ export const GET = async (request) => {
 
 
 
-export const POST = async (request) => {
+
+export const POST = async (request, session) => {
+    // Utilisez l'objet de session passé en paramètre
+    const { data } = session;
+    const { user } = data;
+    const { email } = user;
+
     const body = await request.json();
 
-    const user_id = request.session.id;
-
     const { title, description, content, image } = body;
-    console.log(body)
     const id = uuidv4();
+    const user_id = user?.id;
+    console.log(user_id);
+
 
     try {
-        const connection = await db.classicConnection();
+        const connection = await classicConnection();
 
-        const query = "INSERT INTO posts (id, user_id, title, description, content, image) VALUES (?, ?, ?, ?, ?, ?)";
-        const params = [id, user_id, title, description, content, image];
+        const query = `
+            INSERT INTO posts (id, user_id, title, description, content, image)
+            SELECT ?, users.id, ?, ?, ?, ? FROM users WHERE users.id = ?
+        `;
+        const params = [id, title, description, content, image, user_id];
 
         // Vérifier les valeurs undefined et les remplacer par null
         const sanitizedParams = params.map((param) => (param !== undefined ? param : null));
+
         console.log("Connected to the database");
 
         await connection.execute(query, sanitizedParams);

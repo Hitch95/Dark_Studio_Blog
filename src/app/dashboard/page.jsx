@@ -11,7 +11,7 @@ import Image from "next/image";
 const Dashboard = () => {
 
     const session = useSession();
-
+    console.log(session);
     const router = useRouter();
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -44,7 +44,8 @@ const Dashboard = () => {
                     description,
                     image,
                     content,
-                    username: session.data.user.name,
+                    session: session.data,
+                    // username: session.data.user.name,
                 }),
             });
             mutate();

@@ -48,45 +48,8 @@ export const authOptions = {
 
     ],
     pages: {
-        signIn: "/"
-    },
-    debug: process.env.NODE_ENV === "development",
-    session: {
-        strategy: "jwt"
-    },
-    secret: process.env.NEXTAUTH_SECRET
-    /*
-    callbacks: {
-        session: ({ session, token }) => {
-            console.log('Session Callback', { session, token })
-            return {
-                ...session,
-                user: {
-                    ...session.user,
-                    id: token.id,
-                    randomKey: token.randomKey
-                }
-            }
-        },
-        jwt: ({ token, user }) => {
-            console.log('JWT Callback', { token, user })
-            if (user) {
-                const u = user as unknown as any
-                return {
-                    ...token,
-                    id: u.id,
-                    randomKey: u.randomKey
-                }
-            }
-            return token
-        }
-    },
-    debug: process.env.NODE_ENV === 'development',
-    session: {
-        strategy: "jwt",
-    },
-    secret: process.env.NEXTAUTH_SECRET,
-    */
+        error: "/dashboard/login"
+    }
 };
 
 const handler = NextAuth(authOptions)

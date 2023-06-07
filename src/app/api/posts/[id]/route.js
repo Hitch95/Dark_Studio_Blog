@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { db } from "@/utils/connectDB";
+import { postRepository } from "../../../../../repositories/postRepository";
 
 export const GET = async (request, { params }) => {
     const { id } = params;
@@ -34,24 +35,13 @@ export const GET = async (request, { params }) => {
     }
 };
 
+
 export const DELETE = async (request, { params }) => {
     const { id } = params;
 
     try {
-        const connection = await db.classicConnection();
-
-        console.log("DELETE Request - Post ID:", id);
-
-        const query = "DELETE FROM posts WHERE id = ?";
-        const params = [id];
-
-        console.log("Executing SQL query:", query, params);
-
-        await connection.execute(query, params);
-
+        await postRepository.deletePost(id);
         console.log("Post has been deleted");
-
-        connection.end();
 
         return new NextResponse("Post has been deleted", { status: 200 });
     } catch (err) {

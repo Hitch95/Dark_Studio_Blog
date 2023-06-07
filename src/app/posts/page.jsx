@@ -22,10 +22,10 @@ const Post = async () => {
     return (
         <div className={styles.mainContainer}>
             {data.map((item) => (
-                <Link href={`/post/${item.id}`} className={styles.container} key={item.id}>
+                <Link href={`/posts/${item.id}`} className={styles.container} key={item.id}>
                     <div className={styles.imageContainer}>
                         <Image
-                            src={item.image}
+                            src={item.image} priority
                             alt=""
                             width={400}
                             height={250}
