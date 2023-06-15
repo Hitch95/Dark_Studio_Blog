@@ -1,9 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ["images.pexels.com", "res.cloudinary.com", 
+        domains: [
+                    "images.pexels.com", "res.cloudinary.com", 
                     "cdn.dribbble.com", "example.com", 
-                    "venngage-wordpress.s3.amazonaws.com"
+                    "venngage-wordpress.s3.amazonaws.com",
+                    "f.hellowork.com"
                 ],
     },
 };

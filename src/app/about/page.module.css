@@ -38,3 +38,8 @@
     font-weight: 300;
     text-align: justify;
 }
+
+.description > a {
+    color: #53c28b;
+    font-weight: bold;
+}

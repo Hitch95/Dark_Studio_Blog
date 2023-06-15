@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+.item:nth-child(1) {
+    width: max-content;
+}
+
+.item:nth-child(2) {
+    flex: 1;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    grid-template: 40px;
+    color: white;
+    gap: 30px;
+}
+
+.links a {
+    background-color: gray;
+    width: 100%;
+    padding: 10px 40px;
+}

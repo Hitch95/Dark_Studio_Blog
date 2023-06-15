@@ -1,0 +1,16 @@
+.container {}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 15px;
+    border: 1px solid white;
+}
+
+.table tr:nth-child(2n) {
+    background-color: rgb(52, 50, 50);
+}

@@ -8,16 +8,15 @@ export default function Home() {
     <div className={styles.container}>
       <div className={styles.item}>
         <h1 className={styles.title}>
-          Better design for your digital products.
+          The media for digital pros
         </h1>
         <p className={styles.description}>
-          Turning your Idea into Reality. We bring together the teams from the
-          global tech industry.
+          Check out the latest news from the tech. industry
         </p>
-        <Button url="/portfolio" text="See Our Works" />
+        <Button url="/portfolio" text="See Our Articles Sections" />
       </div>
       <div className={styles.item}>
-        <Image src={Hero} alt="" className={styles.img} />
+        <Image src={Hero} alt="hero image" className={styles.img} />
       </div>
     </div>
   );

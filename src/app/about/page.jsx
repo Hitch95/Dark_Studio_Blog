@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./page.module.css";
 import Image from "next/image";
 import Button from "@/components/Button/Button";
+import Link from "next/link";
 
 const About = () => {
     return (
@@ -14,44 +15,37 @@ const About = () => {
                     className={styles.img}
                 />
                 <div className={styles.imgText}>
-                    <h1 className={styles.imgTitle}>Digital Storytellers</h1>
+                    <h1 className={styles.imgTitle}>Tech. Blog</h1>
                     <h2 className={styles.imgDesc}>
-                        Handcrafting award winning digital experiences
+                        High quality web articles about tech. industry
                     </h2>
                 </div>
             </div>
             <div className={styles.textContainer}>
                 <div className={styles.item}>
                     <h1 className={styles.title}>Who Are We?</h1>
-                    <p className={styles.desc}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-                        quae dolor, optio voluptatibus magnam iure esse tempora beatae. A
-                        suscipit eos. Animi quibusdam cum omnis officiis voluptatum quo ea
-                        eveniet? Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Ducimus quae dolor, optio voluptatibus magnam iure esse tempora
-                        beatae, a suscipit eos. Animi quibusdam cum omnis officiis
-                        <br />
-                        <br />
-                        voluptatum quo ea eveniet? Lorem ipsum dolor sit amet consectetur
-                        adipisicing elit. Ducimus quae dolor, optio voluptatibus magnam iure
-                        esse tempora beatae, a suscipit eos. Animi quibusdam cum omnis
-                        officiis voluptatum quo ea eveniet?
+                    <p className={styles.description}>
+                        Dark Studi Blog is the media for digital professionals.
+                        Published by <Link href={"https://github.com/Hitch95"}>Hitch95</Link> since 2023, it is aimed at web professionals. 
+                        It offers them a daily selection of tools, decryptions, news or even figures and surveys 
+                        to enable them to feed their monitoring and meet the needs induced by the growing digitization of professions and companies. 
+                        SEO, SEA, development, design, social media or even marketing are among the topics regularly discussed. 
+                        A reference source, the site welcomes more than 2000 readers per month.
+                        Want to write to us? Send an email to the editor using this <Link href={"/contact"}>form</Link>.
                     </p>
                 </div>
                 <div className={styles.item}>
                     <h1 className={styles.title}>What We Do?</h1>
-                    <p className={styles.desc}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-                        quae dolor, optio voluptatibus magnam iure esse tempora beatae, a
-                        suscipit eos. Animi quibusdam cum omnis officiis voluptatum quo ea
-                        eveniet? Lorem ipsum dolor sit amet consectetur adipisicing elit. -
-                        Creative Illustrations
+                    <p className={styles.description}>
+                        Our teams of editors implement a daily watch on each news around the tech. industry in order to write quality articles. 
+                        We also make it a point of honor to verify the quality of our sources.
+                        Our themes :
                         <br />
-                        <br /> - Dynamic Websites
+                        <br /> - Tech
                         <br />
-                        <br /> - Fast and Handy
+                        <br /> - Web
                         <br />
-                        <br /> - Mobile Apps
+                        <br /> - Tools
                     </p>
                     <Button url="/contact" text="Contact" />
                 </div>

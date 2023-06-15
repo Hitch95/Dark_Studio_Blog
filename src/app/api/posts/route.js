@@ -1,24 +1,24 @@
 import { NextResponse } from "next/server";
 import { db } from "@/utils/connectDB";
 import { v4 as uuidv4 } from "uuid";
-import { Session } from "next-auth";
 
 
 export const GET = async (request) => {
     const url = new URL(request.url);
 
-    const id = url.searchParams.get("id");
+    const username = url.searchParams.get("username");
+
 
     try {
         const connection = await db.classicConnection();
-        console.log("Connected to the database");
+        console.log("Connected to the database. posts(GET)");
 
         let query = "SELECT * FROM posts";
         let params = [];
 
-        if (id) {
-            query += " WHERE id = ?";
-            params.push(id);
+        if (username) {
+            query += " WHERE username = ?";
+            params.push(username);
         }
 
         const [rows] = await connection.execute(query, params);
@@ -27,12 +27,12 @@ export const GET = async (request) => {
             title: row.title,
             description: row.description,
             image: row.image,
-            // Add other properties here based on your data structure
+            username: row.username
         }));
         console.log("Retrieved posts:", posts);
 
         connection.end();
-        console.log("Disconnected from the database");
+        console.log("Disconnected from the database. posts(GET)");
 
         return new NextResponse(JSON.stringify(posts), { status: 200 });
     } catch (err) {
@@ -45,27 +45,22 @@ export const GET = async (request) => {
 
 
 export const POST = async (request, session) => {
-    // Utilisez l'objet de session passé en paramètre
-    const { data } = session;
-    const { user } = data;
-    const { email } = user;
-
     const body = await request.json();
 
-    const { title, description, content, image } = body;
+    const { title, description, content, image, user } = body;
     const id = uuidv4();
     const user_id = user?.id;
+    const username = user?.username;
+
     console.log(user_id);
 
-
     try {
-        const connection = await classicConnection();
+        const connection = await db.classicConnection();
 
         const query = `
-            INSERT INTO posts (id, user_id, title, description, content, image)
-            SELECT ?, users.id, ?, ?, ?, ? FROM users WHERE users.id = ?
+        INSERT INTO posts (id, user_id, title, description, content, image, username) VALUES (?, ?, ?, ?, ?, ?, ?)
         `;
-        const params = [id, title, description, content, image, user_id];
+        const params = [id, user_id, title, description, content, image, username];
 
         // Vérifier les valeurs undefined et les remplacer par null
         const sanitizedParams = params.map((param) => (param !== undefined ? param : null));
@@ -73,7 +68,7 @@ export const POST = async (request, session) => {
         console.log("Connected to the database");
 
         await connection.execute(query, sanitizedParams);
-        console.log("Post inserted:", { id, user_id, title, description, content, image });
+        console.log("Post inserted:", { id, user_id, title, description, content, image, username });
 
         connection.end();
         console.log("Disconnected from the database");
