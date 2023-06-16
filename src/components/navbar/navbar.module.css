@@ -24,3 +24,56 @@
   cursor: pointer;
   border-radius: 3px;
 }
+
+@media only screen and (max-width: 650px) {
+  /* Styles pour le bouton hamburger */
+  .mobileMenuButton {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .hamburgerIcon {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin-right: 5px;
+  }
+
+  .hamburgerIcon::before,
+  .hamburgerIcon::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    margin-bottom: 5px;
+  }
+
+  .hamburgerIcon::after {
+    margin-bottom: 0;
+    /* Supprime la marge inférieure de la dernière barre */
+  }
+
+
+  /* Styles pour le menu déroulant */
+  .links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transition: max-height 0.3s ease;
+    max-height: 0;
+    overflow: hidden;
+    transform: translateY(127px);
+    background-color: #111;
+  }
+  .link:hover {
+    font-weight: bold;
+  }
+
+  .links.open {
+    max-height: 500px;
+    /*border: 1px solid #fff; */
+    /* Hauteur maximale pour afficher le menu déroulant */
+  }
+}

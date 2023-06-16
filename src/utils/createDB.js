@@ -97,7 +97,26 @@ async function createDB() {
         const postId3 = uuidv4();
         await connection.query({
             sql: "INSERT INTO posts (id, user_id, title, description, content, image) VALUES (?, ?, ?, ?, ?, ?)",
-            values: [postId3, userId, "Third post", "Description of the third post", "Content of the third post", "https://venngage-wordpress.s3.amazonaws.com/uploads/2020/10/Anatomy-of-the-Perfect-Blog-Post.png"],
+            values: [
+                postId3, 
+                userId, 
+                `Micro-interactions in UX design: small details, big impact!`, 
+                `Interaction design involves two-way exchanges between the user and the product, while solitary design remains unidirectional. 
+                There is no type of design that is better than the other, it depends on the context. 
+                Interactive design has evolved into a discipline in its own right called IxD design.
+                Micro-interactions play an essential role in interaction design. 
+                They represent small moments and details that fit harmoniously into the overall design of the product. 
+                An effective micro-interaction must be natural and almost invisible.
+                A micro-interaction generally follows the following structure:
+                The trigger: it can be manual, voice, gesture or system-based.
+                Rules: they define how the user interacts with the product and what happens when the micro-interaction is triggered.
+                Feedback: it informs the user of the consequences of the micro-interaction, whether visually, audibly or sensorily.
+                Modes and Loops: Modes allow basic rules to be changed to suit the user, while loops make micro-interaction durable and reusable.
+                To create effective micro-interactions, it is recommended to simplify the interactions with the product, 
+                to make them subtle and simple, to understand the needs of the users and to integrate them from the beginning of the design process.`, 
+                `Discreet and subtle, micro-interactions are part of our daily lives. Back to this key element of UX design!`, 
+                `https://f.hellowork.com/blogdumoderateur/2023/06/ux-design-micro-interactions-interactivity.jpg`
+            ],
         });
 
         console.log("Users and posts insert with success!");

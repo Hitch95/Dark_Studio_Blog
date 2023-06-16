@@ -1,10 +1,12 @@
 .container {
     display: flex;
+    flex-wrap: wrap;
     gap: 100px;
 }
 
 .posts {
     flex: 1;
+    border: 2px solid #bbbbbb;
 }
 
 .post {

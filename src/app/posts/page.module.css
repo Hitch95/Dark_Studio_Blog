@@ -1,5 +1,6 @@
 .container {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 50px;
     margin-bottom: 50px;
@@ -9,7 +10,9 @@
     object-fit: cover;
 }
 
-.content {}
+.content {
+    margin-bottom: 100px;
+}
 
 .title {
     margin-bottom: 10px;
@@ -18,4 +21,10 @@
 .desc {
     font-size: 18px;
     color: #999;
+}
+
+@media only screen and (max-width: 984px) {
+    .content {
+        max-width: 400px;
+    }
 }

@@ -33,11 +33,11 @@ const BlogPost = async ({ params }) => {
                 <div className={styles.info}>
                     <h1 className={styles.title}>{data.title}</h1>
                     <p className={styles.desc}>
-                        {data.desc}
+                        {data.description}
                     </p>
                     <div className={styles.author}>
                         <Image
-                            src={data.image}
+                            src={data.image_src}
                             alt=""
                             width={40}
                             height={40}

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import { signOut, useSession } from "next-auth/react";
 
 import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
@@ -46,14 +46,26 @@ const links = [
 const Navbar = () => {
     const session = useSession();
     const { userData } = useContext(UserContext);
+    const [hamburgerMenu, setHamburgerMenu] = useState(false);
+
+    const handleHamburgerMenu = () => {
+        setHamburgerMenu(!hamburgerMenu);
+    };
 
     return (
         <div className={styles.container}>
             <Link href="/" className={styles.logo}>
                 Dark Studio
             </Link>
-            <div className={styles.links}>
-                <DarkModeToggle />
+
+            <div className={styles.mobileMenuButton} onClick={handleHamburgerMenu}>
+                <span className={styles.hamburgerIcon}></span>
+            </div>
+
+            <DarkModeToggle />
+
+            <div className={`${styles.links} ${hamburgerMenu ? styles.open : ""}`}>
+
                 {links.map((link) => (
                     <Link key={link.id} href={link.url} className={styles.link}>
                         {link.title}

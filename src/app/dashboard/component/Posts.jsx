@@ -78,13 +78,14 @@ const Posts = ({ userData }) => {
             <form className={styles.new} onSubmit={handleSubmit}>
                 <h1>Add New Post</h1>
                 <input type="text" placeholder="Title" className={styles.input} />
-                <input type="text" placeholder="Description" className={styles.input} />
+                <input type="text" placeholder="Content" className={styles.input} />
                 <input type="text" placeholder="Image" className={styles.input} />
                 <textarea
-                    placeholder="Content"
+                    placeholder="Description"
                     className={styles.textArea}
                     cols="30"
                     rows="10"
+                    type="text"
                 >
                 </textarea>
                 <button className={styles.button}>Send</button>
