@@ -21,15 +21,26 @@
     font-weight: bold;
 }
 
-.button {
-    margin-top: 2rem;
+.button_container {
+    order: 6;
+}
+.button_container button {
+    margin-top: 0rem;
     padding: 20px;
     cursor: pointer;
-    background-color: #53c28b;
     border: none;
     border-radius: 5px;
     color: #eee;
     font-weight: bold;
+}
+
+.button_container > .link > button {
+    background-color: #53c28b;
+    max-width: 100px;
+}
+
+.button_container > button {
+    min-width: 100px;
 }
 
 .info {
@@ -40,30 +51,32 @@
 }
 
 .title {
+    order: 1;
     font-size: 40px;
 }
 
 .desc {
+    order: 4;
     font-size: 18px;
     font-weight: 300;
     padding-right: 1.5rem;
 }
 
 .author {
+    order: 5;
     display: flex;
     align-items: center;
+    margin: 1rem 0rem;
     gap: 10px;
-}
-
-.avatar {
-    object-fit: cover;
-    border-radius: 50%;
+    font-style: italic;
 }
 
 .imageContainer {
-    flex: 1;
+    order: 3;
     height: 300px;
+    max-width: 300px;
     position: relative;
+    margin: 1.5rem 0rem 1.5rem 0rem;
 }
 
 .image {
@@ -71,9 +84,12 @@
 }
 
 .content {
-    margin-top: 50px;
+    order: 2;
+    margin: 1.5rem 0rem 1.5rem 0rem;
     font-size: 20px;
+    font-style: italic;
     font-weight: 300;
     color: #999;
     text-align: justify;
 }
+

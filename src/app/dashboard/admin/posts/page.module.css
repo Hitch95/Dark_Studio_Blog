@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
-    margin: 5vh 0 10vh 0;
+    margin-bottom: 10vh;
 }
 
 .post {
@@ -10,9 +10,36 @@
     gap: 20px;
 }
 
+.post > img {
+    border-radius: 1rem;
+}
+
 .detail {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 10px;
+}
+
+.button_container button {
+    margin: 1.5rem 1rem 0rem 0rem;
+    font-size: 15px;
+    padding: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    color: #eee;
+}
+
+.button_container button:hover {
+    
+}
+
+.button_container > .link > .button:nth-of-type(1) {
+    background-color: #53c28b;
+    border-radius: 5px;
+}
+
+.button_container > .button {
+    background-color: red;
 }

@@ -49,3 +49,40 @@ export const DELETE = async (request, { params }) => {
         return new NextResponse("Database Error", { status: 500 });
     }
 };
+
+
+export const PUT = async (request, { params }) => {
+
+    const { id } = params
+    const body = await request.json();
+
+    const { title, description, content, image, user } = body;
+    const user_id = user?.id;
+    const username = user?.username;
+    try {
+        const connection = await db.classicConnection();
+
+        const query = `
+        UPDATE posts
+        SET title = ?, description = ?, content = ?, user_id = ?, username = ?
+        WHERE id = ?
+      `;
+        const params = [title, description, content, user_id, username, id];
+
+        // Verify undefined value and replace them by null
+        const sanitizedParams = params.map((param) => (param !== undefined ? param : null));
+
+        console.log("Connected to the database");
+
+        await connection.execute(query, sanitizedParams);
+        console.log("Post updated:", { id, title, description, content, user_id, username });
+
+        connection.end();
+        console.log("Disconnected from the database");
+
+        return new NextResponse("Post has been updated", { status: 200 });
+    } catch (err) {
+        console.error("Database Error:", err);
+        return new NextResponse("Database Error", { status: 500 });
+    }
+};

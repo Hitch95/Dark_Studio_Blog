@@ -3,12 +3,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 import { UserContext } from "../../../context/UserContext";
 import styles from "./page.module.css";
-
 
 
 async function getData(id) {
@@ -17,7 +16,7 @@ async function getData(id) {
     });
 
     if (!res.ok) {
-        return notFound()
+        throw new Error("Post not found");
     }
 
     return res.json();
@@ -37,23 +36,11 @@ async function updatePost(id, updatedData) {
     }
 }
 
-/*
-export async function generateMetadata({ params }) {
-
-    const post = await getData(params.id)
-    return {
-        title: post.title,
-        description: post.description,
-    };
-}
-*/
-
 const BlogPost = ({ params }) => {
     const [data, setData] = useState({});
     const [isAuthor, setIsAuthor] = useState(false);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [isEditing, setIsEditing] = useState(false);
 
     const router = useRouter();
     const { id } = params;
@@ -61,10 +48,20 @@ const BlogPost = ({ params }) => {
     const { data: session } = useSession();
     const { userData } = useContext(UserContext);
 
-    const handleEdit = () => {
-        setTitle(data.title);
-        setDescription(data.description);
-        setIsEditing(true);
+    const handleDelete = async () => {
+        const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to Delete post");
+        } else {
+            alert("Post Deleted Successfully");
+            router.push("/posts");
+        }
     };
 
     const handleSave = async () => {
@@ -106,7 +103,6 @@ const BlogPost = ({ params }) => {
         }
     }, [userData, session]);
 
-
     return (
         <div>
             {data && (
@@ -134,28 +130,42 @@ const BlogPost = ({ params }) => {
                     ) : (
                         <div className={styles.info}>
                             <h1 className={styles.title}>{data.title}</h1>
+                            <div className={styles.content}>
+                                <p className={styles.text}>{data.content}</p>
+                            </div>
                             <p className={styles.desc}>{data.description}</p>
                             <div className={styles.author}>
                                 <span className={styles.username}>{data.username}</span>
                             </div>
-                            <button onClick={handleEdit} className={styles.button}>Edit</button>
+                            <div className={styles.imageContainer}>
+                                <Image
+                                    src={data.image}
+                                    alt=""
+                                    sizes="(max-width: 623px) 100vw"
+                                    fill={true}
+                                    className={styles.image}
+                                />
+                            </div>
+                            {(userData && userData?.id === data?.user_id) || userData?.isAdmin ? (
+                                <div className={styles.button_container}>
+                                    <Link style={{ alignItems: "center" }} href={`/posts/edit/${id}`} className={styles.link}>
+                                        <button style={{ width: "100%" }} className={styles.button}>
+                                            Edit
+                                        </button>
+                                    </Link>
+                                    <button
+                                        onClick={handleDelete}
+                                        style={{ color: "white", marginTop: "3em", backgroundColor: "red" }}
+                                        className={styles.button}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            ) : null}
                         </div>
                     )}
-                    <div className={styles.imageContainer}>
-                        <Image
-                            src={data.image}
-                            alt=""
-                            sizes="(max-width: 623px) 100vw"
-                            fill={true}
-                            className={styles.image}
-                        />
-                    </div>
                 </div>
             )}
-
-            <div className={styles.content}>
-                <p className={styles.text}>{data.content}</p>
-            </div>
         </div>
     );
 };
