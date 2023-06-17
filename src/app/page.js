@@ -13,7 +13,7 @@ export default function Home() {
         <p className={styles.description}>
           Check out the latest news from the tech. industry
         </p>
-        <Button url="/portfolio" text="See Our Articles Sections" />
+        <Button url="/posts" text="See Our Articles" />
       </div>
       <div className={styles.item}>
         <Image src={Hero} alt="hero image" className={styles.img} />

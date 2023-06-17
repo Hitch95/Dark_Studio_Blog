@@ -16,7 +16,6 @@ async function createDB() {
             email VARCHAR(255) NOT NULL,
             email_verified BOOLEAN NOT NULL DEFAULT false,
             password VARCHAR(255) NOT NULL,
-            image_src VARCHAR(255),
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             is_admin BOOLEAN NOT NULL DEFAULT false
@@ -41,18 +40,18 @@ async function createDB() {
         const userId = uuidv4();
         const hashedPassword = await bcrypt.hash("password", 10);
         await connection.query({
-            sql: "INSERT INTO users (id, username, email, password, image_src, is_admin) VALUES (?, ?, ?, ?, ?, ?)",
-            values: [userId, "JohnDoe", "john@example.com", hashedPassword, "https://images.pexels.com/photos/4307869/pexels-photo-4307869.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 1]
+            sql: "INSERT INTO users (id, username, email, password, is_admin) VALUES (?, ?, ?, ?, ?)",
+            values: [userId, "JohnDoe", "john@example.com", hashedPassword, 1]
         });
         const userId2 = uuidv4();
         await connection.query({
-            sql: "INSERT INTO users (id, username, email, password, image_src) VALUES (?, ?, ?, ?, ?)",
-            values: [userId2, "carlos", "carlos@mail.com", hashedPassword, "https://images.pexels.com/photos/4307869/pexels-photo-4307869.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"]
+            sql: "INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)",
+            values: [userId2, "carlosGhosn", "carlos@mail.com", hashedPassword]
         });
 
         const postId = uuidv4();
         await connection.query({
-            sql: "INSERT INTO posts (id, user_id, title, description, content, image) VALUES (?, ?, ?, ?, ?, ?)",
+            sql: "INSERT INTO posts (id, user_id, title, description, content, image, username) VALUES (?, ?, ?, ?, ?, ?, ?)",
             values: [
                 postId,
                 userId,
@@ -66,13 +65,14 @@ async function createDB() {
                 Collaboration with colleagues is perceived as the area with the least expected evolution, but 59.38% still believe that AI will bring about change.`, 
                 `Developers have already started using AI and its use is expected to grow even further in the future.
                 Source: StackOverflow`,
-                `https://f.hellowork.com/blogdumoderateur/2023/06/Benefits-IA-Developpeurs.jpg`
+                `https://f.hellowork.com/blogdumoderateur/2023/06/Benefits-IA-Developpeurs.jpg`,
+                `JohnDoe`
             ],
         });
 
         const postId2 = uuidv4();
         await connection.query({
-            sql: "INSERT INTO posts (id, user_id, title, description, content, image) VALUES (?, ?, ?, ?, ?, ?)",
+            sql: "INSERT INTO posts (id, user_id, title, description, content, image, username) VALUES (?, ?, ?, ?, ?, ?, ?)",
             values: [
                 postId2, 
                 userId, 
@@ -90,13 +90,14 @@ async function createDB() {
                 A USB device is inserted during login, requiring physical possession. 
                 These methods improve security compared to traditional authentication.`, 
                 `Double authentication provides better security for your accounts. Learn about the different methods available.`, 
-                `https://f.hellowork.com/blogdumoderateur/2023/05/Authentification-deux-facteurs-2FA.jpg`
+                `https://f.hellowork.com/blogdumoderateur/2023/05/Authentification-deux-facteurs-2FA.jpg`,
+                `carlosGhosn`
             ],
         });
 
         const postId3 = uuidv4();
         await connection.query({
-            sql: "INSERT INTO posts (id, user_id, title, description, content, image) VALUES (?, ?, ?, ?, ?, ?)",
+            sql: "INSERT INTO posts (id, user_id, title, description, content, image, username) VALUES (?, ?, ?, ?, ?, ?, ?)",
             values: [
                 postId3, 
                 userId, 
@@ -115,7 +116,8 @@ async function createDB() {
                 To create effective micro-interactions, it is recommended to simplify the interactions with the product, 
                 to make them subtle and simple, to understand the needs of the users and to integrate them from the beginning of the design process.`, 
                 `Discreet and subtle, micro-interactions are part of our daily lives. Back to this key element of UX design!`, 
-                `https://f.hellowork.com/blogdumoderateur/2023/06/ux-design-micro-interactions-interactivity.jpg`
+                `https://f.hellowork.com/blogdumoderateur/2023/06/ux-design-micro-interactions-interactivity.jpg`,
+                `JohnDoe`
             ],
         });
 

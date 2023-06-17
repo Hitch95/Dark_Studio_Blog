@@ -1,5 +1,3 @@
-.container {}
-
 .title {
     font-size: 60px;
     margin-bottom: 100px;
@@ -50,4 +48,41 @@
     border: 3px solid #bbb;
     font-size: 20px;
     font-weight: bold;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .container .content {
+        gap: 10px;
+        width: 100%;
+    }
+
+    .container .title {
+        font-size: 2.6em;
+    }
+
+    .container .content .imgContainer {
+        display: none;
+    }
+
+    .container .content .form {
+        width: 100%;
+    }
+
+    .container .content .form .input,
+    .textArea {
+        padding: 0px;
+        min-width: inherit;
+    }
+}
+
+
+@media only screen and (max-width: 750px) and (min-width: 600px) {
+    .container .title {
+        font-size: 3.1em;
+    }
+
+    .container .content .imgContainer {
+        display: none;
+    }
 }

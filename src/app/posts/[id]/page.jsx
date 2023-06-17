@@ -136,13 +136,6 @@ const BlogPost = ({ params }) => {
                             <h1 className={styles.title}>{data.title}</h1>
                             <p className={styles.desc}>{data.description}</p>
                             <div className={styles.author}>
-                                <Image
-                                    src={data.image} /* A MODIFIER !!! */
-                                    alt=""
-                                    width={40}
-                                    height={40}
-                                    className={styles.avatar}
-                                />
                                 <span className={styles.username}>{data.username}</span>
                             </div>
                             <button onClick={handleEdit} className={styles.button}>Edit</button>

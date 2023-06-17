@@ -18,26 +18,21 @@ const links = [
     },
     {
         id: 2,
-        title: "Portfolio",
-        url: "/portfolio",
-    },
-    {
-        id: 3,
         title: "Posts",
         url: "/posts",
     },
     {
-        id: 4,
+        id: 3,
         title: "About",
         url: "/about",
     },
     {
-        id: 5,
+        id: 4,
         title: "Contact",
         url: "/contact",
     },
     {
-        id: 6,
+        id: 5,
         title: "Dashboard",
         url: "/dashboard",
     },

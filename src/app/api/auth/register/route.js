@@ -8,10 +8,8 @@ export async function POST(request) {
 
     try {
         const userId = uuidv4();
-        console.log("UUID généré :", userId);
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log("Mot de passe haché :", hashedPassword);
 
         let dbconnection = await db.classicConnection();
 
