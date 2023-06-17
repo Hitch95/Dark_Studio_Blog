@@ -60,9 +60,7 @@ const Posts = ({ userData }) => {
                     data?.map((post) => (
                         <div className={styles.post} key={post.id}>
                             <div className={styles.imgContainer}>
-
-                                {/* <img src={post.image} className={styles.img} alt="" /> */}
-                                <Image src={post.image} alt="" width={200} height={100} />
+                                <Image src={post.image} alt="" width={200} height={100} className={styles.img} />
                             </div>
                             <h2 className={styles.postTitle}>{post.title}</h2>
                             <span
@@ -75,7 +73,7 @@ const Posts = ({ userData }) => {
                     ))
                 )}
             </div>
-            <form className={styles.new} onSubmit={handleSubmit}>
+            <form className={styles.form} onSubmit={handleSubmit}>
                 <h1>Add New Post</h1>
                 <input type="text" placeholder="Title" className={styles.input} />
                 <input type="text" placeholder="Content" className={styles.input} />
