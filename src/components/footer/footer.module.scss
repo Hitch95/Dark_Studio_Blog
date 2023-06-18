@@ -1,0 +1,24 @@
+.footer {
+    height: 50px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    > div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            > a {
+                > img {
+                    opacity: 0.6;
+                    cursor: pointer;
+
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+            }
+    }
+}

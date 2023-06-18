@@ -1,13 +1,13 @@
 import React from "react";
-import styles from "./footer.module.css";
+import styles from "./footer.module.scss";
 import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
     return (
-        <div className={styles.container}>
-            <div>©2023 Dark Studio All rights reserved.</div>
-            <div className={styles.social}>
+        <footer className={styles.footer}>
+            <p>©2023 Dark Studio All rights reserved.</p>
+            <div>
                 <Link href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
                     <Image src="/1.png" width={15} height={15} className={styles.icon} alt="Dark Studio Facebook Account" />
                 </Link>
@@ -24,7 +24,7 @@ const Footer = () => {
                     <Image src="/4.png" width={15} height={15} className={styles.icon} alt="Dark Studio" />
                 </Link>
             </div>
-        </div>
+        </footer>
     );
 };
 

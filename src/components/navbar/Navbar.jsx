@@ -7,7 +7,7 @@ import { signOut, useSession } from "next-auth/react";
 import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
 import { UserContext } from "../../context/UserContext";
 
-import styles from "./navbar.module.css";
+import styles from "./navbar.module.scss";
 
 
 const links = [
@@ -35,7 +35,7 @@ const links = [
         id: 5,
         title: "Dashboard",
         url: "/dashboard",
-    },
+    }
 ];
 
 const Navbar = () => {
@@ -74,9 +74,14 @@ const Navbar = () => {
                     ) : ""
                 }
                 {session.status === "authenticated" && (
-                    <button className={styles.logout} onClick={signOut}>
-                        Logout
-                    </button>
+                    <div>
+                        <Link href={"/user-profile"} className={styles.link}>
+                            User Profile
+                        </Link>
+                        <button className={styles.logout} onClick={signOut}>
+                            Logout
+                        </button>
+                    </div>
                 )}
             </div>
         </div>

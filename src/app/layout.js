@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Dark Studio Blog",
-  description: "This is the description",
+  description: "The media for digital pros",
 };
 
 export default function RootLayout({ children }) {
