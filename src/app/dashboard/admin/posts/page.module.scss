@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 10vh;
+
+    .post {
+        display: flex;
+        gap: 20px;
+
+        img {
+            border-radius: 1rem;
+        }
+
+        .postContent {
+            .detail {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            .button_container {
+                button {
+                    margin: 1.5rem 1rem 0rem 0rem;
+                    font-size: 15px;
+                    padding: 20px;
+                    cursor: pointer;
+                    border: none;
+                    border-radius: 5px;
+                    color: #eee;
+                }
+
+                >a {
+                    >button {
+                        background-color: #53c28b;
+                        border-radius: 5px;
+                    }
+                }
+
+                > button {
+                    background-color: red;
+                }
+            }
+        }
+    }
+}

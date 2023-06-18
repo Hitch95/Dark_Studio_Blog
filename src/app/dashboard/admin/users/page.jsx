@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useContext } from "react";
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 import { UserContext } from "@/context/UserContext";
@@ -70,7 +70,7 @@ const Users = () => {
                 <table className={styles.table}>
                     <thead>
                         <tr>
-                            <th>USERNAME</th>
+                            <th>Username</th>
                             <th>Email</th>
                             <th>isAdmin</th>
                         </tr>
@@ -83,12 +83,12 @@ const Users = () => {
                                     <td>{user.username}</td>
                                     <td>{user.email}</td>
                                     <td>
-                                        <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                            <div style={{ flex: 1 }}>{user.isAdmin}</div>
-                                            <div style={{ flex: 1, textAlign: "center" }}>
+                                        <div>
+                                            <div>{user.isAdmin}</div>
+                                            <div>
                                                 {
                                                     user.id !== userData.id ? (
-                                                        <button style={{ padding: "2px 10px" }} onClick={() => handleClick(user)}>
+                                                        <button onClick={() => handleClick(user)}>
                                                             {user.isAdmin ? "-" : "+"}
                                                         </button>
                                                     ) : (

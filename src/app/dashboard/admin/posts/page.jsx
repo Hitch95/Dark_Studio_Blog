@@ -2,7 +2,7 @@
 
 import React, { useContext } from "react";
 import { useSession } from "next-auth/react";
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 import useSWR from "swr";
 import { UserContext } from "@/context/UserContext";
 import Image from "next/image";
@@ -67,12 +67,11 @@ const Posts = () => {
                                 {(userData && userData?.id === post?.user_id) || userData?.isAdmin ? (
                                     <div className={styles.button_container}>
                                         <Link className={styles.link} href={`/posts/edit/${post?.id}`}>
-                                            <button className={styles.button}>Edit</button>
+                                            <button>Edit</button>
                                         </Link>
                                         <button
                                             id={post?.id}
                                             onClick={handleDelete}
-                                            className={styles.button}
                                         >
                                             Delete
                                         </button>

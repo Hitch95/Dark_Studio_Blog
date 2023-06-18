@@ -5,6 +5,7 @@ import styles from "./page.module.css";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { LoginValidation } from "../Validator";
 
 
 const Login = ({ url }) => {
@@ -13,6 +14,12 @@ const Login = ({ url }) => {
     const params = useSearchParams();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+
+    const [errors, setErrors] = useState({});
+    const [values, setValues] = useState({
+        email: "",
+        password: ""
+    })
 
     useEffect(() => {
         setError(params.get("error"));
@@ -27,16 +34,29 @@ const Login = ({ url }) => {
         router?.push("/dashboard");
     }
 
+    const handleChange = (e) => {
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value,
+        });
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const email = e.target[0].value;
         const password = e.target[1].value;
 
-        signIn("credentials", {
-            email,
-            password,
-        });
+        const validationErrors = LoginValidation({ email, password });
+        setErrors(validationErrors);
+
+        if (Object.keys(validationErrors).length === 0) {
+            signIn("credentials", {
+                email,
+                password,
+            });
+        }
     };
+
 
     return (
         <div className={styles.container}>
@@ -45,19 +65,25 @@ const Login = ({ url }) => {
 
             <form onSubmit={handleSubmit} className={styles.form}>
                 <input
-                    type="text"
+                    type="text" name="email"
                     placeholder="Email"
+                    onChange={handleChange}
                     required
                     className={styles.input}
                 />
+                {errors.email && <span className={styles.error}>{errors.email}</span>}
+
                 <input
                     type="password"
                     placeholder="Password"
-                    required
                     className={styles.input}
+                    onChange={handleChange}
+                    title="The password must be at least 8 characters long, contain at least one number, one lowercase letter, one uppercase letter and one special character."
+                    name="password"
+                    required
                 />
+                {errors.password && <span className={styles.error}>{errors.password}</span>}
                 <button className={styles.button}>Login</button>
-                {error && error}
             </form>
             <button
                 onClick={() => {

@@ -66,6 +66,8 @@
     overflow: hidden;
     transform: translateY(127px);
     backdrop-filter: blur(1em);
+    position: relative;
+    z-index: 2;
   }
 
   .link:hover {

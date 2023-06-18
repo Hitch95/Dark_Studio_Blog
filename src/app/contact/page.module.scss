@@ -1,0 +1,81 @@
+.container {
+
+    .title {
+        font-size: 60px;
+        margin-bottom: 100px;
+        text-align: center;
+
+        @media (max-width: 600px) {
+            font-size: 2.6em;
+        }
+        @media (max-width: 750px) and (min-width: 600px) {
+            font-size: 3.1em;
+        }
+    }
+
+    .content {
+        display: flex;
+        align-items: center;
+        gap: 100px;
+
+        @media (max-width: 600px) {
+            gap: 10px;
+            width: 100%;
+        }
+
+        .imgContainer {
+            flex: 1;
+            height: 500px;
+            position: relative;
+
+            @media (max-width: 600px) {
+                display: none;
+            }
+            @media (max-width: 750px) and (min-width: 600px) {
+                display: none;
+            }
+
+            .image {
+                object-fit: contain;
+                animation: move 3s infinite ease alternate;
+            }
+            @keyframes move {
+                from {
+                    transform: translateY(-15px);
+                }
+            
+                to {
+                    transform: translateY(0px) scale(1.03);
+                }
+            }
+        }
+
+        .form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            @media (max-width: 600px) {
+                width: 100%;
+            }
+
+            .input,
+            .textArea {
+                padding: 20px;
+                background-color: transparent;
+                border: none;
+                outline: none;
+                color: #bbb;
+                border: 3px solid #bbb;
+                font-size: 20px;
+                font-weight: bold;
+
+                @media (max-width: 600px) {
+                    padding: 0px;
+                    min-width: inherit;
+                }
+            }
+        }
+    }
+}

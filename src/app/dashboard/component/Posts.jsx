@@ -1,5 +1,5 @@
 import React from "react"
-import styles from "../page.module.css";
+import styles from "../page.module.scss";
 import useSWR from "swr";
 import Image from "next/image";
 
@@ -52,7 +52,7 @@ const Posts = ({ userData }) => {
         }
     };
     return (
-        <>
+        <div>
             <div className={styles.posts}>
                 {isLoading ? (
                     "loading"
@@ -88,7 +88,7 @@ const Posts = ({ userData }) => {
                 </textarea>
                 <button className={styles.button}>Send</button>
             </form>
-        </>
+        </div>
     )
 }
 

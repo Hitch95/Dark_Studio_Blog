@@ -38,7 +38,7 @@ async function createDB() {
         console.log("Tables created with success!");
 
         const userId = uuidv4();
-        const hashedPassword = await bcrypt.hash("password", 10);
+        const hashedPassword = await bcrypt.hash("Password1++", 10);
         await connection.query({
             sql: "INSERT INTO users (id, username, email, password, is_admin) VALUES (?, ?, ?, ?, ?)",
             values: [userId, "JohnDoe", "john@example.com", hashedPassword, 1]
