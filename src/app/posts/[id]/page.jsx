@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { UserContext } from "../../../context/UserContext";
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 
 
 async function getData(id) {
@@ -104,7 +104,7 @@ const BlogPost = ({ params }) => {
     }, [userData, session]);
 
     return (
-        <div>
+        <div className={styles.container}>
             {data && (
                 <div className={styles.top}>
                     {isAuthor ? (
@@ -148,14 +148,13 @@ const BlogPost = ({ params }) => {
                             </div>
                             {(userData && userData?.id === data?.user_id) || userData?.isAdmin ? (
                                 <div className={styles.button_container}>
-                                    <Link style={{ alignItems: "center" }} href={`/posts/edit/${id}`} className={styles.link}>
-                                        <button style={{ width: "100%" }} className={styles.button}>
+                                    <Link href={`/posts/edit/${id}`}>
+                                        <button>
                                             Edit
                                         </button>
                                     </Link>
                                     <button
                                         onClick={handleDelete}
-                                        style={{ color: "white", marginTop: "3em", backgroundColor: "red" }}
                                         className={styles.button}
                                     >
                                         Delete

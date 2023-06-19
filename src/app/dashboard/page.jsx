@@ -9,37 +9,36 @@ import { UserContext } from "@/context/UserContext";
 
 
 const Dashboard = () => {
-
     const session = useSession();
-
     const { userData, fetchUser } = useContext(UserContext);
-    console.log('User Data: ', userData);
     const router = useRouter();
-
     const email = session?.data?.user?.email;
 
     useEffect(() => {
-        if (email) {
-            fetchUser(email)
-        }
-    }, [email, fetchUser]);
+        const fetchData = async () => {
+          if (email) {
+            await fetchUser(email);
+          }
+        };
+      
+        fetchData();
+      }, [email, fetchUser]);      
+    
 
-    if (session.status === "loading") {
-        return <p>Loading...</p>;
-    }
-
-    if (session.status === "unauthenticated") {
-        router?.push("/dashboard/login");
-    }
-
-    if (session.status === "authenticated") {
-        return (
-            <div className={styles.container}>
-                {
-                    userData && <Posts userData={userData} />
-                }
-            </div>
-        );
+    switch (session.status) {
+        case "loading":
+            return <p>Loading...</p>;
+        case "unauthenticated":
+            router?.push("/dashboard/login");
+            break;
+        case "authenticated":
+            return (
+                <div className={styles.container}>
+                    {userData && <Posts userData={userData} />}
+                </div>
+            );
+        default:
+            break;
     }
 };
 

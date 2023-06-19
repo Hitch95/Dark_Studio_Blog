@@ -1,9 +1,18 @@
-.container {
+.login_container {
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 20px;
-    align-items: center;
-    justify-content: center;
+
+    .title {
+        color: #bbb;
+    }
+
+    .subtitle {
+        font-size: 20px;
+        margin-bottom: 30px;
+        color: #bbb;
+    }
 
     .form {
         width: 300px;
@@ -15,8 +24,9 @@
             padding: 20px;
             background-color: transparent;
             border: 2px solid #bbb;
-            color: #bbb;
             border-radius: 5px;
+            outline: none;
+            color: #bbb;
             font-size: 20px;
             font-weight: bold;
         }
@@ -39,6 +49,36 @@
                 background-color: #49b07d;
                 box-shadow: 2px 2px 2px #bbb;
             }
+        }
+    }
+
+    .google {
+        width: 300px;
+        padding: 20px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        color: #eee;
+        font-weight: bold;
+        background-color: rgba(228, 97, 50, 0.72);
+
+        &:hover {
+            background-color: rgba(228, 97, 50, 0.803);
+            box-shadow: 2px 2px 2px #bbb;
+        }
+    }
+
+    .or {
+        color: #bbb;
+    }
+
+    .link {
+        text-decoration: underline;
+        color: #7d7c7c;
+
+        &:hover {
+            text-decoration: none;
+            font-weight: bold;
         }
     }
 }

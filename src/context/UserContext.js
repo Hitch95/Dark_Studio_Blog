@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useState } from "react";
+import { createContext, useState, useCallback } from "react";
 
 
 export const UserContext = createContext();
@@ -8,8 +8,9 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState();
 
-    const fetchUser = async (email) => {
-
+    // Using useCallback to memorize the fetchUser function
+    // and avoid re-creations each time the UserProvider context is rendered
+    const fetchUser = useCallback(async (email) => {
         try {
             const response = await fetch("/api/user", {
                 method: "POST",
@@ -29,8 +30,7 @@ export const UserProvider = ({ children }) => {
         } catch (error) {
             console.log("Error While Fetching User:", error);
         }
-
-    };
+    }, []);
 
     return (
         <UserContext.Provider value={{ fetchUser, userData }}>

@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useState } from "react";
 import styles from "../page.module.scss";
 import useSWR from "swr";
 import Image from "next/image";
 
 const Posts = ({ userData }) => {
+    const [errorMessage, setError] = React.useState(null);
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
     const { data, mutate, error, isLoading } = useSWR(
@@ -33,6 +34,10 @@ const Posts = ({ userData }) => {
         const image = e.target[2].value;
         const content = e.target[3].value;
 
+        if (!title || !description || !image || !content) {
+            setError("Please fill in all the fields");
+            return;
+        }
 
         try {
             await fetch("/api/posts", {
@@ -46,7 +51,8 @@ const Posts = ({ userData }) => {
                 }),
             });
             mutate();
-            e.target.reset()
+            e.target.reset();
+            setError(null)
         } catch (err) {
             console.log(err);
         }
@@ -86,6 +92,7 @@ const Posts = ({ userData }) => {
                     type="text"
                 >
                 </textarea>
+                {errorMessage && <span>{errorMessage}</span>}
                 <button className={styles.button}>Send</button>
             </form>
         </div>

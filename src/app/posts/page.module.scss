@@ -1,0 +1,33 @@
+.posts_container {
+
+    .single_post_container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 50px;
+        margin-bottom: 50px;
+
+        >.image_container {
+            >.image {
+                object-fit: cover;
+            }
+        }
+
+        >.content {
+            margin-bottom: 100px;
+
+            @media only screen and (max-width: 984px) {
+                max-width: 400px;
+            }
+
+            .title {
+                margin-bottom: 10px;
+            }
+
+            .desc {
+                font-size: 18px;
+                color: #999;
+            }
+        }
+    }
+}

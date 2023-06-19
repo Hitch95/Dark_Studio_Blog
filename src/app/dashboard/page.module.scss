@@ -59,7 +59,9 @@
                 font-size: 20px;
                 font-weight: bold;
             }
-
+            span {
+                color: rgb(220, 53, 69);
+            }
             .button {
                 padding: 20px;
                 cursor: pointer;
@@ -68,6 +70,11 @@
                 border-radius: 5px;
                 color: #eee;
                 font-weight: bold;
+
+                &:hover {
+                    background-color: #49b07d;
+                    box-shadow: 2px 2px 2px #bbb;
+                }
             }
         }
     }

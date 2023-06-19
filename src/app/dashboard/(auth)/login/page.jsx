@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -59,7 +59,7 @@ const Login = ({ url }) => {
 
 
     return (
-        <div className={styles.container}>
+        <div className={styles.login_container}>
             <h1 className={styles.title}>{success ? success : "Welcome Back"}</h1>
             <h2 className={styles.subtitle}>Please sign in to see the dashboard.</h2>
 

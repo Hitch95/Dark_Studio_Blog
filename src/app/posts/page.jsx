@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -11,7 +11,6 @@ async function getData() {
     if (!res.ok) {
         throw new Error("Échec de la récupération des données");
     }
-
     return res.json();
 }
 
@@ -20,9 +19,9 @@ const Post = async () => {
     console.log("Data retrieved:", data);
 
     return (
-        <div className={styles.mainContainer}>
+        <div className={styles.posts_container}>
             {data.map((item) => (
-                <Link href={`/posts/${item.id}`} className={styles.container} key={item.id}>
+                <Link href={`/posts/${item.id}`} className={styles.single_post_container} key={item.id}>
                     <div className={styles.imageContainer}>
                         <Image
                             src={item.image} priority
