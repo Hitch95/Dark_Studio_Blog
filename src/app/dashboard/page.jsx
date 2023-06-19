@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import styles from "./page.module.scss";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -22,7 +22,7 @@ const Dashboard = () => {
         if (email) {
             fetchUser(email)
         }
-    }, [email]);
+    }, [email, fetchUser]);
 
     if (session.status === "loading") {
         return <p>Loading...</p>;

@@ -12,6 +12,7 @@ const Edit = ({ params }) => {
     const [data, setData] = useState({});
     console.log(userData);
     const router = useRouter();
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -20,17 +21,18 @@ const Edit = ({ params }) => {
                     throw new Error("Post not found");
                 }
                 const post = await res.json();
-                console.log(post)
+                console.log(post);
                 setData(post);
             } catch (error) {
                 console.error("Error fetching post:", error);
             }
         };
-
+    
         if (id) {
             fetchData();
         }
-    }, []);
+    }, [id]);
+    
 
     const handleSubmit = async () => {
 

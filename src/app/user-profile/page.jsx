@@ -42,8 +42,7 @@ const UserProfile = () => {
             throw new Error("Failed to update User");
         }
         else {
-
-            alert("User Updated Sucessfully")
+            alert("User Updated Sucessfully");
         }
     }
 
