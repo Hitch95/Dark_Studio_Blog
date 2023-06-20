@@ -1,27 +1,12 @@
 import { NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
-import { db } from "@/utils/connectDB";
-import bcrypt from "bcrypt";
+import { userRepository } from "../../../../../repositories/userRepository";
+
 
 export async function POST(request) {
     const { username, email, password } = await request.json();
 
     try {
-        const userId = uuidv4();
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        let dbconnection = await db.classicConnection();
-
-        const insertQuery = `
-             INSERT INTO users (id, username, email, password)
-             VALUES (?, ?, ?, ?)
-         `;
-        const values = [userId, username, email, hashedPassword];
-
-        await dbconnection.execute(insertQuery, values);
-
-        console.log("Utilisateur inséré avec succès !");
+        await userRepository.insertUser(username, email, password);
 
         return new NextResponse("User has been created", {
             status: 201,

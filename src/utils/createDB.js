@@ -121,6 +121,34 @@ async function createDB() {
             ],
         });
 
+        const postId4 = uuidv4();
+        await connection.query({
+            sql: "INSERT INTO posts (id, user_id, title, description, content, image, username) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            values: [
+                postId4, 
+                userId, 
+                `Tech salaries 2023: what are the best paid jobs in Paris and in the region?`, 
+                `In 2023, Silkhom, a recruitment firm specializing in tech, published a study on salaries in IT, electronics and digital. 
+                The study, based on more than 15,000 candidates, reveals wage gaps between Paris and the big cities, which widen with experience. 
+                Some trades have seen significant increases since 2022, while others have had more modest increases. 
+                DevOps, SRE, and cloud engineer positions offer the most attractive entry-level salaries. 
+                DSI, RSSI and CTO/R&D jobs are interesting for senior profiles. 
+                In summary, here are some salaries in 2023: 
+                Python developer (35k-40k€ junior, up to 65k-75k€ senior), 
+                data engineer (35k-40k€ junior, up to 60k-70k€ senior), 
+                fullstack lead developer JS (28k-38k€ junior, up to 65k-120k€ senior), 
+                frontend developer (28k-38k€ junior, up to 60k-85k€ senior), 
+                UI/UX designer (23k-35k€ junior, up to at 50k-73k€ senior), 
+                Director of the information systems (70k-80k€ junior, up to 90k-120k€ senior), 
+                cybersecurity engineer (42k-45k€ junior, up to 75k-80k€ senior), 
+                Windows systems engineer (38k -40k€ junior, up to 53k-70k€ senior), 
+                deep learning/AI engineer (35k-38k€ junior, up to 62k-70k€ senior).`, 
+                `Discover the salaries of tech professions in 2023: developers, UX designers, cybersecurity engineer, DSI, etc.`, 
+                `https://f.hellowork.com/blogdumoderateur/2023/06/Salaires-medians-grandes-villes.jpg`,
+                `carlosGhosn`
+            ],
+        });
+
         console.log("Users and posts insert with success!");
     } catch (error) {
         console.error(`Error in the creation of the table : ${error}`);

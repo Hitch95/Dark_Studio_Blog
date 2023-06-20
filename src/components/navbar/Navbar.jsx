@@ -48,7 +48,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className={styles.container}>
+        <nav className={styles.container}>
             <Link href="/" className={styles.logo}>
                 Dark Studio
             </Link>
@@ -84,7 +84,7 @@ const Navbar = () => {
                     </div>
                 )}
             </div>
-        </div>
+        </nav>
     );
 };
 

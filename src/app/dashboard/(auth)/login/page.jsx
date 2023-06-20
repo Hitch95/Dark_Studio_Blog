@@ -85,14 +85,16 @@ const Login = ({ url }) => {
                 {errors.password && <span className={styles.error}>{errors.password}</span>}
                 <button className={styles.button}>Login</button>
             </form>
+            {/*
             <button
                 onClick={() => {
                     signIn("google");
                 }}
-                className={styles.button + " " + styles.google}
+                className={styles.google}
             >
                 Login with Google
             </button>
+            */}
             <span className={styles.or}>- OR -</span>
             <Link className={styles.link} href="/dashboard/register">
                 Create new account
