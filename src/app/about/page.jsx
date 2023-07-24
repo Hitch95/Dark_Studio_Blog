@@ -25,7 +25,7 @@ const About = () => {
                 <div className={styles.item}>
                     <h1 className={styles.title}>Who Are We?</h1>
                     <p className={styles.description}>
-                        Dark Studi Blog is the media for digital professionals.
+                        Dark Studio Blog is the media for digital professionals.
                         Published by <Link href={"https://github.com/Hitch95"}>Hitch95</Link> since 2023, it is aimed at web professionals. 
                         It offers them a daily selection of tools, decryptions, news or even figures and surveys 
                         to enable them to feed their monitoring and meet the needs induced by the growing digitization of professions and companies. 
@@ -40,14 +40,11 @@ const About = () => {
                         Our teams of editors implement a daily watch on each news around the tech. industry in order to write quality articles. 
                         We also make it a point of honor to verify the quality of our sources.
                         Our themes :
-                        <br />
-                        <br /> - Tech
-                        <br />
-                        <br /> - Web
-                        <br />
-                        <br /> - Tools
+                        <span> - Tech</span>
+                        <span> - Web</span>
+                        <span> - Tools</span>
                     </p>
-                    <Button url="/contact" text="Contact" />
+                    <Button url="/contact" text="Contact" className={styles.button} />
                 </div>
             </div>
         </div>

@@ -59,7 +59,7 @@ const Edit = ({ params }) => {
         <div>
             {(userData && userData?.id === data?.user_id) || userData?.isAdmin ?
                 <form className={styles.new} >
-                    <h1>Eidt  Post</h1>
+                    <h1>Edit  Post</h1>
                     <input onChange={(e) => { setData({ ...data, title: e.target.value }) }} value={data?.title} type="text" placeholder="Title" className={styles.input} />
                     <input onChange={(e) => { setData({ ...data, content: e.target.value }) }} value={data?.content} type="text" placeholder="Content" className={styles.input} />
 

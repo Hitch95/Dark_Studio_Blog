@@ -5,7 +5,7 @@ const nextConfig = {
                     "images.pexels.com", "res.cloudinary.com", 
                     "cdn.dribbble.com", "example.com", 
                     "venngage-wordpress.s3.amazonaws.com",
-                    "f.hellowork.com"
+                    "f.hellowork.com", "plus.unsplash.com"
                 ],
     },
 };
