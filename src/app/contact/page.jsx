@@ -5,26 +5,32 @@ import Button from "@/components/Button/Button";
 
 export const metadata = {
     title: "Dark Studio Blog Contact Information",
-    description: "This is Contact Page",
+    description: "This is the Contact Page",
 };
 
 const Contact = () => {
     return (
-        <div className={styles.container}>
+        <main className={styles.container} aria-label="Contact Page">
             <h1 className={styles.title}>Let&apos;s Keep in Touch</h1>
-            <div className={styles.content}>
+            <section className={styles.content}>
                 <div className={styles.imgContainer}>
                     <Image
                         src="/contact.png"
-                        alt=""
+                        alt="Contact illustration"
                         fill={true}
                         className={styles.image}
                     />
                 </div>
-                <form className={styles.form}>
-                    <input type="text" placeholder="username" className={styles.input} />
-                    <input type="text" placeholder="email" className={styles.input} />
+                <form className={styles.form} aria-label="Contact Form">
+                    <label htmlFor="username" className={styles.label}></label>
+                    <input type="text" id="username" placeholder="username" className={styles.input} />
+
+                    <label htmlFor="email" className={styles.label}></label>
+                    <input type="email" id="email" placeholder="email" className={styles.input} />
+
+                    <label htmlFor="message" className={styles.label}></label>
                     <textarea
+                        id="message"
                         className={styles.textArea}
                         placeholder="message"
                         cols="30"
@@ -33,8 +39,8 @@ const Contact = () => {
                     </textarea>
                     <Button url="#" text="Send" />
                 </form>
-            </div>
-        </div>
+            </section>
+        </main>
     );
 };
 

@@ -54,35 +54,36 @@ const Posts = () => {
             console.log(data, "data")
 
             return (
-                <div className={styles.container}>
+                <main className={styles.container} aria-label="Posts List">
                     {data?.map((post) => (
-                        <div className={styles.post} key={post.id}>
-                            <Image src={post.image} width={200} height={200} alt="image" />
+                        <article className={styles.post} key={post.id}>
+                            <Image src={post.image} width={200} height={200} alt={post.title} />
 
                             <div className={styles.postContent}>
-                                <div className={styles.detail}>
-                                    <p>{post.title}</p>
-                                    <p>by {post.username}</p>
-                                </div>
+                                <header className={styles.detail}>
+                                    <h2>{post.title}</h2>
+                                    <p>by <strong>{post.username}</strong></p>
+                                </header>
                                 {(userData && userData?.id === post?.user_id) || userData?.isAdmin ? (
                                     <div className={styles.button_container}>
-                                        <Link className={styles.link} href={`/posts/edit/${post?.id}`}>
+                                        <Link href={`/posts/edit/${post?.id}`} className={styles.link}>
                                             <button>Edit</button>
                                         </Link>
                                         <button
                                             id={post?.id}
                                             onClick={handleDelete}
+                                            role="button"
+                                            aria-label={`Delete post ${post.title}`}
                                         >
                                             Delete
                                         </button>
                                     </div>
                                 ) : null}
                             </div>
-                        </div>
+                        </article>
                     ))}
-                </div>
-            );
-
+                </main>
+            )
     }
 }
 

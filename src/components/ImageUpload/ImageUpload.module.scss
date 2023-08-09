@@ -1,0 +1,18 @@
+div.image_upload {
+    font-weight: 300;
+
+    > div {
+        border: 2px solid #bbb;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 10px;
+        font-weight: 300;
+        font-size: 20px;
+        border-radius: 3px;
+        color: #bbb;
+    }
+    
+    &:hover {
+        font-weight: bold;
+    }
+}

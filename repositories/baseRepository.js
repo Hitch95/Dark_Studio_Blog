@@ -1,4 +1,5 @@
 import { db } from "@/utils/connectDB";
+import { verifyUser } from "./userRepository";
 
 async function find(sql, args = [], onlyOne = false) {
     const connection = await db.classicConnection();
@@ -67,6 +68,18 @@ async function removeWhere(table, where, whereValue) {
     connection.end();
 }
 
+async function getUser(userId) {
+
+    const connection = await db.classicConnection();
+    const result = await connection.query(`SELECT u.id,username,email,password,image_src,
+    CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END AS is_admin FROM
+    users u JOIN roles_id r ON u.id = r.user_id JOIN roles ro ON r.role_id = ro.id WHERE
+    u.id = ? AND ro.name = 'ADMIN';`, [userId]);
+
+    connection.end();
+    return result
+}
+
 export const baseRepository = {
     find,
     findOne,
@@ -76,4 +89,5 @@ export const baseRepository = {
     updateWhere,
     remove,
     removeWhere,
+    getUser
 };

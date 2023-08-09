@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import styles from "../page.module.scss";
 import useSWR from "swr";
 import Image from "next/image";
+import ImageUpload from "@/components/ImageUpload/ImageUpload";
 
 const Posts = ({ userData }) => {
-    const [errorMessage, setError] = React.useState(null);
+    const [errorMessage, setError] = useState(null);
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
+    const [uploadedImage, setUploadedImage] = useState(null); // État pour l'URL de l'image téléchargée
 
     const { data, mutate, error, isLoading } = useSWR(
         `/api/posts?username=${userData.username}`,
@@ -31,8 +33,8 @@ const Posts = ({ userData }) => {
         e.preventDefault();
         const title = e.target[0].value;
         const description = e.target[1].value;
-        const image = e.target[2].value;
-        const content = e.target[3].value;
+        const content = e.target[2].value;
+        const image = uploadedImage;
 
         if (!title || !description || !image || !content) {
             setError("Please fill in all the fields");
@@ -53,6 +55,7 @@ const Posts = ({ userData }) => {
             mutate();
             e.target.reset();
             setError(null)
+            setUploadedImage(null);
         } catch (err) {
             console.log(err);
         }
@@ -83,7 +86,6 @@ const Posts = ({ userData }) => {
                 <h1>Add New Post</h1>
                 <input type="text" placeholder="Title" className={styles.input} />
                 <input type="text" placeholder="Content" className={styles.input} />
-                <input type="text" placeholder="Image" className={styles.input} />
                 <textarea
                     placeholder="Description"
                     className={styles.textArea}
@@ -92,6 +94,7 @@ const Posts = ({ userData }) => {
                     type="text"
                 >
                 </textarea>
+                <ImageUpload onUpload={setUploadedImage} />
                 {errorMessage && <span>{errorMessage}</span>}
                 <button className={styles.button}>Send</button>
             </form>

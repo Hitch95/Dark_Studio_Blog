@@ -13,87 +13,96 @@ const Register = () => {
         username: "",
         email: "",
         password: ""
-    })
+    });
+
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
 
     const handleChange = (e) => {
-        setValues({ ...values,
-        [e.target.name]: e.target.value,
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value,
         });
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const username = e.target[0].value;
-        const email = e.target[1].value;
-        const password = e.target[2].value;
 
-        const validationErrors = RegisterValidation({ username, email, password });
+        const validationErrors = RegisterValidation(values);
         setErrors(validationErrors);
 
         if (Object.keys(validationErrors).length === 0) {
+            setLoading(true);
+
             try {
                 const res = await fetch("/api/auth/register", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({
-                        username,
-                        email,
-                        password,
-                    }),
+                    body: JSON.stringify(values),
                 });
-                res.status === 201 && router.push("/dashboard/login?success=Account has been created");
+
+                const data = await res.json();
+
+                if (data.success) {
+                    router.push("/dashboard/login?success=Account has been created");
+                } else {
+                    setErrors({ server: data.error });
+                }
             } catch (err) {
                 setErrors(err);
                 console.log(err);
             }
+            setLoading(false);
         }
     };
 
 
     return (
-        <div className={styles.container}>
+        <main className={styles.container} aria-label="Register Page">
             <h1 className={styles.title}>Create an Account</h1>
             <h2 className={styles.subtitle}>Please sign up to see the dashboard.</h2>
-            <form onSubmit={handleSubmit} className={styles.form}>
+            <form onSubmit={handleSubmit} className={styles.form} aria-label="Register Form">
+                <label htmlFor="username" className={styles.label}></label>
                 <input
-                    type="text" name="username"
+                    type="text" id="username" name="username"
                     placeholder="Username"
                     onChange={handleChange}
-                    required
                     className={styles.input}
                 />
                 {errors.username && <span className={styles.error}>{errors.username}</span>}
 
+                <label htmlFor="email" className={styles.label}></label>
                 <input
-                    type="text" name="email"
+                    type="email" id="email" name="email"
                     placeholder="Email"
                     onChange={handleChange}
-                    required
                     className={styles.input}
                 />
                 {errors.email && <span className={styles.error}>{errors.email}</span>}
 
+                <label htmlFor="password" className={styles.label}></label>
                 <input
                     type="password"
+                    id="password"
                     placeholder="Password"
                     className={styles.input}
                     onChange={handleChange}
                     title="The password must be at least 8 characters long, contain at least one number, one lowercase letter, one uppercase letter and one special character."
                     name="password"
-                    required
                 />
                 {errors.password && <span className={styles.error}>{errors.password}</span>}
-                <button className={styles.button}>Register</button>
+                <button type="submit" className={styles.button}>
+                {loading ? "Sending..." : "Register"}
+                </button>
             </form>
-            <span className={styles.or}>- OR -</span>
+            <p className={styles.or}>- OR -</p>
             <Link className={styles.link} href="/dashboard/login">
                 Login with an existing account
             </Link>
-        </div>
+        </main>
     );
-};
+}
 
 export default Register;

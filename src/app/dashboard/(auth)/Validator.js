@@ -4,8 +4,8 @@ export const RegisterValidation = (values) => {
     if (!values.username) {
         errors.username = "Username Required";
     }
-    else if (values.username.length < 2 || values.username.length > 30) {
-        errors.username = "Username must be more than 2 characters and less than 30";
+    else if (values.username.length < 2 || values.username.length > 20) {
+        errors.username = "Username must be more than 2 characters and less than 20";
     }
 
     if (!values.email) {

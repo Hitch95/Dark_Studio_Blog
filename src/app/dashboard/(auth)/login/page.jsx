@@ -57,50 +57,46 @@ const Login = ({ url }) => {
         }
     };
 
-
     return (
-        <div className={styles.login_container}>
+        <main className={styles.login_container} aria-label="Login Page">
             <h1 className={styles.title}>{success ? success : "Welcome Back"}</h1>
             <h2 className={styles.subtitle}>Please sign in to see the dashboard.</h2>
-
-            <form onSubmit={handleSubmit} className={styles.form}>
+    
+            <form onSubmit={handleSubmit} className={styles.form} aria-label="Login Form">
+                <label htmlFor="email" className={styles.label}></label>
                 <input
-                    type="text" name="email"
+                    type="email" id="email" name="email"
                     placeholder="Email"
                     onChange={handleChange}
-                    required
                     className={styles.input}
                 />
                 {errors.email && <span className={styles.error}>{errors.email}</span>}
-
+    
+                <label htmlFor="password" className={styles.label}></label>
                 <input
                     type="password"
+                    id="password"
                     placeholder="Password"
                     className={styles.input}
                     onChange={handleChange}
                     title="The password must be at least 8 characters long, contain at least one number, one lowercase letter, one uppercase letter and one special character."
                     name="password"
-                    required
                 />
                 {errors.password && <span className={styles.error}>{errors.password}</span>}
                 <button className={styles.button}>Login</button>
+                {/*
+                <button onClick={() => { signIn("google"); }} className={styles.google}>
+                    Login with Google
+                </button>
+                */}
             </form>
-            {/*
-            <button
-                onClick={() => {
-                    signIn("google");
-                }}
-                className={styles.google}
-            >
-                Login with Google
-            </button>
-            */}
-            <span className={styles.or}>- OR -</span>
+    
+            <div className={styles.or}>- OR -</div>
             <Link className={styles.link} href="/dashboard/register">
                 Create new account
             </Link>
-        </div>
+        </main>
     );
-};
-
+}
+    
 export default Login;
