@@ -71,11 +71,15 @@ async function removeWhere(table, where, whereValue) {
 async function getUser(userId) {
 
     const connection = await db.classicConnection();
-    const result = await connection.query(`SELECT u.id,username,email,password,image_src,
-    CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END AS is_admin FROM
-    users u JOIN roles_id r ON u.id = r.user_id JOIN roles ro ON r.role_id = ro.id WHERE
-    u.id = ? AND ro.name = 'ADMIN';`, [userId]);
-
+    const result = await connection.query(`
+        SELECT u.id, username, email, password, image_src,
+        CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END AS is_admin
+        FROM users u
+        JOIN roles_id r ON u.id = r.user_id
+        JOIN roles ro ON r.role_id = ro.id
+        WHERE u.id = ? AND ro.name = 'ADMIN';
+    `
+    , [userId]);
     connection.end();
     return result
 }

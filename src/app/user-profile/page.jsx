@@ -48,14 +48,23 @@ const UserProfile = () => {
 
     return (
         <div>
-            <form className={styles.user_profile_form}>
-                <h1>Edit User Detail</h1>
-                <input id="username" defaultValue={userData?.username} type="text" placeholder="Username" className={styles.input} />
-                <input id="email" defaultValue={userData?.email} type="text" placeholder="email" className={styles.input} />
-                <input id="password" type="password" placeholder="New Password" className={styles.input} />
+            <form className={styles.user_profile_form} aria-labelledby="editUserDetail">
+                <h1 id="editUserDetail">Edit User Detail</h1>
+                <label htmlFor="username" className={styles.label}></label>
+                <input id="username" defaultValue={userData?.username} type="text" placeholder="Username" className={styles.input} required />
+
+                <label htmlFor="email" className={styles.label}></label>
+                <input id="email" defaultValue={userData?.email} type="email" placeholder="email@example.com" className={styles.input} required />
+
+                <label htmlFor="password" className={styles.label}></label>
+                <input id="password" type="password" placeholder="New Password" className={styles.input} aria-describedby="passwordHelp" />
+
+                <label htmlFor="confirmpassword" className={styles.label}></label>
                 <input id="confirmpassword" type="password" placeholder="Confirm New Password" className={styles.input} />
 
-                <button onClick={handleUpdate} type="button" className={styles.button}>Update Details</button>
+                <small id="passwordHelp" className={styles.helpText}>Leave password fields empty if you don&apos;t want to change the password.</small>
+
+                <button onClick={handleUpdate} type="submit" className={styles.button}>Update Details</button>
             </form>
         </div>
     );

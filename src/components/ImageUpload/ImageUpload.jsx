@@ -1,9 +1,6 @@
 import { useCallback } from "react";
-import Image from "next/image";
 import { CldUploadWidget } from "next-cloudinary";
 import styles from "./ImageUpload.module.scss";
-
-
 
 const ImageUpload = ({ onUpload }) => {
     const handleUpload = useCallback((result) => {
@@ -18,14 +15,15 @@ const ImageUpload = ({ onUpload }) => {
             options={{
                 maxFiles: 1
             }}
+            role="form"
+            aria-label="Image upload"
         >
             {function ({ open }) {
                 return (
-                    <div onClick={() => open && open()} className={styles.image_upload}>
-                        <div>
-                            Click to upload
-                        </div>
-                    </div>
+                    <section onClick={() => open && open()} className={styles.image_upload} aria-labelledby="uploadLabel">
+                        {/* Une icône d'upload devrait être ici */}
+                        <button type="button">Click to upload</button>
+                    </section>
                 );
             }}
         </CldUploadWidget>

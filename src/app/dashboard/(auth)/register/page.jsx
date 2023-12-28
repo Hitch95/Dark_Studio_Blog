@@ -46,14 +46,14 @@ const Register = () => {
                 const data = await res.json();
 
                 if (data.success) {
-                    router.push("/dashboard/login?success=Account has been created");
+                    router.push("/dashboard/login");
                 } else {
                     setErrors({ server: data.error });
                 }
             } catch (err) {
-                setErrors(err);
-                console.log(err);
-            }
+                console.error("Erreur lors de l'inscription:", err.message);
+                setErrors({ server: "Une erreur est survenue lors de l'inscription. Veuillez réessayer." });
+            }            
             setLoading(false);
         }
     };

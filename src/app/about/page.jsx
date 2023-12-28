@@ -36,7 +36,7 @@ const About = () => {
                 </article>
                 <article className={styles.item}>
                     <h2 className={styles.title}>What We Do?</h2>
-                    <p className={styles.description}>
+                    <div className={styles.description}>
                         Our teams of editors implement a daily watch on each news around the tech. industry in order to write quality articles. 
                         We also make it a point of honor to verify the quality of our sources.
                         Our themes :
@@ -45,7 +45,7 @@ const About = () => {
                             <li> - Web</li>
                             <li> - Tools</li>
                         </ul>
-                    </p>
+                    </div>
                     <Button url="/contact" text="Contact" className={styles.button} />
                 </article>
             </section>

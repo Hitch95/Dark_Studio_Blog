@@ -1,15 +1,20 @@
-div.image_upload {
+section.image_upload {
     font-weight: 300;
+    outline: 1px solid #bbb;
 
-    > div {
-        border: 2px solid #bbb;
-        border-radius: 5px;
+    > button {
+        outline: none;
+        border: none;
+        background-color: #49b07d;
         cursor: pointer;
         padding: 10px;
         font-weight: 300;
-        font-size: 20px;
-        border-radius: 3px;
+        border-radius: 5px;
         color: #bbb;
+
+        &:hover {
+            outline: 1px solid #bbb;
+        }
     }
     
     &:hover {
