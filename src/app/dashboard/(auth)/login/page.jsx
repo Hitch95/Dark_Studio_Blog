@@ -2,37 +2,36 @@
 
 import React, { useEffect, useState } from "react";
 import styles from "./page.module.scss";
-import { getProviders, signIn, useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { LoginValidation } from "../Validator";
 
 
 const Login = ({ url }) => {
-    const session = useSession();
+    const { data, session, status } = useSession();
     const router = useRouter();
-    const params = useSearchParams();
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-
     const [errors, setErrors] = useState({});
     const [values, setValues] = useState({
         email: "",
         password: ""
-    })
+    });
 
     useEffect(() => {
-        setError(params.get("error"));
-        setSuccess(params.get("success"));
-    }, [params]);
+        if (status === "authenticated") {
+            router.push("/dashboard");
+        };
+    }, [status, router]);
 
-    if (session.status === "loading") {
-        return <p>Loading...</p>;
-    }
-
-    if (session.status === "authenticated") {
-        router?.push("/dashboard");
-    }
+    useEffect(() => {
+        if (router.isReady) {
+            const query = router.query;
+            if (query.error) setError(query.error);
+            if (query.success) setSuccess(query.success);
+        }
+    }, [router]);
 
     const handleChange = (e) => {
         setValues({
@@ -57,11 +56,15 @@ const Login = ({ url }) => {
         }
     };
 
+    if (status === "loading") {
+        return <p>Loading...</p>;
+    };
+
     return (
         <main className={styles.login_container} aria-label="Login Page">
             <h1 className={styles.title}>{success ? success : "Welcome Back"}</h1>
             <h2 className={styles.subtitle}>Please sign in to see the dashboard.</h2>
-    
+
             <form onSubmit={handleSubmit} className={styles.form} aria-label="Login Form">
                 <label htmlFor="email" className={styles.label}></label>
                 <input
@@ -71,7 +74,7 @@ const Login = ({ url }) => {
                     className={styles.input}
                 />
                 {errors.email && <span className={styles.error}>{errors.email}</span>}
-    
+
                 <label htmlFor="password" className={styles.label}></label>
                 <input
                     type="password"
@@ -90,7 +93,7 @@ const Login = ({ url }) => {
                 </button>
                 */}
             </form>
-    
+
             <div className={styles.or}>- OR -</div>
             <Link className={styles.link} href="/dashboard/register">
                 Create new account
@@ -98,5 +101,5 @@ const Login = ({ url }) => {
         </main>
     );
 }
-    
+
 export default Login;

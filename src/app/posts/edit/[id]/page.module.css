@@ -44,7 +44,7 @@
     background-color: transparent;
     border: 2px solid #bbb;
     border-radius: 3px;
-    color: #bbb;
+    color: #999;
     font-size: 20px;
     font-weight: bold;
 }
@@ -56,5 +56,6 @@
     border: none;
     border-radius: 5px;
     color: #eee;
+    font-size: 18px;
     font-weight: bold;
 }

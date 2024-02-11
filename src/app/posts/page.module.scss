@@ -1,9 +1,11 @@
 .posts_container {
 
     .single_post_container {
+        outline: 1px solid orange;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        justify-content: center;
         gap: 50px;
         margin-bottom: 50px;
 
@@ -21,12 +23,15 @@
             }
 
             .title {
+                font-size: 2rem;
                 margin-bottom: 10px;
             }
 
             .desc {
                 font-size: 18px;
                 color: #999;
+                overflow: hidden;
+                height: 85px;
             }
         }
     }

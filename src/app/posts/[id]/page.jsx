@@ -104,8 +104,8 @@ const BlogPost = ({ params }) => {
     }, [userData, session]);
 
     return (
-        <div className={styles.container}>
-            {data && (
+        <section className={styles.container}>
+            {data && data.image && (
                 <div className={styles.top}>
                     {isAuthor ? (
                         <form className={styles.form}>
@@ -128,8 +128,8 @@ const BlogPost = ({ params }) => {
                             </button>
                         </form>
                     ) : (
-                        <div className={styles.info}>
-                            <h1 className={styles.title}>{data.title}</h1>
+                        <article className={styles.info}>
+                            <h3 className={styles.title}>{data.title}</h3>
                             <div className={styles.content}>
                                 <p className={styles.text}>{data.content}</p>
                             </div>
@@ -137,15 +137,16 @@ const BlogPost = ({ params }) => {
                             <div className={styles.author}>
                                 <span className={styles.username}>{data.username}</span>
                             </div>
-                            <div className={styles.imageContainer}>
+                            <figure className={styles.imageContainer}>
                                 <Image
                                     src={data.image}
-                                    alt=""
-                                    sizes="(max-width: 623px) 100vw"
+                                    alt={data.image + " alt"}
                                     fill={true}
+                                    // sizes="(max-width: 600px) 100vw, 600px"
+                                    layout="fill"
                                     className={styles.image}
                                 />
-                            </div>
+                            </figure>
                             {(userData && userData?.id === data?.user_id) || userData?.isAdmin ? (
                                 <div className={styles.button_container}>
                                     <Link href={`/posts/edit/${id}`}>
@@ -161,11 +162,11 @@ const BlogPost = ({ params }) => {
                                     </button>
                                 </div>
                             ) : null}
-                        </div>
+                        </article>
                     )}
                 </div>
             )}
-        </div>
+        </section>
     );
 };
 

@@ -1,7 +1,11 @@
+$greenColor: #53c28b;
+
 .button_component {
+    font-size: 18px;
+    font-weight: bold;
     padding: 20px;
     cursor: pointer;
-    background-color: #53c28b;
+    background-color: $greenColor;
     border: none;
     border-radius: 5px;
     width: max-content;

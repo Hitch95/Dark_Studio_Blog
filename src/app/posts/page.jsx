@@ -9,7 +9,7 @@ async function getData() {
     });
 
     if (!res.ok) {
-        throw new Error("Échec de la récupération des données");
+        throw new Error("Échec lors de la récupération des données");
     }
     return res.json();
 }
@@ -19,10 +19,10 @@ const Post = async () => {
     console.log("Data retrieved:", data);
 
     return (
-        <div className={styles.posts_container}>
+        <main className={styles.posts_container}>
             {data.map((item) => (
                 <Link href={`/posts/${item.id}`} className={styles.single_post_container} key={item.id}>
-                    <div className={styles.imageContainer}>
+                    <figure className={styles.imageContainer}>
                         <Image
                             src={item.image} priority
                             alt=""
@@ -30,14 +30,14 @@ const Post = async () => {
                             height={250}
                             className={styles.image}
                         />
-                    </div>
+                    </figure>
                     <div className={styles.content}>
-                        <h1 className={styles.title}>{item.title}</h1>
+                        <h3 className={styles.title}>{item.title}</h3>
                         <p className={styles.desc}>{item.description}</p>
                     </div>
                 </Link>
             ))}
-        </div>
+        </main>
     );
 };
 

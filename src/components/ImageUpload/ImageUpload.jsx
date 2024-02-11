@@ -1,10 +1,15 @@
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
 import { CldUploadWidget } from "next-cloudinary";
+import { FaCirclePlus } from "react-icons/fa6";
 import styles from "./ImageUpload.module.scss";
 
 const ImageUpload = ({ onUpload }) => {
+    const [uploadedImageUrl, setUploadedImageUrl] = useState("");
+    const [uploadSuccess, setUploadSuccess] = useState(false);
+
     const handleUpload = useCallback((result) => {
-        console.log("Secure URL from Cloudinary:", result.info.secure_url);
+        setUploadedImageUrl(result.info.secure_url);
+        setUploadSuccess(true);
         onUpload(result.info.secure_url);
     }, [onUpload]);
 
@@ -20,9 +25,25 @@ const ImageUpload = ({ onUpload }) => {
         >
             {function ({ open }) {
                 return (
-                    <section onClick={() => open && open()} className={styles.image_upload} aria-labelledby="uploadLabel">
-                        {/* Une icône d'upload devrait être ici */}
-                        <button type="button">Click to upload</button>
+                    <section onClick={() => open && open()} className={styles.image_upload} aria-labelledby="upload image">
+                        <button 
+                            type="button" 
+                            aria-pressed={uploadSuccess}
+                            style={uploadSuccess ? { outline: "2px solid #49b07d" } : {}}
+                        >
+                            {
+                                !uploadSuccess ? (
+                                    <>
+                                        Add image
+                                        <FaCirclePlus aria-hidden="true" />
+                                    </>
+                                ) : (
+                                    <>
+                                        Image uploaded successfully!
+                                    </>
+                                )
+                            }
+                        </button>
                     </section>
                 );
             }}

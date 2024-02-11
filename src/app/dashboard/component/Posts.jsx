@@ -67,9 +67,9 @@ const Posts = ({ userData }) => {
                     "loading"
                 ) : (
                     data?.map((post) => (
-                        <div className={styles.post} key={post.id}>
+                        <article className={styles.post} key={post.id}>
                             <div className={styles.imgContainer}>
-                                <Image src={post.image} alt="" width={200} height={100} className={styles.img} />
+                                <Image src={post.image} alt={`${post.title}`} width={200} height={100} className={styles.img} />
                             </div>
                             <h2 className={styles.postTitle}>{post.title}</h2>
                             <span
@@ -78,7 +78,7 @@ const Posts = ({ userData }) => {
                             >
                                 X
                             </span>
-                        </div>
+                        </article>
                     ))
                 )}
             </div>
