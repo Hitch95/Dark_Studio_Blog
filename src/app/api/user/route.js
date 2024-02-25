@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { db } from "@/utils/connectDB";
+import { db } from "../../../utils/connectDB";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 

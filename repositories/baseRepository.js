@@ -1,4 +1,4 @@
-import { db } from "@/utils/connectDB";
+import { db } from "../src/utils/connectDB";
 import { verifyUser } from "./userRepository";
 
 async function find(sql, args = [], onlyOne = false) {
@@ -79,7 +79,7 @@ async function getUser(userId) {
         JOIN roles ro ON r.role_id = ro.id
         WHERE u.id = ? AND ro.name = 'ADMIN';
     `
-    , [userId]);
+        , [userId]);
     connection.end();
     return result
 }

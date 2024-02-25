@@ -5,7 +5,7 @@ import styles from "./page.module.scss";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Posts from "./component/Posts";
-import { UserContext } from "@/context/UserContext";
+import { UserContext } from "../../context/UserContext";
 
 
 const Dashboard = () => {

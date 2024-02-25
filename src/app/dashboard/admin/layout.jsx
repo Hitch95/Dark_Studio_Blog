@@ -3,7 +3,7 @@
 import React, { useContext } from "react";
 import styles from "./page.module.scss";
 import Link from "next/link";
-import { UserContext } from "@/context/UserContext";
+import { UserContext } from "../../../context/UserContext";
 import { useRouter } from "next/navigation";
 
 

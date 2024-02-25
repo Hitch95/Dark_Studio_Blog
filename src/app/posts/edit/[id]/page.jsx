@@ -9,8 +9,11 @@ import { UserContext } from "../../../../context/UserContext";
 const Edit = ({ params }) => {
     const { userData } = useContext(UserContext);
     const { id } = params;
-    const [data, setData] = useState({});
-    console.log(userData);
+    const [data, setData] = useState({
+        title: "",
+        content: "",
+        description: "",
+    });
     const router = useRouter();
     
     useEffect(() => {
@@ -54,7 +57,6 @@ const Edit = ({ params }) => {
         }
     }
 
-    console.log(userData)
     return (
         <div>
             {(userData && userData?.id === data?.user_id) || userData?.isAdmin ?

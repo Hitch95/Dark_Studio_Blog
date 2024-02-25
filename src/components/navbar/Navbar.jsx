@@ -9,7 +9,7 @@ import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
 import { UserContext } from "../../context/UserContext";
 
 import styles from "./navbar.module.scss";
-import { ThemeContext } from "@/context/ThemeContext";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const Navbar = () => {
     const navRef = useRef();

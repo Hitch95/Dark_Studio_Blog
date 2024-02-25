@@ -1,8 +1,13 @@
 import React from "react";
 import styles from "./page.module.scss";
 import Image from "next/image";
-import Button from "@/components/Button/Button";
 import Link from "next/link";
+import Button from "../../components/Button/Button";
+
+export const metadata = {
+    title: "Dark Studio Blog About Information",
+    description: "This is the About Page",
+};
 
 const About = () => {
     return (

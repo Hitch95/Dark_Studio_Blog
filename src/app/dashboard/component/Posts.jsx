@@ -2,7 +2,17 @@ import React, { useState } from "react";
 import styles from "../page.module.scss";
 import useSWR from "swr";
 import Image from "next/image";
-import ImageUpload from "@/components/ImageUpload/ImageUpload";
+import Head from "next/head";
+import ImageUpload from "../../../components/ImageUpload/ImageUpload";
+
+export const generateMetadata = async ({ params }) => {
+    const { id } = params;
+    const post = await fetch(`http://localhost:3000/api/posts/${id}`);
+    return {
+        title: post.title,
+        description: post.description,
+    }
+}
 
 const Posts = ({ userData }) => {
     const [errorMessage, setError] = useState(null);

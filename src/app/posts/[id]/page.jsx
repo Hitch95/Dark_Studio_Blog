@@ -141,9 +141,11 @@ const BlogPost = ({ params }) => {
                                 <Image
                                     src={data.image}
                                     alt={data.image + " alt"}
-                                    fill={true}
-                                    // sizes="(max-width: 600px) 100vw, 600px"
-                                    layout="fill"
+                                    // width={500} // Specify the width
+                                    // height={300}
+                                    sizes="(max-width: 600px) 100vw, 600px"
+                                    // responsive
+                                    fill
                                     className={styles.image}
                                 />
                             </figure>

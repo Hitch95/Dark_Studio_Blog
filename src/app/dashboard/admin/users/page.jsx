@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import styles from "./page.module.scss";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
-import { UserContext } from "@/context/UserContext";
+import { UserContext } from "../../../../context/UserContext";
 
 
 const Users = () => {
