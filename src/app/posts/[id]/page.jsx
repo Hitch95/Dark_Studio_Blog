@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
+import { MdOutlineDeleteSweep } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
 import { UserContext } from "../../../context/UserContext";
 import styles from "./page.module.scss";
 
@@ -153,14 +155,14 @@ const BlogPost = ({ params }) => {
                                 <div className={styles.button_container}>
                                     <Link href={`/posts/edit/${id}`}>
                                         <button>
-                                            Edit
+                                            <FaRegEdit />
                                         </button>
                                     </Link>
                                     <button
                                         onClick={handleDelete}
                                         className={styles.button}
                                     >
-                                        Delete
+                                        <MdOutlineDeleteSweep />
                                     </button>
                                 </div>
                             ) : null}

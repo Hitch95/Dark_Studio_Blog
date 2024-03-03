@@ -82,47 +82,27 @@
 
             .button_container {
                 order: 6;
-
-                >button:nth-of-type(1) {
-                    background-color: transparent;
-                    outline: 2px solid red;
-                    margin-left: 3.3rem;
-
-                    &:hover {
-                        background-color: red;
-                        color: #bbb;
-                    }
-                }
+                margin-bottom: 5vh;
 
                 button {
-                    margin-top: 0rem;
-                    min-width: 100px;
-                    padding: 20px;
+                    margin: 1.5rem 2rem 0rem 0rem;
                     cursor: pointer;
                     border: none;
-                    border-radius: 5px;
-                    color: #999;
-                    font-size: 1rem;
-                    font-weight: bold;
+                    background-color: transparent;
+
+                    svg {
+                        font-size: 3rem;
+                    }
                 }
 
-                a {
-                    text-align: center;
+                >a>button {
+                    color: #bbb;
+                }
 
-                    >button {
-                        background-color: transparent;
-                        outline: 2px solid #53c28b;
-                        max-width: 100px;
-                        color: #999;
-
-                        &:hover {
-                            background-color: #53c28b;
-                            color: #bbb;
-                        }
-                    }
+                >button {
+                    color: red;
                 }
             }
         }
     }
-
 }

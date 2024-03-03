@@ -78,16 +78,17 @@ const Posts = ({ userData }) => {
                 ) : (
                     data?.map((post) => (
                         <article className={styles.post} key={post.id}>
-                            <div className={styles.imgContainer}>
-                                <Image src={post.image} alt={`${post.title}`} width={200} height={100} className={styles.img} />
-                            </div>
-                            <h2 className={styles.postTitle}>{post.title}</h2>
-                            <span
+                            <button
                                 className={styles.delete}
                                 onClick={() => handleDelete(post.id)}
                             >
                                 X
-                            </span>
+                            </button>
+                            <div className={styles.imgContainer}>
+                                <Image src={post.image} alt={`${post.title}`} width={200} height={100} className={styles.img} />
+                            </div>
+                            <h2 className={styles.postTitle}>{post.title}</h2>
+                            
                         </article>
                     ))
                 )}

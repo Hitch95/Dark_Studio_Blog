@@ -1,3 +1,5 @@
+$greenColor: #53c28b;
+
 .container {
     display: flex;
     flex-direction: column;
@@ -18,28 +20,32 @@
                 flex-direction: column;
                 justify-content: space-between;
                 gap: 10px;
+
+                >p {
+                    >strong {
+                        font-style: italic;
+                    }
+                }
             }
 
             .button_container {
                 button {
-                    margin: 1.5rem 1rem 0rem 0rem;
-                    font-size: 15px;
-                    padding: 20px;
+                    margin: 1.5rem 2rem 0rem 0rem;
                     cursor: pointer;
                     border: none;
-                    border-radius: 5px;
-                    color: #eee;
-                }
+                    background-color: transparent;
 
-                >a {
-                    >button {
-                        background-color: #53c28b;
-                        border-radius: 5px;
+                    svg {
+                        font-size: 50px;
                     }
                 }
 
-                > button {
-                    background-color: red;
+                >a>button {
+                    color: $greenColor;
+                }
+
+                >button {
+                    color: red;
                 }
             }
         }

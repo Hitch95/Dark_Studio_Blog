@@ -2,17 +2,26 @@
 
 import React, { useContext } from "react";
 import { useSession } from "next-auth/react";
-import styles from "./page.module.scss";
-import useSWR from "swr";
-import { UserContext } from "@/context/UserContext";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { MdOutlineDeleteSweep } from "react-icons/md";
+import { FaRegEdit } from "react-icons/fa";
+import useSWR from "swr";
+import { UserContext } from "../../../../context/UserContext";
+import styles from "./page.module.scss";
+
 
 const Posts = () => {
-    const router = useRouter()
+    const router = useRouter();
+
+    // Fetcher function for useSWR
+    const fetcher = (...args) => fetch(...args).then((res) => res.json());
+    // SWR hook for fetching posts data
+    const { data, mutate, error, isLoading } = useSWR(`/api/posts`, fetcher);
+
     const handleDelete = async (e) => {
-        const id = e.target.id
+        const id = e.currentTarget.id;
         const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
             method: "DELETE",
             headers: {
@@ -23,21 +32,15 @@ const Posts = () => {
             throw new Error("Failed to Delete post");
         }
         else {
-            alert("Post Deleted Successfully");
-            router.reload()
+            alert("Post Deleted Successfully"); // Trigger a revalidation (refetch) to update the local data after deletion
+            mutate(); // This ensures the data is refetched from `/api/posts`
+            router.refresh()
         }
     }
 
     const session = useSession();
 
     const { userData } = useContext(UserContext);
-
-    const fetcher = (...args) => fetch(...args).then((res) => res.json());
-
-    const { data, mutate, error, isLoading } = useSWR(
-        `/api/posts`,
-        fetcher
-    );
 
     console.log('All Posts: ', data);
 
@@ -67,7 +70,12 @@ const Posts = () => {
                                 {(userData && userData?.id === post?.user_id) || userData?.isAdmin ? (
                                     <div className={styles.button_container}>
                                         <Link href={`/posts/edit/${post?.id}`} className={styles.link}>
-                                            <button>Edit</button>
+                                            <button
+                                                role="button"
+                                                aria-label={`Edit post ${post.title}`}
+                                            >
+                                                <FaRegEdit />
+                                            </button>
                                         </Link>
                                         <button
                                             id={post?.id}
@@ -75,7 +83,7 @@ const Posts = () => {
                                             role="button"
                                             aria-label={`Delete post ${post.title}`}
                                         >
-                                            Delete
+                                            <MdOutlineDeleteSweep />
                                         </button>
                                     </div>
                                 ) : null}

@@ -19,7 +19,6 @@ const Layout = ({ children }) => {
     return (
         <div>
             {
-
                 userData ? userData.isAdmin && (
                     <div className={styles.container}>
                         <div className={styles.item}>
