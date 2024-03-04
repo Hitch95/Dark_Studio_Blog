@@ -82,7 +82,7 @@ export const POST = async (request) => {
 
 export const PUT = async (request) => {
     try {
-        const user = await request.json();
+        const { user } = await request.json();
         console.log("Received USER:", user);
 
         if (user) {
@@ -90,11 +90,13 @@ export const PUT = async (request) => {
             console.log("Connected to the database. PUT");
 
             const query =
-                "UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?";
+                //"UPDATE users SET username = ?, email = ?, password = ?, isAdmin = ? WHERE id = ?";
+                "UPDATE users SET is_admin = ? WHERE id = ?";
             const params = [
-                user?.username,
-                user?.email,
-                await bcrypt.hash(user?.password, 10),
+                // user?.username,
+                // user?.email,
+                // await bcrypt.hash(user?.password, 10),
+                user?.isAdmin ? 1 : 0,
                 user?.id,
             ];
 
@@ -106,7 +108,7 @@ export const PUT = async (request) => {
 
             let message = user.isAdmin
                 ? `${user.username} is made Admin by Admin`
-                : "Admin removed";
+                : `${user.username} is no longer an Admin`;
 
             if (affectedRows > 0) {
                 return new NextResponse(JSON.stringify({ message }), {
@@ -120,7 +122,7 @@ export const PUT = async (request) => {
         } else {
             return new NextResponse(
                 "Provide the valid email to get User data",
-                { status: HTTP_STATUS_ERROR }
+                { status: 400 }
             );
         }
     } catch (err) {
