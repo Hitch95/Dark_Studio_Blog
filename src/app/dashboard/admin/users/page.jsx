@@ -1,18 +1,17 @@
 "use client"
 
 import React, { useContext } from "react";
-import styles from "./page.module.scss";
-import { useSession } from "next-auth/react";
+import { useSession } from 'next-auth/react';
 import useSWR from "swr";
+import useUserManagement from "../../../hooks/useUserManagement";
 import { UserContext } from "../../../../context/UserContext";
-
+import styles from "./page.module.scss";
 
 const Users = () => {
-    const session = useSession()
-
-    const { userData } = useContext(UserContext)
-
-
+    const session = useSession();
+    const { toggleAdminStatus } = useUserManagement();
+    const { userData } = useContext(UserContext);
+    
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
     const { data, mutate, error, isLoading } = useSWR(
@@ -30,13 +29,7 @@ const Users = () => {
         user.isAdmin = user.isAdmin ? 0 : 1
 
         try {
-            const response = await fetch("/api/user", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ user }),
-            });
+            const response = await toggleAdminStatus(user);
 
             if (response.ok) {
                 const data = await response.json();
@@ -72,7 +65,7 @@ const Users = () => {
                         <tr>
                             <th>Username</th>
                             <th>Email</th>
-                            <th>isAdmin</th>
+                            <th>Admin</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,4 +101,4 @@ const Users = () => {
     }
 }
 
-export default Users
+export default Users;
