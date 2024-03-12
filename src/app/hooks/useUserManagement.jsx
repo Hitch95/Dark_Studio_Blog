@@ -1,4 +1,5 @@
 import React, { useContext, useCallback } from "react";
+import { signOut } from "next-auth/react";
 import { UserContext } from "../../context/UserContext";
 
 const useUserManagement = () => {
@@ -26,9 +27,14 @@ const useUserManagement = () => {
         }
     }, [fetchUser]);
 
+    const logout = useCallback((callbackUrl = "/") => {
+        signOut({ redirect: true, callbackUrl })
+    }, []);
+
     return {
         userData,
         toggleAdminStatus,
+        logout,
     }
 };
 

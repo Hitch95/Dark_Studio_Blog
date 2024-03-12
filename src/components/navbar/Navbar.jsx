@@ -1,25 +1,24 @@
 "use client";
 
-import Link from "next/link";
 import React, { useRef, useContext } from "react";
-import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 
 import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
-import { UserContext } from "../../context/UserContext";
-
-import styles from "./navbar.module.scss";
 import { ThemeContext } from "../../context/ThemeContext";
+import useUserManagement from "../../app/hooks/useUserManagement";
+import styles from "./navbar.module.scss";
 
 const Navbar = () => {
     const navRef = useRef();
     const session = useSession();
-    const { userData } = useContext(UserContext);
     const { mode } = useContext(ThemeContext);
+    const { userData, logout } = useUserManagement();
 
     const showNavbar = () => {
         navRef.current.classList.toggle(styles.responsiveNavbar);
-    }
+    };
 
     return (
         <header className={styles.container}>
@@ -53,7 +52,7 @@ const Navbar = () => {
                                 Admin
                             </Link>
                         )}
-                        <button className={styles.logout} onClick={signOut}>
+                        <button className={styles.logout} onClick={() => logout("/dashboard/login")}>
                             Logout
                         </button>
                     </>

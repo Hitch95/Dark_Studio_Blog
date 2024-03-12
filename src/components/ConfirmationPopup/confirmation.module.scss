@@ -1,0 +1,88 @@
+$darkColor: #111;
+$greenColor: #53c28b;
+
+
+@mixin box-shadow($x-offset, $y-offset, $blur-radius, $color, $opacity) {
+    box-shadow: $x-offset $y-offset $blur-radius rgba($color, $opacity);
+}
+
+@mixin button-base() {
+    position: relative;
+    overflow: hidden;
+    outline: none;
+    border: 2px solid $darkColor;
+    background-color: transparent;
+    padding: 10px 20px;
+    color: $darkColor;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    @include box-shadow(0px, 10px, 10px, $darkColor, 0.1);
+    transition: color 0.4s;
+}
+
+.popupContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #B7E1CD;
+    color: $darkColor;
+    opacity: 1;
+    padding: 2rem;
+    border-radius: 5px;
+    @include box-shadow(0, 12px, 24px, $darkColor, 0.2);
+    z-index: 1000;
+
+    .title {
+        font-size: 1.75rem;
+    }
+
+    .message {
+        padding: 1rem 0rem 2rem 0rem;
+    }
+
+    button {
+        @include button-base;
+
+        >span {
+            position: relative;
+            transition: color 0.4s;
+        }
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            transition: width 0.4s;
+            z-index: 0;
+            border-radius: 5px;
+        }
+
+        &:nth-of-type(1) {
+            &:hover::before {
+                width: 100%;
+            }
+
+            &::before {
+                background-color: red;
+            }
+        }
+
+        &:nth-of-type(2) {
+            margin-left: 1rem;
+
+            &:hover::before {
+                width: 100%;
+            }
+
+            &::before {
+                background-color: $greenColor;
+            }
+        }
+    }
+}

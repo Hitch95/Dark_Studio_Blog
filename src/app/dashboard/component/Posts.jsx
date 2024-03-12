@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import styles from "../page.module.scss";
 import useSWR from "swr";
 import Image from "next/image";
-import Head from "next/head";
 import ImageUpload from "../../../components/ImageUpload/ImageUpload";
+import useConfirmationPopup from "../../hooks/useConfirmationPopup";
+import ConfirmationPopup from "../../../components/ConfirmationPopup/ConfirmationPopup";
 
 export const generateMetadata = async ({ params }) => {
     const { id } = params;
@@ -18,15 +19,18 @@ const Posts = ({ userData }) => {
     const [errorMessage, setError] = useState(null);
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     const [uploadedImage, setUploadedImage] = useState(null); // État pour l'URL de l'image téléchargée
+    const { isOpen, requestConfirmation, handleClose, handleConfirm } = useConfirmationPopup();
+    const [currentPostId, setCurrentPostId] = useState(null);
 
     const { data, mutate, error, isLoading } = useSWR(
         `/api/posts?username=${userData.username}`,
         fetcher
     );
 
-    setTimeout(() => {
-        console.log("Data(posts): ", data);
-    }, 3000);
+    const requestDelete = (id) => () => {
+        requestConfirmation();
+        setCurrentPostId(id);
+    };
 
     const handleDelete = async (id) => {
         try {
@@ -35,7 +39,8 @@ const Posts = ({ userData }) => {
             });
             mutate();
         } catch (err) {
-            console.log(err);
+            console.error(err);
+            setError("Failed to delete the post");
         }
     };
 
@@ -80,19 +85,25 @@ const Posts = ({ userData }) => {
                         <article className={styles.post} key={post.id}>
                             <button
                                 className={styles.delete}
-                                onClick={() => handleDelete(post.id)}
+                                onClick={requestDelete(post.id)}
                             >
-                                X
                             </button>
                             <div className={styles.imgContainer}>
                                 <Image src={post.image} alt={`${post.title}`} width={200} height={100} className={styles.img} />
                             </div>
                             <h2 className={styles.postTitle}>{post.title}</h2>
-                            
                         </article>
                     ))
                 )}
             </div>
+
+            <ConfirmationPopup
+                isOpen={isOpen}
+                onClose={handleClose}
+                onConfirm={() => handleConfirm(() => handleDelete(currentPostId))}
+                message={"The deletion of this post will be definitive."}
+            />
+
             <form className={styles.form} onSubmit={handleSubmit}>
                 <h1>Add New Post</h1>
                 <input type="text" placeholder="Title" className={styles.input} />
