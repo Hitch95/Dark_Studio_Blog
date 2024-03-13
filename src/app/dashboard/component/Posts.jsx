@@ -1,10 +1,15 @@
-import React, { useState } from "react";
-import styles from "../page.module.scss";
-import useSWR from "swr";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
+
+import useSWR from "swr";
+
+import styles from "../page.module.scss";
 import ImageUpload from "../../../components/ImageUpload/ImageUpload";
-import useConfirmationPopup from "../../hooks/useConfirmationPopup";
 import ConfirmationPopup from "../../../components/ConfirmationPopup/ConfirmationPopup";
+
+import useConfirmationPopup from "../../hooks/useConfirmationPopup";
+import useOutsideClick from "../../hooks/useOutsideClick";
+
 
 export const generateMetadata = async ({ params }) => {
     const { id } = params;
@@ -18,14 +23,20 @@ export const generateMetadata = async ({ params }) => {
 const Posts = ({ userData }) => {
     const [errorMessage, setError] = useState(null);
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
-    const [uploadedImage, setUploadedImage] = useState(null); // État pour l'URL de l'image téléchargée
+    const [uploadedImage, setUploadedImage] = useState(null);
     const { isOpen, requestConfirmation, handleClose, handleConfirm } = useConfirmationPopup();
     const [currentPostId, setCurrentPostId] = useState(null);
+
+    const popupRef = useRef();
 
     const { data, mutate, error, isLoading } = useSWR(
         `/api/posts?username=${userData.username}`,
         fetcher
     );
+
+    useOutsideClick(popupRef, () => {
+        if (isOpen) handleClose();
+    });
 
     const requestDelete = (id) => () => {
         requestConfirmation();
@@ -71,10 +82,11 @@ const Posts = ({ userData }) => {
             e.target.reset();
             setError(null)
             setUploadedImage(null);
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.error(error);
         }
     };
+
     return (
         <div>
             <div className={styles.posts}>
@@ -98,6 +110,7 @@ const Posts = ({ userData }) => {
             </div>
 
             <ConfirmationPopup
+                ref={popupRef}
                 isOpen={isOpen}
                 onClose={handleClose}
                 onConfirm={() => handleConfirm(() => handleDelete(currentPostId))}
