@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useContext } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,33 +10,56 @@ import { FaRegEdit } from "react-icons/fa";
 import useSWR from "swr";
 import { UserContext } from "../../../../context/UserContext";
 import styles from "./page.module.scss";
+import ConfirmationPopup from "../../../../components/ConfirmationPopup/ConfirmationPopup";
+import useConfirmationPopup from "../../../hooks/useConfirmationPopup";
+import useOutsideClick from "../../../hooks/useOutsideClick";
 
 
 const Posts = () => {
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [currentPostId, setCurrentPostId] = useState(null);
     const router = useRouter();
+
+    const { isOpen, requestConfirmation, handleClose, handleConfirm } = useConfirmationPopup();
+
+    const popupRef = useRef();
 
     // Fetcher function for useSWR
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
     // SWR hook for fetching posts data
     const { data, mutate, error, isLoading } = useSWR(`/api/posts`, fetcher);
 
-    const handleDelete = async (e) => {
-        const id = e.currentTarget.id;
-        const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        if (!res.ok) {
-            throw new Error("Failed to Delete post");
+    useOutsideClick(popupRef, () => {
+        if (isOpen) handleClose();
+    });
+
+    const requestDelete = (id) => () => {
+        requestConfirmation();
+        setCurrentPostId(id);
+    };
+
+    const handleDelete = async (id) => {
+        let response;
+
+        try {
+            response = await fetch(`/api/posts/${id}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to delete the post.");
+            }
+
+            alert("Post Deleted Successfully"); // Toast for this in the future
+            mutate(); // Assuming mutate() is a method to revalidate data
+            router.refresh();
+        } catch (error) {
+            console.error(error.message || "Failed to delete the post");
+            setErrorMessage(error.message || "Failed to delete the post");
         }
-        else {
-            alert("Post Deleted Successfully"); // Trigger a revalidation (refetch) to update the local data after deletion
-            mutate(); // This ensures the data is refetched from `/api/posts`
-            router.refresh()
-        }
-    }
+    };
+
 
     const session = useSession();
 
@@ -79,7 +102,7 @@ const Posts = () => {
                                         </Link>
                                         <button
                                             id={post?.id}
-                                            onClick={handleDelete}
+                                            onClick={requestDelete(post.id)}
                                             role="button"
                                             aria-label={`Delete post ${post.title}`}
                                         >
@@ -90,6 +113,13 @@ const Posts = () => {
                             </div>
                         </article>
                     ))}
+                    <ConfirmationPopup
+                        ref={popupRef}
+                        isOpen={isOpen}
+                        onClose={handleClose}
+                        onConfirm={() => handleConfirm(() => handleDelete(currentPostId))}
+                        message={"The deletion of this post will be definitive."}
+                    />
                 </main>
             )
     }

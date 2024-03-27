@@ -21,18 +21,13 @@ export const generateMetadata = async ({ params }) => {
 }
 
 const Posts = ({ userData }) => {
-    const [errorMessage, setError] = useState(null);
-    const fetcher = (...args) => fetch(...args).then((res) => res.json());
+    const [errorMessage, setErrorMessage] = useState(null);
     const [uploadedImage, setUploadedImage] = useState(null);
-    const { isOpen, requestConfirmation, handleClose, handleConfirm } = useConfirmationPopup();
     const [currentPostId, setCurrentPostId] = useState(null);
 
-    const popupRef = useRef();
+    const { isOpen, requestConfirmation, handleClose, handleConfirm } = useConfirmationPopup();
 
-    const { data, mutate, error, isLoading } = useSWR(
-        `/api/posts?username=${userData.username}`,
-        fetcher
-    );
+    const popupRef = useRef();
 
     useOutsideClick(popupRef, () => {
         if (isOpen) handleClose();
@@ -44,16 +39,33 @@ const Posts = ({ userData }) => {
     };
 
     const handleDelete = async (id) => {
+        let response;
+        
         try {
-            await fetch(`/api/posts/${id}`, {
+            response = await fetch(`/api/posts/${id}`, {
                 method: "DELETE",
+                headers: { "Content-Type": "application/json" },
             });
-            mutate();
-        } catch (err) {
-            console.error(err);
-            setError("Failed to delete the post");
+    
+            if (!response.ok) {
+                throw new Error("Failed to delete the post.");
+            }
+    
+            alert("Post Deleted Successfully"); // Toast for this in the future
+            mutate(); // Assuming mutate() is a method to revalidate data
+            router.refresh();
+        } catch (error) {
+            console.error(error.message || "Failed to delete the post");
+            setErrorMessage(error.message || "Failed to delete the post");
         }
     };
+
+    const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+    const { data, mutate, error, isLoading } = useSWR(
+        `/api/posts?username=${userData.username}`,
+        fetcher
+    );
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,7 +75,7 @@ const Posts = ({ userData }) => {
         const image = uploadedImage;
 
         if (!title || !description || !image || !content) {
-            setError("Please fill in all the fields");
+            setErrorMessage("Please fill in all the fields");
             return;
         }
 
@@ -80,7 +92,7 @@ const Posts = ({ userData }) => {
             });
             mutate();
             e.target.reset();
-            setError(null)
+            setErrorMessage(null)
             setUploadedImage(null);
         } catch (error) {
             console.error(error);
@@ -98,6 +110,8 @@ const Posts = ({ userData }) => {
                             <button
                                 className={styles.delete}
                                 onClick={requestDelete(post.id)}
+                                role="button"
+                                aria-label={`Delete post ${post.title}`}
                             >
                             </button>
                             <div className={styles.imgContainer}>
