@@ -4,7 +4,7 @@ import Image from "next/image";
 import Button from "../../components/Button/Button";
 
 export const metadata = {
-    title: "Dark Studio Blog Contact Information",
+    title: "Contact",
     description: "This is the Contact Page",
 };
 

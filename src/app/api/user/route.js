@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { db } from "../../../utils/connectDB";
-import { v4 as uuidv4 } from "uuid";
-import bcrypt from "bcrypt";
 
 
 const HTTP_STATUS_OK = 200;
@@ -90,12 +88,8 @@ export const PUT = async (request) => {
             console.log("Connected to the database. PUT");
 
             const query =
-                //"UPDATE users SET username = ?, email = ?, password = ?, isAdmin = ? WHERE id = ?";
                 "UPDATE users SET is_admin = ? WHERE id = ?";
             const params = [
-                // user?.username,
-                // user?.email,
-                // await bcrypt.hash(user?.password, 10),
                 user?.isAdmin ? 1 : 0,
                 user?.id,
             ];

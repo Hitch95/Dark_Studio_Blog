@@ -38,8 +38,6 @@ const Edit = ({ params }) => {
     
 
     const handleSubmit = async () => {
-
-
         const res = await fetch(`http://localhost:3000/api/posts/${data.id}`, {
             method: "PUT",
             headers: {
@@ -53,7 +51,7 @@ const Edit = ({ params }) => {
         }
         else {
             alert("Post Updated Successfully");
-            router.reload();
+            router.replace("/posts");
         }
     }
 

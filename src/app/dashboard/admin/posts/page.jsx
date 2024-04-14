@@ -52,7 +52,7 @@ const Posts = () => {
             }
 
             alert("Post Deleted Successfully"); // Toast for this in the future
-            mutate(); // Assuming mutate() is a method to revalidate data
+            mutate();
             router.refresh();
         } catch (error) {
             console.error(error.message || "Failed to delete the post");

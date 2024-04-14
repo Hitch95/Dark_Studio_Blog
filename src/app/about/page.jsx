@@ -5,7 +5,7 @@ import Link from "next/link";
 import Button from "../../components/Button/Button";
 
 export const metadata = {
-    title: "Dark Studio Blog About Information",
+    title: "About",
     description: "This is the About Page",
 };
 
