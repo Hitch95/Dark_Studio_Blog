@@ -1,15 +1,15 @@
-const bcrypt = require('bcrypt');
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from 'next-auth/providers/google'
+// import GoogleProvider from 'next-auth/providers/google';
+import bcrypt from "bcrypt";
 import { db } from "../../../../utils/connectDB";
 
-export const authOptions = {
+const handler = NextAuth({
     providers: [
-        GoogleProvider({
-            clientId: process.env.GOOGLE_ID,
-            clientSecret: process.env.GOOGLE_SECRET,
-        }),
+        // GoogleProvider({
+        //     clientId: process.env.GOOGLE_ID,
+        //     clientSecret: process.env.GOOGLE_SECRET,
+        // }),
         CredentialsProvider({
             name: "credentials",
             credentials: {
@@ -48,9 +48,21 @@ export const authOptions = {
 
     ],
     pages: {
+        signIn: "/dashboard/login",
         error: "/dashboard/login"
+    },
+    callbacks: {
+        async session({ session, token }) {
+            session.user.id = token.uuid;
+            return session;
+        },
+        async jwt({ token, user }) {
+            if (user) {
+                token.uuid = user.id;
+            }
+            return token;
+        }
     }
-};
+});
 
-const handler = NextAuth(authOptions)
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };
