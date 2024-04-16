@@ -1,43 +1,64 @@
-div {
-    >.user_profile_form {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+form.user_profile_form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 
-        > h1 {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        .input, .textArea {
-            padding: 10px;
-            background-color: transparent;
-            border: 2px solid #bbb;
-            border-radius: 3px;
-            color: #bbb;
-            font-size: 20px;
-            font-weight: bold;
-            width: 60%;
-            margin: 0 auto;
-        }
-        small {
-            text-align: center;margin-bottom: 0.5rem;
-        }
+    >* {
+        width: 60%;
+    }
 
-        .button {
-            padding: 20px;
-            cursor: pointer;
-            background-color: #53c28b;
-            border: none;
-            border-radius: 5px;
-            color: #eee;
-            font-weight: bold;
-            max-width: 500px;
-            margin: 0 auto;
+    >p {
+        text-align: center;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        font-weight: bold;
+    }
 
-            &:hover {
-                box-shadow: 2px 2px 2px #bbb;
-            }
+    label {
+        text-align: left;
+        margin-bottom: -1rem;
+    }
+
+    .input,
+    .textArea {
+        padding: 10px;
+        background-color: transparent;
+        border: 2px solid #bbb;
+        border-radius: 3px;
+        color: #bbb;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .eyeIcon {
+        cursor: pointer;
+        position: relative;
+        left: 160px;
+        bottom: 3.19rem;
+        width: 1rem;
+    }
+
+    small {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        width: 100%;
+    }
+
+    .button {
+        padding: 20px;
+        cursor: pointer;
+        background-color: #53c28b;
+        border: none;
+        border-radius: 5px;
+        color: #eee;
+        font-weight: bold;
+        max-width: 500px;
+        margin: 0 auto;
+
+        &:hover {
+            box-shadow: 2px 2px 2px #bbb;
         }
     }
 }
