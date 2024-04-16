@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./page.module.scss";
 import Image from "next/image";
 import Button from "../../components/Button/Button";
+import Link from "next/link";
 
 export const metadata = {
     title: "Contact",
@@ -37,7 +38,7 @@ const Contact = () => {
                         rows="10"
                     >
                     </textarea>
-                    <Button url="#" text="Send" />
+                    <Button text="Send" onClick={() => {}} />
                 </form>
             </section>
         </main>

@@ -10,4 +10,9 @@ $greenColor: #53c28b;
     border-radius: 5px;
     width: max-content;
     color: white;
+
+    &:hover {
+        background-color: #49b07d;
+        box-shadow: 2px 2px 2px #bbb;
+    }
 }

@@ -92,36 +92,31 @@ $greenColor: #53c28b;
             flex: 1;
             display: flex;
             flex-direction: column;
+            align-items: center;
             gap: 20px;
 
             .input,
             .textArea {
+                width: 50vw;
                 padding: 10px;
                 background-color: transparent;
                 border: 2px solid #bbb;
-                border-radius: 3px;
+                border-radius: 5px;
                 color: #bbb;
                 font-size: 20px;
                 font-weight: bold;
+
+                @media (max-width:600px) {
+                    width: 100%;
+                }
             }
 
             span {
                 color: rgb(220, 53, 69);
             }
 
-            .button {
-                padding: 20px;
-                cursor: pointer;
-                background-color: #53c28b;
-                border: none;
-                border-radius: 5px;
-                color: #eee;
-                font-weight: bold;
-
-                &:hover {
-                    background-color: #49b07d;
-                    box-shadow: 2px 2px 2px #bbb;
-                }
+            a>button {
+                margin-bottom: 2rem;
             }
         }
     }

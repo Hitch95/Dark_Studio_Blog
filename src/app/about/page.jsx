@@ -51,7 +51,9 @@ const About = () => {
                             <li> - Tools</li>
                         </ul>
                     </div>
-                    <Button url="/contact" text="Contact" className={styles.button} />
+                    <Link href={"/contact"}>
+                        <Button url={"contact"} text={"Contact Us"}></Button>
+                    </Link>
                 </article>
             </section>
         </main>

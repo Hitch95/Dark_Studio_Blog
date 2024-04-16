@@ -1,17 +1,29 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { CldUploadWidget } from "next-cloudinary";
 import { FaCirclePlus } from "react-icons/fa6";
 import styles from "./ImageUpload.module.scss";
 
-const ImageUpload = ({ onUpload }) => {
+const ImageUpload = ({ onUpload, resetUploadImage }) => {
     const [uploadedImageUrl, setUploadedImageUrl] = useState("");
     const [uploadSuccess, setUploadSuccess] = useState(false);
 
+    useEffect(() => {
+        if (resetUploadImage) {
+            setUploadedImageUrl("");
+            setUploadSuccess(false);
+        }
+    }, [resetUploadImage]);
+
     const handleUpload = useCallback((result) => {
-        setUploadedImageUrl(result.info.secure_url);
+        const url = result.info.secure_url;
+        setUploadedImageUrl(url);
         setUploadSuccess(true);
-        onUpload(result.info.secure_url);
+        onUpload(url);
     }, [onUpload]);
+
+    const handleOpenWidget = (open) => {
+        if (open) open();
+    };
 
     return (
         <CldUploadWidget
@@ -23,30 +35,18 @@ const ImageUpload = ({ onUpload }) => {
             role="form"
             aria-label="Image upload"
         >
-            {function ({ open }) {
-                return (
-                    <section onClick={() => open && open()} className={styles.image_upload} aria-labelledby="upload image">
-                        <button 
-                            type="button" 
-                            aria-pressed={uploadSuccess}
-                            style={uploadSuccess ? { outline: "2px solid #49b07d" } : {}}
-                        >
-                            {
-                                !uploadSuccess ? (
-                                    <>
-                                        Add image
-                                        <FaCirclePlus aria-hidden="true" />
-                                    </>
-                                ) : (
-                                    <>
-                                        Image uploaded successfully!
-                                    </>
-                                )
-                            }
-                        </button>
-                    </section>
-                );
-            }}
+            {({ open }) => (
+                <section onClick={() => handleOpenWidget(open)} className={styles.image_upload}>
+                    <button 
+                        type="button" 
+                        aria-pressed={uploadSuccess}
+                        style={uploadSuccess ? { outline: "2px solid #49b07d" } : {}}
+                    >
+                        {uploadSuccess ? "Image uploaded successfully!" : "Add image"}
+                        {!uploadSuccess && <FaCirclePlus aria-hidden="true" />}
+                    </button>
+                </section>
+            )}
         </CldUploadWidget>
     );
 };

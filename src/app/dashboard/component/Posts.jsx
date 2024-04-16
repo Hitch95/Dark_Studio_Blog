@@ -9,6 +9,7 @@ import ConfirmationPopup from "../../../components/ConfirmationPopup/Confirmatio
 
 import useConfirmationPopup from "../../hooks/useConfirmationPopup";
 import useOutsideClick from "../../hooks/useOutsideClick";
+import Button from "../../../components/Button/Button";
 
 
 export const generateMetadata = async ({ params }) => {
@@ -23,6 +24,7 @@ export const generateMetadata = async ({ params }) => {
 const Posts = ({ userData }) => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [uploadedImage, setUploadedImage] = useState(null);
+    const [resetUploadImage, setResetUploadImage] = useState(false);
     const [currentPostId, setCurrentPostId] = useState(null);
 
     const { isOpen, requestConfirmation, handleClose, handleConfirm } = useConfirmationPopup();
@@ -94,6 +96,7 @@ const Posts = ({ userData }) => {
             e.target.reset();
             setErrorMessage(null)
             setUploadedImage(null);
+            setResetUploadImage(prev => !prev);
         } catch (error) {
             console.error(error);
         }
@@ -143,9 +146,9 @@ const Posts = ({ userData }) => {
                     type="text"
                 >
                 </textarea>
-                <ImageUpload onUpload={setUploadedImage} />
+                <ImageUpload onUpload={setUploadedImage} resetUploadImage={resetUploadImage} />
                 {errorMessage && <span>{errorMessage}</span>}
-                <button className={styles.button}>Send</button>
+                <Button text={"Send"} type={"submit"}></Button>
             </form>
         </div>
     )
