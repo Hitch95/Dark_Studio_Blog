@@ -1,72 +1,126 @@
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./page.module.scss";
 import { UserContext } from "../../context/UserContext";
 import { useRouter } from "next/navigation";
+import { IoEye } from "react-icons/io5";
 
 
 const UserProfile = () => {
-    const [data, setData] = useState({})
     const { userData } = useContext(UserContext);
-    const router = useRouter()
+    const router = useRouter();
 
-    if (!userData)
-        router.push("/dashboard/login")
+    const [username, setUsername] = useState(userData?.username || '');
+    const [email, setEmail] = useState(userData?.email || '');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleUpdate = async () => {
-        const username = document.getElementById("username").value;
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const confirmpassword = document.getElementById("confirmpassword").value;
+    useEffect(() => {
+        if (!userData) {
+            router.push("/dashboard/login");
+        }
+    }, [userData, router]);
 
-        if (!username || !email || !password || !confirmpassword) {
+    const handleUpdate = async (e) => {
+        e.preventDefault(); // Prevent the form from submitting traditionally
+        if (!username || !email || !password || !confirmPassword) {
             alert("Please fill in all the fields");
             return;
         }
 
-        if (password !== confirmpassword) {
+        if (password !== confirmPassword) {
             alert("Password and Confirm Password should match");
             return;
         }
+        console.log(username, email, password);
 
-        const res = await fetch(`http://localhost:3000/api/user`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id: userData?.id, username, email, password }),
-        });
+        const userUpdatePayload = {
+            id: userData.id,
+            username,
+            email,
+            isAdmin: userData.isAdmin,
+        };
 
-        if (!res.ok) {
-            throw new Error("Failed to update User");
+        if (password) {
+            userUpdatePayload.password = password;
         }
-        else {
-            alert("User Updated Sucessfully");
+        
+        console.log(userUpdatePayload);
+
+        try {
+            const res = await fetch(`http://localhost:3000/api/user`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user: userUpdatePayload }),
+            });
+
+            if (!res.ok) {
+                throw new Error(await res.text());
+            }
+            alert("User Updated Successfully");
+        } catch (error) {
+            alert(`Failed to update User: ${error.message}`);
         }
     }
 
     return (
-        <div>
-            <form className={styles.user_profile_form} aria-labelledby="editUserDetail">
-                <h1 id="editUserDetail">Edit User Detail</h1>
-                <label htmlFor="username" className={styles.label}></label>
-                <input id="username" defaultValue={userData?.username} type="text" placeholder="Username" className={styles.input} required />
+            <form className={styles.user_profile_form} aria-labelledby="editUserDetail" onSubmit={handleUpdate}>
+                <p>Edit User Detail</p>
 
-                <label htmlFor="email" className={styles.label}></label>
-                <input id="email" defaultValue={userData?.email} type="email" placeholder="email@example.com" className={styles.input} required />
+                <label htmlFor="username" className={styles.label}>Username</label>
+                <input
+                    id="username"
+                    type="text"
+                    placeholder="Username"
+                    className={styles.input}
+                    required
+                    value={username}
+                    onChange={e => setUsername(e.target.value)}
+                />
 
-                <label htmlFor="password" className={styles.label}></label>
-                <input id="password" type="password" placeholder="New Password" className={styles.input} aria-describedby="passwordHelp" />
+                <label htmlFor="email" className={styles.label}>Email</label>
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="email@example.com"
+                    className={styles.input}
+                    required
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                />
 
-                <label htmlFor="confirmpassword" className={styles.label}></label>
-                <input id="confirmpassword" type="password" placeholder="Confirm New Password" className={styles.input} />
+                <label htmlFor="password" className={styles.label}>New Password</label>
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="New Password"
+                    className={styles.input}
+                    aria-describedby="passwordHelp"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                />
+                <IoEye className={styles.eyeIcon} />
 
-                <small id="passwordHelp" className={styles.helpText}>Leave password fields empty if you don&apos;t want to change the password.</small>
+                <label htmlFor="confirmpassword" className={styles.label}>Confirm New Password</label>
+                <input
+                    id="confirmpassword"
+                    type="password"
+                    placeholder="Confirm New Password"
+                    className={styles.input}
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                />
+                
 
-                <button onClick={handleUpdate} type="submit" className={styles.button}>Update Details</button>
+                <small id="passwordHelp" className={styles.helpText}>
+                    Leave password fields empty if you don&apos;t want to change the password.
+                </small>
+
+                <button type="submit" className={styles.button}>
+                    Update Details
+                </button>
             </form>
-        </div>
     );
 };
 

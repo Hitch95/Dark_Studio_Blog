@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
@@ -16,8 +16,9 @@ const Register = () => {
         email: "",
         password: ""
     });
-
     const [loading, setLoading] = useState(false);
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+
     const router = useRouter();
 
     const handleChange = (e) => {
@@ -26,6 +27,12 @@ const Register = () => {
             [e.target.name]: e.target.value,
         });
     };
+
+    useEffect(() => {
+        if (shouldRedirect) {
+            router.push('/dashboard');
+        }
+    }, [shouldRedirect, router]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,7 +50,7 @@ const Register = () => {
 
                 if (data.success) {
                     toast.success('Registration successful!');
-                    router.push("/dashboard/login");
+                    setShouldRedirect(true);
                 } else {
                     setErrors({ server: data.error || 'Registration failed!' });
                     toast.error(data.error || 'Registration failed!');

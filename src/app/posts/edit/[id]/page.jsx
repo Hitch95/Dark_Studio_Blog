@@ -14,8 +14,10 @@ const Edit = ({ params }) => {
         content: "",
         description: "",
     });
+    const [shouldRedirect, setShouldRedirect] = useState(false);
     const router = useRouter();
-    
+
+    // Fetch data for the post
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,12 +32,11 @@ const Edit = ({ params }) => {
                 console.error("Error fetching post:", error);
             }
         };
-    
+
         if (id) {
             fetchData();
         }
     }, [id]);
-    
 
     const handleSubmit = async () => {
         const res = await fetch(`http://localhost:3000/api/posts/${data.id}`, {
@@ -51,9 +52,16 @@ const Edit = ({ params }) => {
         }
         else {
             alert("Post Updated Successfully");
-            router.replace("/posts");
+            setShouldRedirect(true);
         }
-    }
+    };
+
+    // Redirect after update
+    useEffect(() => {
+        if (shouldRedirect) {
+            router.push(`/posts/${data.id}`);
+        }
+    }, [shouldRedirect, router, data.id]);
 
     return (
         <div>

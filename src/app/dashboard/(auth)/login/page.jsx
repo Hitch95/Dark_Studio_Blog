@@ -17,12 +17,13 @@ const Login = () => {
         email: "",
         password: ""
     });
+    const [shouldRedirect, setShouldRedirect] = useState(false);
 
     useEffect(() => {
-        if (status === "authenticated") {
+        if (status === "authenticated" || shouldRedirect) {
             router.push("/dashboard");
         }
-    }, [status, router]);
+    }, [status, router, shouldRedirect]);
 
     const handleChange = (e) => {
         setValues({
@@ -45,7 +46,7 @@ const Login = () => {
                     ...values
                 });
                 if (!result.error) {
-                    router.push("/dashboard");
+                    setShouldRedirect(true);
                 } else {
                     setErrors({ form: result.error });
                 }

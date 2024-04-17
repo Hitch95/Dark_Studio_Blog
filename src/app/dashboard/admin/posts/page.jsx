@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useContext, useRef, useState } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,6 +18,8 @@ import useOutsideClick from "../../../hooks/useOutsideClick";
 const Posts = () => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [currentPostId, setCurrentPostId] = useState(null);
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+
     const router = useRouter();
 
     const { isOpen, requestConfirmation, handleClose, handleConfirm } = useConfirmationPopup();
@@ -53,12 +55,18 @@ const Posts = () => {
 
             alert("Post Deleted Successfully"); // Toast for this in the future
             mutate();
-            router.refresh();
+            setShouldRedirect(true);
         } catch (error) {
             console.error(error.message || "Failed to delete the post");
             setErrorMessage(error.message || "Failed to delete the post");
         }
     };
+
+    useEffect(() => {
+        if (shouldRedirect) {
+            router.push("/posts");
+        }
+    }, [shouldRedirect, router]);
 
 
     const session = useSession();

@@ -43,6 +43,7 @@ const BlogPost = ({ params }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [shouldRedirect, setShouldRedirect] = useState(false);
+    const [shouldReload, setShouldReload] = useState(false);
 
     const router = useRouter();
     const { id } = params;
@@ -62,17 +63,18 @@ const BlogPost = ({ params }) => {
             throw new Error("Failed to Delete post");
         } else {
             alert("Post Deleted Successfully");
-            // Indicate that a redirect should happen
             setShouldRedirect(true);
         }
     };
 
-    // Use `useEffect` to handle client-side redirection
     useEffect(() => {
         if (shouldRedirect) {
             router.push("/posts");
         }
-    }, [shouldRedirect, router]);
+        if (shouldReload) {
+            router.reload();
+        }
+    }, [shouldRedirect, shouldReload ,router]);
 
     const handleSave = async () => {
         try {
@@ -81,7 +83,7 @@ const BlogPost = ({ params }) => {
                 description,
             };
             await updatePost(id, updatedData);
-            router.reload();
+            setShouldReload(true);
         } catch (error) {
             console.error(error);
         }
@@ -96,6 +98,8 @@ const BlogPost = ({ params }) => {
                 }
                 const post = await res.json();
                 setData(post);
+                setTitle(post.title);
+                setDescription(post.description);
             } catch (error) {
                 console.error("Error fetching post:", error);
             }
