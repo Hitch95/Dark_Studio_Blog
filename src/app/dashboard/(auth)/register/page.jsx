@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { RegisterValidation } from "../Validator";
 import { registerUser } from "../../../../utils/api";
+import Button from "../../../../components/Button/Button";
 import styles from "./page.module.scss";
 
 const Register = () => {
@@ -91,9 +92,7 @@ const Register = () => {
                     name="password"
                 />
                 {errors.password && <span className={styles.error}>{errors.password}</span>}
-                <button type="submit" className={styles.button}>
-                {loading ? "Sending..." : "Register"}
-                </button>
+                <Button type="submit" text={loading ? "Sending..." : "Register"} />
             </form>
             <p className={styles.or}>- OR -</p>
             <Link className={styles.link} href="/dashboard/login">
