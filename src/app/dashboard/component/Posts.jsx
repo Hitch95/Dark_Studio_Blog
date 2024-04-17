@@ -64,6 +64,7 @@ const Posts = ({ userData }) => {
 
     const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
+    // eslint-disable-next-line no-unused-vars
     const { data, mutate, error, isLoading } = useSWR(
         `/api/posts?username=${userData.username}`,
         fetcher

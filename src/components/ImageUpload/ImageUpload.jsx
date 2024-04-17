@@ -4,6 +4,7 @@ import { FaCirclePlus } from "react-icons/fa6";
 import styles from "./ImageUpload.module.scss";
 
 const ImageUpload = ({ onUpload, resetUploadImage }) => {
+    // eslint-disable-next-line no-unused-vars
     const [uploadedImageUrl, setUploadedImageUrl] = useState("");
     const [uploadSuccess, setUploadSuccess] = useState(false);
 

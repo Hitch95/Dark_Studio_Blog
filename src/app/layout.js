@@ -1,11 +1,15 @@
-import { Head } from "next/head";
-import Navbar from "../components/navbar/Navbar";
-import "./globals.css";
+/* You're using `next/head` inside the `app` directory, please migrate to the Metadata API. 
+   See https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration#step-3-migrating-nexthead 
+   for more details. 
+*/
 import { Inter } from "next/font/google";
-import Footer from "../components/footer/Footer";
+import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "../context/ThemeContext";
 import { UserProvider } from "../context/UserContext";
+import Navbar from "../components/navbar/Navbar";
+import Footer from "../components/footer/Footer";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,6 +54,7 @@ export default function RootLayout({ children }) {
                 {children}
                 <Footer />
               </div>
+              <Toaster position="top-center" reverseOrder={false} />
             </UserProvider>
           </AuthProvider>
         </ThemeProvider>

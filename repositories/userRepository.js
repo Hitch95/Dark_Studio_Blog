@@ -2,11 +2,16 @@ import { baseRepository } from "./baseRepository";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 
+const hashPassword = async (password) => {
+  const saltRounds = 10;
+  return bcrypt.hash(password, saltRounds);
+};
+
 export const userRepository = {
   insertUser: async (username, email, password) => {
     try {
       const userId = uuidv4();
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await hashPassword(password);
 
       await baseRepository.insert(
         "users",
@@ -27,10 +32,17 @@ export const userRepository = {
     return await baseRepository.remove("users", id);
   },
 
-  findUser: async (id) => {
+  findUserById: async (id) => {
     return await baseRepository.findOne("SELECT * FROM users WHERE id = ?", [
       id,
     ]);
+  },
+
+  findUserByEmail: async (email) => {
+    return await baseRepository.findOne(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
   },
 
   findAllUsers: async () => {
@@ -48,6 +60,11 @@ export const userRepository = {
       whereValue,
       entries
     );
+  },
+
+  updateUserPassword: async (id, newPassword) => {
+    const hashedPassword = await hashPassword(newPassword);
+    return updateUserWhere('id', id, { password: hashedPassword });
   },
 
   removeUserWhere: async (where, whereValue) => {

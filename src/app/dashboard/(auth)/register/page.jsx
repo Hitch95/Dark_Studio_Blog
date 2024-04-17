@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import styles from "./page.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 import { RegisterValidation } from "../Validator";
-
+import { registerUser } from "../../../../utils/api";
+import styles from "./page.module.scss";
 
 const Register = () => {
     const [errors, setErrors] = useState({});
@@ -35,29 +36,26 @@ const Register = () => {
             setLoading(true);
 
             try {
-                const res = await fetch("/api/auth/register", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(values),
-                });
-
-                const data = await res.json();
+                const response = await registerUser(values);
+                const data = await response.json();
+                console.log("API response:", data);
 
                 if (data.success) {
+                    toast.success('Registration successful!');
                     router.push("/dashboard/login");
                 } else {
-                    setErrors({ server: data.error });
+                    setErrors({ server: data.error || 'Registration failed!' });
+                    toast.error(data.error || 'Registration failed!');
                 }
             } catch (err) {
-                console.error("Erreur lors de l'inscription:", err.message);
-                setErrors({ server: "Une erreur est survenue lors de l'inscription. Veuillez réessayer." });
-            }            
-            setLoading(false);
+                console.error("Error during registration:", err.message);
+                setErrors({ server: err.message || "An unknown error occurred. Please try again." });
+                toast.error(err.message || 'An unexpected error occurred. Please try again.');
+            } finally {
+                setLoading(false);
+            }
         }
     };
-
 
     return (
         <main className={styles.container} aria-label="Register Page">
