@@ -10,6 +10,7 @@ import { MdOutlineDeleteSweep } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { UserContext } from "../../../context/UserContext";
 import styles from "./page.module.scss";
+import { getOnePost } from "../../../utils/api";
 
 
 // export async function generateMetadata({ params }) {
@@ -35,6 +36,18 @@ async function updatePost(id, updatedData) {
     if (!res.ok) {
         throw new Error("Failed to update post");
     }
+}
+
+async function getData(id) {
+    const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+        cache: "no-store",
+    });
+
+    if (!res.ok) {
+        throw new Error("Post not found");
+    }
+
+    return res.json();
 }
 
 const BlogPost = ({ params }) => {
@@ -98,8 +111,6 @@ const BlogPost = ({ params }) => {
                 }
                 const post = await res.json();
                 setData(post);
-                setTitle(post.title);
-                setDescription(post.description);
             } catch (error) {
                 console.error("Error fetching post:", error);
             }
@@ -109,6 +120,7 @@ const BlogPost = ({ params }) => {
             fetchData();
         }
     }, [id]);
+    
 
     useEffect(() => {
         if (userData && userData.id) {

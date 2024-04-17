@@ -29,17 +29,31 @@ export async function deletePost(id) {
 
 
 async function findPost(id) {
-    return baseRepository.findOne(` SELECT posts.id, users.username, posts.title, posts.description, posts.image_src
-                                    FROM posts
-                                    INNER JOIN users ON users.id = posts.user_id
-                                    WHERE posts.id = ?
-                                `,
-        [id]
-    );
+    console.log(`Finding post with ID: ${id}`);
+    const result = await baseRepository.findOne(`SELECT * FROM posts WHERE id = ?`, [id]);
+    if (!result) {
+        console.log(`No post found with ID: ${id}`);
+    }
+    return result;
 }
 
-async function findAllPosts() {
-    return baseRepository.findAll("posts");
+
+async function findAllPosts(username) {
+    let query = "SELECT * FROM posts";
+    let params = [];
+
+    // Adding a condition to filter by username if provided
+    if (username) {
+        query += " WHERE username = ?";
+        params.push(username);
+    }
+
+    // Using the generalized findAll function for fetching data
+    if (params.length > 0) {
+        return await baseRepository.find(query, params);
+    } else {
+        return await baseRepository.findAll("posts");
+    }
 }
 
 

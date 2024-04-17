@@ -1,46 +1,28 @@
 import { NextResponse } from "next/server";
 import { db } from "../../../utils/connectDB";
 import { v4 as uuidv4 } from "uuid";
-
+import { postRepository } from "../../../../repositories/postRepository";
 
 export const GET = async (request) => {
     const url = new URL(request.url);
-
     const username = url.searchParams.get("username");
 
     try {
-        const connection = await db.classicConnection();
-        console.log("Connected to the database. posts(GET)");
+        const posts = await postRepository.findAllPosts(username);
 
-        let query = "SELECT * FROM posts";
-        let params = [];
-
-        if (username) {
-            query += " WHERE username = ?";
-            params.push(username);
-        }
-
-        const [rows] = await connection.execute(query, params);
-        const posts = rows.map((row) => ({
-            id: row.id,
-            title: row.title,
-            description: row.description,
-            image: row.image,
-            username: row.username
-        }));
         console.log("Retrieved posts:", posts);
 
-        connection.end();
-        console.log("Disconnected from the database. posts(GET)");
-
-        return new NextResponse(JSON.stringify(posts), { status: 200 });
+        return new NextResponse(JSON.stringify(posts), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
     } catch (err) {
         console.error("Database Error:", err);
         return new NextResponse("Database Error", { status: 500 });
     }
 };
-
-
 
 
 export const POST = async (request, session) => {
