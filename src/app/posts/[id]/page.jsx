@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useContext, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
@@ -10,13 +10,10 @@ import { MdOutlineDeleteSweep } from "react-icons/md";
 import { FaRegEdit } from "react-icons/fa";
 import { UserContext } from "../../../context/UserContext";
 import styles from "./page.module.scss";
-import { deletePost, fetchPost } from "../../api/utils/api";
-import EditPost from "../../../components/EditPost/EditPost";
 
-// Need to resolve "use client" problem for this to work
 
 // export async function generateMetadata({ params }) {
-//     const response = await fetch(`http://localhost:3000/api/posts/${params.id}`);
+//     const response = await fetch (`http://localhost:3000/api/posts/${params.id}`);
 //     const post = await response.json();
 
 //     return {
@@ -26,9 +23,26 @@ import EditPost from "../../../components/EditPost/EditPost";
 //     }
 // }
 
+async function updatePost(id, updatedData) {
+    const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedData),
+    });
+
+    if (!res.ok) {
+        throw new Error("Failed to update post");
+    }
+}
+
 const BlogPost = ({ params }) => {
     const [data, setData] = useState({});
     const [isAuthor, setIsAuthor] = useState(false);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [shouldRedirect, setShouldRedirect] = useState(false);
 
     const router = useRouter();
     const { id } = params;
@@ -37,27 +51,65 @@ const BlogPost = ({ params }) => {
     const { userData } = useContext(UserContext);
 
     const handleDelete = async () => {
-        try {
-            await deletePost(id);
+        const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to Delete post");
+        } else {
             alert("Post Deleted Successfully");
-            router.refresh();
-        } catch (error) {
-            console.error('Failed to delete post: ', error);
+            // Indicate that a redirect should happen
+            setShouldRedirect(true);
         }
     };
 
-    // This useEffect hook is used for fetching the post data based on the post's ID. 
-    // It's essential if your component needs to display the current state of a post and should run whenever the id changes.
+    // Use `useEffect` to handle client-side redirection
     useEffect(() => {
+        if (shouldRedirect) {
+            router.push("/posts");
+        }
+    }, [shouldRedirect, router]);
+
+    const handleSave = async () => {
+        try {
+            const updatedData = {
+                title,
+                description,
+            };
+            await updatePost(id, updatedData);
+            router.reload();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch(`http://localhost:3000/api/posts/${id}`);
+                if (!res.ok) {
+                    throw new Error("Post not found");
+                }
+                const post = await res.json();
+                setData(post);
+            } catch (error) {
+                console.error("Error fetching post:", error);
+            }
+        };
+
         if (id) {
-            fetchPost(id).then(setData).catch(console.error);
+            fetchData();
         }
     }, [id]);
 
-    
     useEffect(() => {
-        if (userData && session?.user) {
-            setIsAuthor(userData.id === session.user.id);
+        if (userData && userData.id) {
+            const isAuthor = userData.id === session?.data?.user?.id;
+            setIsAuthor(isAuthor);
         }
     }, [userData, session]);
 
@@ -66,7 +118,25 @@ const BlogPost = ({ params }) => {
             {data && data.image && (
                 <div className={styles.top}>
                     {isAuthor ? (
-                        <EditPost post={data} onSave={() => router.replace(`/posts/${id}`)} />
+                        <form className={styles.form}>
+                            <input
+                                className={styles.input}
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                            />
+                            <textarea
+                                className={styles.textArea}
+                                cols="30"
+                                rows="10"
+                                type="text"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
+                            <button onClick={handleSave} className={styles.button}>
+                                Save
+                            </button>
+                        </form>
                     ) : (
                         <article className={styles.info}>
                             <h3 className={styles.title}>{data.title}</h3>
