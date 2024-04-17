@@ -54,7 +54,19 @@ export default function RootLayout({ children }) {
                 {children}
                 <Footer />
               </div>
-              <Toaster position="top-center" reverseOrder={false} />
+              <Toaster position="top-center" reverseOrder={false} toastOptions={{
+                duration: 5000,
+                success: {
+                  style: {
+                    backgroundColor: '#53c28b',
+                    color: 'white',
+                  },
+                  iconTheme: {
+                    primary: 'white',
+                    secondary: '#53c28b',
+                  },
+                }
+              }} />
             </UserProvider>
           </AuthProvider>
         </ThemeProvider>

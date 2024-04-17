@@ -30,20 +30,9 @@
             color: rgb(220, 53, 69);
         }
 
-        .button {
+        button {
             width: 300px;
             padding: 20px;
-            cursor: pointer;
-            background-color: #53c28b;
-            border: none;
-            border-radius: 5px;
-            color: #eee;
-            font-weight: bold;
-
-            &:hover {
-                background-color: #49b07d;
-                box-shadow: 2px 2px 2px #bbb;
-            }
         }
     }
 
