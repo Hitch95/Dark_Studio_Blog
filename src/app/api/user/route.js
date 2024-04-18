@@ -6,14 +6,16 @@ const HTTP_STATUS_OK = 200;
 const HTTP_STATUS_ERROR = 500;
 
 const getUserByEmail = async (email) => {
+    const connection = await db.classicConnection();
+    console.log("Connected to the database. User Api");
     try {
-        const connection = await db.classicConnection();
-        console.log("Connected to the database. User Api");
-
         const query = "SELECT * FROM users WHERE email = ?";
         const params = [email];
 
         const [rows] = await connection.execute(query, params);
+        if (rows.length === 0) {
+            return null; // No user found, return null or handle as needed
+        }
 
         const _user = rows[0];
         const user = {
@@ -23,15 +25,16 @@ const getUserByEmail = async (email) => {
             isAdmin: _user.is_admin,
         };
 
-        connection.end();
-        console.log("Disconnected from the database. User Api");
-
         return user;
     } catch (err) {
         console.error("Database Error:", err);
         throw new Error("Failed to retrieve user from database");
+    } finally {
+        connection.end();
+        console.log("Disconnected from the database. User Api");
     }
 };
+
 
 export const GET = async (request) => {
     try {

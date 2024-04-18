@@ -10,6 +10,7 @@ import ConfirmationPopup from "../../../components/ConfirmationPopup/Confirmatio
 import useConfirmationPopup from "../../hooks/useConfirmationPopup";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import Button from "../../../components/Button/Button";
+import toast from "react-hot-toast";
 
 
 export const generateMetadata = async ({ params }) => {
@@ -52,8 +53,7 @@ const Posts = ({ userData }) => {
             if (!response.ok) {
                 throw new Error("Failed to delete the post.");
             }
-    
-            alert("Post Deleted Successfully"); // Toast for this in the future
+            toast.success("Post Deleted Successfully");
             mutate(); // Assuming mutate() is a method to revalidate data
             router.refresh();
         } catch (error) {
