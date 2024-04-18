@@ -5,6 +5,8 @@ import styles from "./page.module.scss";
 import { UserContext } from "../../context/UserContext";
 import { useRouter } from "next/navigation";
 import { IoEye } from "react-icons/io5";
+import Button from "../../components/Button/Button";
+import toast from "react-hot-toast";
 
 
 const UserProfile = () => {
@@ -58,7 +60,7 @@ const UserProfile = () => {
             if (!res.ok) {
                 throw new Error(await res.text());
             }
-            alert("User Updated Successfully");
+            toast.success("User Updated Successfully");
         } catch (error) {
             alert(`Failed to update User: ${error.message}`);
         }
@@ -68,7 +70,8 @@ const UserProfile = () => {
             <form className={styles.user_profile_form} aria-labelledby="editUserDetail" onSubmit={handleUpdate}>
                 <p>Edit User Detail</p>
 
-                <label htmlFor="username" className={styles.label}>Username</label>
+                <label htmlFor="username" className={styles.label}>
+                    <span>Username</span>
                 <input
                     id="username"
                     type="text"
@@ -78,8 +81,10 @@ const UserProfile = () => {
                     value={username}
                     onChange={e => setUsername(e.target.value)}
                 />
+                </label>
 
-                <label htmlFor="email" className={styles.label}>Email</label>
+                <label htmlFor="email" className={styles.label}>
+                    <span>Email</span>
                 <input
                     id="email"
                     type="email"
@@ -89,8 +94,10 @@ const UserProfile = () => {
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                 />
+                </label>
 
-                <label htmlFor="password" className={styles.label}>New Password</label>
+                <label htmlFor="password" className={styles.label}>
+                    <span>Password</span>
                 <input
                     id="password"
                     type="password"
@@ -101,8 +108,10 @@ const UserProfile = () => {
                     onChange={e => setPassword(e.target.value)}
                 />
                 <IoEye className={styles.eyeIcon} />
+                </label>
 
-                <label htmlFor="confirmpassword" className={styles.label}>Confirm New Password</label>
+                <label htmlFor="confirmpassword" className={styles.label}>
+                    <span>Confirm Password</span>
                 <input
                     id="confirmpassword"
                     type="password"
@@ -111,15 +120,16 @@ const UserProfile = () => {
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}
                 />
-                
+                <IoEye className={styles.eyeIcon} />
+                </label>
 
                 <small id="passwordHelp" className={styles.helpText}>
                     Leave password fields empty if you don&apos;t want to change the password.
                 </small>
 
-                <button type="submit" className={styles.button}>
+                <Button type="submit" text={"Update Details"}>
                     Update Details
-                </button>
+                </Button>
             </form>
     );
 };

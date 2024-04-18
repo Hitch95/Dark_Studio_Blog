@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useEffect ,useContext } from "react";
 import styles from "./page.module.scss";
 import Link from "next/link";
 import { UserContext } from "../../../context/UserContext";
@@ -11,10 +11,12 @@ const Layout = ({ children }) => {
     const { userData } = useContext(UserContext)
     const router = useRouter()
 
-    if (userData) {
-        if (!userData.isAdmin)
-            router?.push("/dashboard")
-    }
+    // Use useEffect to handle side effects like navigation
+    useEffect(() => {
+        if (userData && !userData.isAdmin) {
+            router.push("/dashboard");
+        }
+    }, [userData, router]);
 
     return (
         <div>

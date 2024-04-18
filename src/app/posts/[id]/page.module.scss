@@ -69,13 +69,19 @@
             }
 
             .imageContainer {
+                display: flex;
+                justify-content: center;
                 order: 3;
-                height: 300px;
-                max-width: 300px;
+                min-height: 300px;
+                height: auto;
                 position: relative;
                 margin: 1.5rem 0rem 1.5rem 0rem;
+                width: 100%;
+                outline: 1px solid red;
 
                 .image {
+                    width: 100%;
+                    height: 100%;
                     object-fit: cover;
                 }
             }
