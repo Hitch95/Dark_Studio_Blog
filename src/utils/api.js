@@ -1,7 +1,7 @@
-const API_BASE_URL = 'process.env.NEXT_PUBLIC_API_BASE_URL/api/';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export async function registerUser(userData) {
-    const response = await fetch(`${API_BASE_URL}auth/register`, {
+    const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export async function registerUser(userData) {
  * @throws {Error} Throws an error if the fetch operation fails.
  */
 export async function getOnePost(id) {
-    const response = await fetch(`${API_BASE_URL}posts/${id}`, {
+    const response = await fetch(`${API_BASE_URL}/posts/${id}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export async function getOnePost(id) {
 
 
 export async function getAllPosts() {
-    const response = await fetch(`${API_BASE_URL}posts`, {
+    const response = await fetch(`${API_BASE_URL}/posts`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
