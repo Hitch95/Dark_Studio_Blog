@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { db } from "../../../../utils/connectDB";
+import db from "../../../../utils/connectDB";
 import { postRepository } from "../../../../../repositories/postRepository";
 
 export const GET = async (request, { params }) => {

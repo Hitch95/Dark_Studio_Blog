@@ -13,6 +13,7 @@ import styles from "./page.module.scss";
 import ConfirmationPopup from "../../../../components/ConfirmationPopup/ConfirmationPopup";
 import useConfirmationPopup from "../../../hooks/useConfirmationPopup";
 import useOutsideClick from "../../../hooks/useOutsideClick";
+import toast from "react-hot-toast";
 
 
 const Posts = () => {
@@ -53,7 +54,8 @@ const Posts = () => {
                 throw new Error("Failed to delete the post.");
             }
 
-            alert("Post Deleted Successfully"); // Toast for this in the future
+            // alert("Post Deleted Successfully"); // Toast for this in the future
+            toast("Post Deleted Successfully");
             mutate();
             setShouldRedirect(true);
         } catch (error) {

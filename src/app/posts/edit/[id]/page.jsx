@@ -4,6 +4,7 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "./page.module.css";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../../../../context/UserContext";
+import toast from "react-hot-toast";
 
 
 const Edit = ({ params }) => {
@@ -48,10 +49,12 @@ const Edit = ({ params }) => {
         });
         console.log(res);
         if (!res.ok) {
+            toast.error("Failed to update post");
             throw new Error("Failed to update post");
         }
         else {
-            alert("Post Updated Successfully");
+            toast.success("Post updated successfully");
+            // alert("Post Updated Successfully");
             setShouldRedirect(true);
         }
     };

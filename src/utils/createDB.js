@@ -1,4 +1,4 @@
-const { db } = require("./connectDB");
+import db from "../utils/connectDB";
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 

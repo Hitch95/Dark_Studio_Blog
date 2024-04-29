@@ -1,28 +1,37 @@
-const mysql = require("mysql2/promise");
-const dotenv = require("dotenv");
+import mysql from "mysql2/promise";
 
-dotenv.config();
+const getPool = (() => {
+    let pool;
+    return async () => {
+        if (!pool) {
+            try {
+                pool = await mysql.createPool(process.env.MYSQL_URL);
+                const connection = await pool.getConnection();
+                await connection.ping();
+                connection.release();
+            } catch (error) {
+                console.error("Error creating connection pool:", error);
+                throw error;
+            }
+        }
+        return pool;
+    }
+})();
 
 async function classicConnection() {
     try {
-        return await mysql.createConnection(process.env.MYSQL_URL);
+        const connection = await mysql.createConnection(process.env.MYSQL_URL);
+        await connection.ping();
+        return connection;
     } catch (error) {
-        console.error("Error creating classic connection:", error);
+        console.error("Error in connectDB file:", error);
         throw error;
     }
 }
 
-let pool;
-try {
-    pool = mysql.createPool(process.env.MYSQL_URL);
-} catch (error) {
-    console.error("Error creating connection pool:", error);
-    throw error;
-}
-
 const db = {
-    pool,
+    getPool,
     classicConnection,
 };
 
-module.exports = { db };
+export default db;

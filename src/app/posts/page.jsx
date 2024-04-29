@@ -33,9 +33,9 @@ const Posts = () => {
                 <Link href={`/posts/${item.id}`} className={styles.single_post_container} key={item.id}>
                     <figure className={styles.imageContainer}>
                         <Image
-                            src={item.image || 'default_image_url_here'} // Provide a default image URL or handle null case
+                            src={item.image}
                             priority
-                            alt={item.title || 'No title'} // Provide default text or handle null case
+                            alt={item.title}
                             width={400}
                             height={250}
                             className={styles.image}
