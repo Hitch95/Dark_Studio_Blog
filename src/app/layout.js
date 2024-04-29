@@ -2,6 +2,7 @@
    See https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration#step-3-migrating-nexthead 
    for more details. 
 */
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Inter } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "../context/ThemeContext";
@@ -46,6 +47,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <SpeedInsights />
         <ThemeProvider>
           <AuthProvider>
             <UserProvider>
