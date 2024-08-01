@@ -1,15 +1,15 @@
-import NextAuth from "next-auth";
+import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
-// import GoogleProvider from 'next-auth/providers/google';
+import GoogleProvider from 'next-auth/providers/google';
 import bcrypt from "bcrypt";
 import db from "../../../../utils/connectDB";
 
-const handler = NextAuth({
+const handler = NextAuth ({
     providers: [
-        // GoogleProvider({
-        //     clientId: process.env.GOOGLE_ID,
-        //     clientSecret: process.env.GOOGLE_SECRET,
-        // }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_ID,
+            clientSecret: process.env.GOOGLE_SECRET,
+        }),
         CredentialsProvider({
             name: "credentials",
             credentials: {
@@ -51,18 +51,22 @@ const handler = NextAuth({
         signIn: "/dashboard/login",
         error: "/dashboard/login"
     },
-    callbacks: {
-        async session({ session, token }) {
-            session.user.id = token.uuid;
-            return session;
-        },
-        async jwt({ token, user }) {
-            if (user) {
-                token.uuid = user.id;
-            }
-            return token;
-        }
-    }
+    // Need to change the way we get the user
+    // callbacks: {
+    //     async session({ session, token }) {
+    //         console.log(token);
+    //         if (token.userId) {
+    //             session.user.id = token.userId;
+    //         }
+    //         return session;
+    //     },
+    //     async jwt({ token, user }) {
+    //         if (user) {
+    //             token.userId = user.id;
+    //         }
+    //         return token;
+    //     }
+    // }
 });
 
 export { handler as GET, handler as POST };

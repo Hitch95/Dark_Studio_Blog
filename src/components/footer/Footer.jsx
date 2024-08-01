@@ -6,7 +6,7 @@ import Link from "next/link";
 const Footer = () => {
     return (
         <footer className={styles.footer}>
-            <p>©2023 Dark Studio All rights reserved.</p>
+            <p>2024 Dark Studio All rights reserved.</p>
             <div>
                 <Link href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook">
                     <Image src="/1.png" width={15} height={15} className={styles.icon} alt="Dark Studio Facebook Account" />

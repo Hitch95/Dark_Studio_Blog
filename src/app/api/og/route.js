@@ -1,6 +1,4 @@
-// Import required modules and constants
 import { ImageResponse } from "next/og";
-import { NextRequest } from "next/server";
 
 // Route segment config
 export const runtime = "edge";
