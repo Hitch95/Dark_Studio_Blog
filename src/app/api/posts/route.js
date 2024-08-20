@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
 import db from "../../../utils/connectDB";
-import allowCorsMiddleware from "../../../utils/cors";
+import { v4 as uuidv4 } from "uuid";
 import { postRepository } from "../../../../repositories/postRepository";
 
 export const GET = async (request) => {
@@ -61,13 +60,3 @@ export const POST = async (request, session) => {
         return new NextResponse("Database Error", { status: 500 });
     }
 };
-
-export default async function handler(req, res) {
-    if (req.method === "GET") {
-        return await allowCorsMiddleware(req, res, GET);
-    } else if (req.method === "POST") {
-        return await allowCorsMiddleware(req, res, POST);
-    } else {
-        res.status(405).end("Method Not Allowed");
-    }
-}
