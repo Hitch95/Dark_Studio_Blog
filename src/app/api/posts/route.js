@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import db from "../../../utils/connectDB";
-import allowCorsMiddleware from "../utils/api";
+import allowCorsMiddleware from "../utils/api/cors";
 import { postRepository } from "../../../../repositories/postRepository";
 
 export const GET = async (request) => {
