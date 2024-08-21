@@ -22,7 +22,7 @@ const Edit = ({ params }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch(`http://localhost:3000/api/posts/${id}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/posts/${id}`);
                 if (!res.ok) {
                     throw new Error("Post not found");
                 }
