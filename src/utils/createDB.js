@@ -57,6 +57,7 @@ async function createDB() {
 
 
         const hashedPassword = await bcrypt.hash("Password1++", 10);
+        console.log(hashedPassword);
 
         const userId = uuidv4();
         await connection.query(
