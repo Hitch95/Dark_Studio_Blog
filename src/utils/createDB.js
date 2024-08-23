@@ -1,6 +1,5 @@
 import db from "./connectDB.js";
 import { v4 as uuidv4 } from 'uuid';
-import bcrypt from "bcrypt";
 
 async function createDB() {
     let connection;
@@ -55,20 +54,16 @@ async function createDB() {
 
         console.log("Tables créées avec succès !");
 
-
-        const hashedPassword = await bcrypt.hash("Password1++", 10);
-        console.log(hashedPassword);
-
         const userId = uuidv4();
         await connection.query(
             "INSERT INTO users (id, username, email, password, is_admin) VALUES (?, ?, ?, ?, ?)",
-            [userId, 'JohnDoe', 'john@example.com', hashedPassword, 1]
+            [userId, 'JohnDoe', 'john@example.com', '$2b$10$cwBO9PTBsk7MZNiGi4KxauKgTcsUyxlAcmlQ5tuROtcbEspXb7c2C', 1]
         );
 
         const userId2 = uuidv4();
         await connection.query(
             "INSERT INTO users (id, username, email, password) VALUES (?, ?, ?, ?)",
-            [userId2, 'carlosGhosn', 'carlos@mail.com', hashedPassword]
+            [userId2, 'carlosGhosn', 'carlos@mail.com', '$2b$10$cwBO9PTBsk7MZNiGi4KxauKgTcsUyxlAcmlQ5tuROtcbEspXb7c2C']
         );
 
 
