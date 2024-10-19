@@ -2,24 +2,25 @@
    See https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration#step-3-migrating-nexthead 
    for more details. 
 */
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Inter } from "next/font/google";
-import { Toaster } from "react-hot-toast";
-import { ThemeProvider } from "../context/ThemeContext";
-import { UserProvider } from "../context/UserContext";
-import Navbar from "../components/navbar/Navbar";
-import Footer from "../components/footer/Footer";
-import AuthProvider from "../components/AuthProvider/AuthProvider";
-import "./globals.css";
+import { ReactNode } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Inter } from 'next/font/google';
+import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from '../context/ThemeContext';
+import { UserProvider } from '../context/UserContext';
+import Navbar from '../components/navbar/Navbar';
+import Footer from '../components/footer/Footer';
+import AuthProvider from '../components/AuthProvider/AuthProvider';
+import './globals.css';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: {
-    default: "Dark Studio Blog",
-    template: "%s - Dark Studio Blog",
+    default: 'Dark Studio Blog',
+    template: '%s - Dark Studio Blog',
   },
-  description: "The media for digital pros",
+  description: 'The media for digital pros',
   openGraph: {
     title: 'Next.js',
     description: 'The media for digital pros',
@@ -43,7 +44,7 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -56,19 +57,23 @@ export default function RootLayout({ children }) {
                 {children}
                 <Footer />
               </div>
-              <Toaster position="top-center" reverseOrder={false} toastOptions={{
-                duration: 5000,
-                success: {
-                  style: {
-                    backgroundColor: '#53c28b',
-                    color: 'white',
+              <Toaster
+                position="top-center"
+                reverseOrder={false}
+                toastOptions={{
+                  duration: 5000,
+                  success: {
+                    style: {
+                      backgroundColor: '#53c28b',
+                      color: 'white',
+                    },
+                    iconTheme: {
+                      primary: 'white',
+                      secondary: '#53c28b',
+                    },
                   },
-                  iconTheme: {
-                    primary: 'white',
-                    secondary: '#53c28b',
-                  },
-                }
-              }} />
+                }}
+              />
             </UserProvider>
           </AuthProvider>
         </ThemeProvider>
