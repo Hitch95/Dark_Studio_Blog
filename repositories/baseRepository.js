@@ -1,4 +1,4 @@
-import db from "../src/utils/connectDB";
+import db from '../src/utils/connectDB';
 import { verifyUser } from "./userRepository";
 
 async function find(sql, args = [], onlyOne = false) {
