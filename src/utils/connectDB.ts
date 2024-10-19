@@ -3,8 +3,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-console.log(process.env.MYSQL_URL);
-
 const getPool = (() => {
   let pool: Pool;
   return async () => {
