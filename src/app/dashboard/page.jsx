@@ -1,45 +1,30 @@
-"use client";
+// import React, { useContext, useEffect } from 'react';
+// import { useSession } from 'next-auth/react';
+// import { useRouter } from 'next/navigation';
+// import Posts from './component/Posts';
+// import { UserContext } from '../../context/UserContext';
 
-import React, { useContext, useEffect } from "react";
-import styles from "./page.module.scss";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import Posts from "./component/Posts";
-import { UserContext } from "../../context/UserContext";
+import styles from './page.module.scss';
+import { redirect } from 'next/navigation';
+import { createClient } from '../../utils/supabase/server';
 
+const Dashboard = async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  console.log('In Dashboard directory: ', user);
 
-const Dashboard = () => {
-    const session = useSession();
-    const { userData, fetchUser } = useContext(UserContext);
-    const router = useRouter();
-    const email = session?.data?.user?.email;
+  if (!user) {
+    redirect('/login');
+  }
 
-    useEffect(() => {
-        const fetchData = async () => {
-          if (email) {
-            await fetchUser(email);
-          }
-        };
-      
-        fetchData();
-      }, [email, fetchUser]);      
-    
-
-    switch (session.status) {
-        case "loading":
-            return <p>Loading...</p>;
-        case "unauthenticated":
-            router?.push("/dashboard/login");
-            break;
-        case "authenticated":
-            return (
-                <div className={styles.container}>
-                    {userData && <Posts userData={userData} />}
-                </div>
-            );
-        default:
-            break;
-    }
+  return (
+    <div className={styles.container}>
+      <p>Hello {user.email}</p>
+      {/* {userData && <Posts userData={userData} />} */}
+    </div>
+  );
 };
 
 export default Dashboard;

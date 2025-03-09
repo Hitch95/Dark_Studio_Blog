@@ -1,9 +1,16 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginReactConfig from "./pluginReactConfig.mjs";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+import { FlatCompat } from "@eslint/eslintrc";
 
-export default [
-  { languageOptions: { globals: globals.browser } },
-  pluginJs.configs.recommended,
-  pluginReactConfig,
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+});
+
+const eslintConfig = [
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
 ];
+
+export default eslintConfig;

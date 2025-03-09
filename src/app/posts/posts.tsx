@@ -4,23 +4,26 @@ import { use, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './page.module.scss';
+import { Post } from '@/types';
 
-const Posts = ({ posts }: {
-  posts: Promise<{ id: string, title: string, description: string, image: string }>
-}) => {
-  const allPosts = use(posts);
+interface PostsListProps {
+  postsPromise: Promise<Post[]>;
+}
+
+const Posts = ({ postsPromise }: PostsListProps) => {
+  const posts = use(postsPromise);
   const [error, setError] = useState('');
 
   if (error) {
     return <p>{error}</p>;
   }
-  if (!allPosts || allPosts.length === 0) {
+  if (!posts || posts.length === 0) {
     return <p>No post available</p>;
   }
 
   return (
     <main className={styles.posts_container}>
-      {allPosts.map((post) => (
+      {posts.map((post) => (
         <Link
           href={`/posts/${post.id}`}
           className={styles.single_post_container}

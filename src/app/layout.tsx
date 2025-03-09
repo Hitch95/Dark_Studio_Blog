@@ -7,10 +7,10 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from '../context/ThemeContext';
-import { UserProvider } from '../context/UserContext';
+// import { UserProvider } from '../context/UserContext';
 import Navbar from '../components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
-import AuthProvider from '../components/AuthProvider/AuthProvider';
+import AuthProvider from '../context/AuthContext';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -51,30 +51,30 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <SpeedInsights />
         <ThemeProvider>
           <AuthProvider>
-            <UserProvider>
-              <div className="container">
-                <Navbar />
-                {children}
-                <Footer />
-              </div>
-              <Toaster
-                position="top-center"
-                reverseOrder={false}
-                toastOptions={{
-                  duration: 5000,
-                  success: {
-                    style: {
-                      backgroundColor: '#53c28b',
-                      color: 'white',
-                    },
-                    iconTheme: {
-                      primary: 'white',
-                      secondary: '#53c28b',
-                    },
+            {/* <UserProvider> */}
+            <div className="container">
+              <Navbar />
+              {children}
+              <Footer />
+            </div>
+            <Toaster
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                duration: 5000,
+                success: {
+                  style: {
+                    backgroundColor: '#53c28b',
+                    color: 'white',
                   },
-                }}
-              />
-            </UserProvider>
+                  iconTheme: {
+                    primary: 'white',
+                    secondary: '#53c28b',
+                  },
+                },
+              }}
+            />
+            {/* </UserProvider> */}
           </AuthProvider>
         </ThemeProvider>
       </body>

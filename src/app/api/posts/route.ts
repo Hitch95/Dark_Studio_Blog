@@ -16,15 +16,32 @@ async function handleGetPosts() {
 }
 */
 
-export const GET = async () => {
+export async function GET() {
   try {
     const posts = await postRepository.getAllPosts();
-    return NextResponse.json(posts);
+    return new NextResponse(JSON.stringify(posts), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     console.error('Error : ' + error + 'while fetching all posts');
-    return NextResponse.json({ message: 'Database error', error: error.message })
+    return NextResponse.json({
+      message: 'Database error',
+      error: error.message,
+    });
   }
 }
+
+// export const GET = async (req: NextRequest) => {
+//   try {
+//     const id = req.params.id;
+//     const post = await postRepository.getPostById(id);
+//     return NextResponse.json(post);
+//   } catch (error) {
+//     console.error('Error : ' + error + 'while fetching all posts');
+//     return NextResponse.json({ message: 'Database error', error: error.message });
+//   }
+// }
 
 async function handleGetOnePost(req, res) {
   try {

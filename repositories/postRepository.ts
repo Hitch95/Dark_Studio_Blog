@@ -1,4 +1,4 @@
-import { createClient } from '../src/utils/client';
+import { createClient } from '../src/utils/supabase/client';
 import { Post } from '../src/types';
 
 const supabase = createClient();
