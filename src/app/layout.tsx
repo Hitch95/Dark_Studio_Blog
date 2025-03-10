@@ -2,20 +2,24 @@
    See https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration#step-3-migrating-nexthead 
    for more details. 
 */
+import { Metadata } from 'next';
 import { ReactNode } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
+
 import { ThemeProvider } from '../context/ThemeContext';
-// import { UserProvider } from '../context/UserContext';
-import Navbar from '../components/navbar/Navbar';
+import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/footer/Footer';
 import AuthProvider from '../context/AuthContext';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata = {
+export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+  ),
   title: {
     default: 'Dark Studio Blog',
     template: '%s - Dark Studio Blog',
@@ -46,19 +50,18 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body className={inter.className}>
         <SpeedInsights />
         <ThemeProvider>
           <AuthProvider>
-            {/* <UserProvider> */}
-            <div className="container">
+            <div className='container'>
               <Navbar />
               {children}
               <Footer />
             </div>
             <Toaster
-              position="top-center"
+              position='top-center'
               reverseOrder={false}
               toastOptions={{
                 duration: 5000,
@@ -74,7 +77,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 },
               }}
             />
-            {/* </UserProvider> */}
           </AuthProvider>
         </ThemeProvider>
       </body>

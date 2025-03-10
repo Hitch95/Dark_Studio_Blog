@@ -1,5 +1,8 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
+
 import { useSupabase } from '../../context/AuthContext';
 
 interface UseAuthReturn {

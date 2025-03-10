@@ -1,6 +1,6 @@
 // import React, { useState } from 'react';
 // import { useRouter } from 'next/navigation';
-// import Link from 'next/link';
+import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import { login } from './actions';
 
@@ -28,14 +28,14 @@ const Login = () => {
 
   return (
     <main className={styles.login_container}>
-      <h1>Welcome Back</h1>
+      <h1>Welcome</h1>
       {/* {error && <div className={styles.error}>{error}</div>} */}
       <form className={styles.form}>
         <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Email"
+          type='email'
+          id='email'
+          name='email'
+          placeholder='Email'
           // onChange={handleInputChange}
           className={styles.input}
           // value={email}
@@ -43,10 +43,10 @@ const Login = () => {
         />
 
         <input
-          type="password"
-          id="password"
-          name="password"
-          placeholder="Password"
+          type='password'
+          id='password'
+          name='password'
+          placeholder='Password'
           className={styles.input}
           // onChange={handleInputChange}
           // value={password}
@@ -58,9 +58,9 @@ const Login = () => {
       </form>
 
       <p className={styles.or}>- OR -</p>
-      {/* <Link href="/register" className={styles.link}>
+      <Link href='/register' className={styles.link}>
         Create new account
-      </Link> */}
+      </Link>
     </main>
   );
 };

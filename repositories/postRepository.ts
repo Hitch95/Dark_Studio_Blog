@@ -6,6 +6,7 @@ const supabase = createClient();
 interface PostRepository {
   getAllPosts(): Promise<Post[]>;
   getPostById(id: string): Promise<Post | null>;
+  getPostsByUserId(userId: string): Promise<Post[]>;
   createPost(post: Post): Promise<Post>;
   updatePost(id: string, post: Post);
   deletePost(id: string): Promise<void>;
@@ -13,7 +14,10 @@ interface PostRepository {
 
 const postRepository: PostRepository = {
   async getAllPosts() {
-    const { data, error } = await supabase.from('posts').select('*');
+    const { data, error } = await supabase
+      .from('posts')
+      .select('*')
+      .order('created_at', { ascending: false });
     if (error) throw error;
     return data;
   },
@@ -25,6 +29,17 @@ const postRepository: PostRepository = {
       .eq('id', id);
     if (error) throw error;
     return data[0];
+  },
+
+  async getPostsByUserId(userId: string) {
+    if (!userId) return [];
+    const { data, error } = await supabase
+      .from('posts')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+    if (error) throw error;
+    return data || [];
   },
 
   async createPost(post: Post) {

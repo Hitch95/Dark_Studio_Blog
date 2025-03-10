@@ -1,8 +1,8 @@
 {
   "extends": "next/core-web-vitals",
-    "rules": {
-        "no-console": "off",
-        "eqeqeq": ["error", "always"],
-        "no-unused-vars": "off"
-    }
+  "rules": {
+    "no-console": "off",
+    "eqeqeq": ["error", "always"],
+    "no-unused-vars": "off"
+  }
 }

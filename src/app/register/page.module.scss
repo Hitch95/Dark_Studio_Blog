@@ -45,4 +45,23 @@
             font-weight: bold;
         }
     }
+
+    $greenColor: #53c28b;
+
+    button {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 20px;
+        cursor: pointer;
+        background-color: $greenColor;
+        border: none;
+        border-radius: 5px;
+        width: max-content;
+        color: white;
+
+        &:hover {
+            background-color: #49b07d;
+            box-shadow: 2px 2px 2px #bbb;
+        }
+    }
 }
