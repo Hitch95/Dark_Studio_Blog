@@ -1,35 +1,36 @@
-// import React, { useEffect, useState } from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
-// import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
 import { signup } from './actions';
 
 // My files
-// import { registerUser } from '../../../../utils/api'; // No More here !!!!!!!!!!!!
 import { RegisterValidation } from '../../utils/Validator';
 import Button from '../../components/Button/Button';
 
 // CSS
 import styles from './page.module.scss';
+import { useRouter } from 'next/navigation';
 
 const Register = () => {
-  // const [errors, setErrors] = useState({});
-  // const [values, setValues] = useState({
-  //   username: '',
-  //   email: '',
-  //   password: '',
-  // });
-  // const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
+  const [loading, setLoading] = useState(false);
   // const [shouldRedirect, setShouldRedirect] = useState(false);
 
-  // const router = useRouter();
+  const router = useRouter();
 
-  // const handleChange = (e) => {
-  //   setValues({
-  //     ...values,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   // useEffect(() => {
   //   if (shouldRedirect) {
@@ -37,49 +38,56 @@ const Register = () => {
   //   }
   // }, [shouldRedirect, router]);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const handleSubmit = async (formData) => {
+    setLoading(true);
 
-  //   const validationErrors = RegisterValidation(values);
-  //   setErrors(validationErrors);
+    try {
+      const validationErrors = RegisterValidation(formData);
 
-  //   if (Object.keys(validationErrors).length === 0) {
-  //     setLoading(true);
+      if (Object.keys(validationErrors).length > 0) {
+        const firstError = Object.values(validationErrors)[0];
+        // setErrors(validationErrors);
+        console.error('Validation errors:', validationErrors);
+        toast.error(firstError);
+        return;
+      }
 
-  //     try {
-  //       const response = await registerUser(values);
-  //       const data = await response.json();
-  //       console.log('API response:', data);
+      const form = new FormData();
+      form.append('username', formData.username);
+      form.append('email', formData.email);
+      form.append('password', formData.password);
+      console.log('Form data: ', form);
 
-  //       if (data.success) {
-  //         toast.success('Registration successful!');
-  //         setShouldRedirect(true);
-  //       } else {
-  //         setErrors({ server: data.error || 'Registration failed!' });
-  //         toast.error(data.error || 'Registration failed!');
-  //       }
-  //     } catch (err) {
-  //       console.error('Error during registration:', err.message);
-  //       setErrors({
-  //         server: err.message || 'An unknown error occurred. Please try again.',
-  //       });
-  //       toast.error(
-  //         err.message || 'An unexpected error occurred. Please try again.'
-  //       );
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   }
-  // };
+      const result = await signup(form);
+      console.log('API result:', result);
+
+      if (result?.error) {
+        toast.error(result.error);
+      } else {
+        toast.success(result.message);
+        setTimeout(() => {
+          router.push('/');
+        }, 2000);
+      }
+    } catch (error: any) {
+      console.error('Unexpected error:', error);
+      toast.error('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main className={styles.container} aria-label='Register Page'>
       <h1 className={styles.title}>Create an Account</h1>
       <h2 className={styles.subtitle}>Please sign up to see the dashboard.</h2>
       <form
-        // onSubmit={handleSubmit}
         className={styles.form}
         aria-label='Register Form'
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(formData);
+        }}
       >
         <label htmlFor='username' className={styles.label}></label>
         <input
@@ -87,8 +95,9 @@ const Register = () => {
           id='username'
           name='username'
           placeholder='Username'
-          // onChange={handleChange}
+          onChange={handleChange}
           className={styles.input}
+          value={formData.username}
         />
         {/* {errors.username && (
           <span className={styles.error}>{errors.username}</span>
@@ -100,8 +109,10 @@ const Register = () => {
           id='email'
           name='email'
           placeholder='Email'
-          // onChange={handleChange}
+          onChange={handleChange}
           className={styles.input}
+          value={formData.email}
+          required
         />
         {/* {errors.email && <span className={styles.error}>{errors.email}</span>} */}
 
@@ -111,15 +122,19 @@ const Register = () => {
           id='password'
           placeholder='Password'
           className={styles.input}
-          // onChange={handleChange}
+          onChange={handleChange}
           title='The password must be at least 8 characters long, contain at least one number, one lowercase letter, one uppercase letter and one special character.'
           name='password'
+          value={formData.password}
+          required
         />
         {/* {errors.password && (
           <span className={styles.error}>{errors.password}</span>
         )} */}
         {/* <Button type="submit" text={loading ? 'Sending...' : 'Register'} /> */}
-        <button formAction={signup}>Sign in</button>
+        <button type={'submit'} onClick={() => {}}>
+          Sign in
+        </button>
       </form>
       <p className={styles.or}>- OR -</p>
       <Link className={styles.link} href='/login'>
