@@ -3,15 +3,18 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { AiFillHome } from 'react-icons/ai';
 
-import { useAuth } from '@/app/hooks/useAuth';
+import useAuth from '@/app/hooks/useAuth';
 import useTheme from '@/app/hooks/useTheme';
 import styles from './navbar.module.scss';
 
 const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const { mode, toggle } = useTheme();
-  const { user, loading, signOut } = useAuth();
+  const { user, logout } = useAuth();
+
+  console.log('user : ', user);
 
   const showNavbar = () => {
     navRef.current.classList.toggle(styles.responsiveNavbar);
@@ -25,7 +28,7 @@ const Navbar = () => {
 
       <nav ref={navRef} className={`${mode}`}>
         <Link href={'/'} className={styles.link}>
-          Home
+          <AiFillHome />
         </Link>
         <Link href={'/posts'} className={styles.link}>
           Posts
@@ -45,11 +48,11 @@ const Navbar = () => {
               User Profile
             </Link>
             {/* {userData && userData.isAdmin && (
-                            <Link href={"/dashboard/admin/users"} className={styles.link}>
-                                Admin
-                            </Link>
-                        )} */}
-            <button className={styles.logout} onClick={signOut}>
+              <Link href={'/dashboard/admin/users'} className={styles.link}>
+                Admin
+              </Link>
+            )} */}
+            <button className={styles.logout} onClick={logout}>
               Logout
             </button>
           </>

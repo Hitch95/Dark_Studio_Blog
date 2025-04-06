@@ -1,7 +1,5 @@
-import { createClient } from '../src/utils/supabase/client';
+import supabaseClient from '../src/utils/supabase/client';
 import { Post } from '../src/types';
-
-const supabase = createClient();
 
 interface PostRepository {
   getAllPosts(): Promise<Post[]>;
@@ -14,7 +12,7 @@ interface PostRepository {
 
 const postRepository: PostRepository = {
   async getAllPosts() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('posts')
       .select('*')
       .order('created_at', { ascending: false });
@@ -23,7 +21,7 @@ const postRepository: PostRepository = {
   },
 
   async getPostById(id: string) {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('posts')
       .select('*')
       .eq('id', id);
@@ -32,8 +30,10 @@ const postRepository: PostRepository = {
   },
 
   async getPostsByUserId(userId: string) {
-    if (!userId) return [];
-    const { data, error } = await supabase
+    if (!userId) {
+      throw new Error('User ID is required');
+    }
+    const { data, error } = await supabaseClient
       .from('posts')
       .select('*')
       .eq('user_id', userId)
@@ -43,13 +43,16 @@ const postRepository: PostRepository = {
   },
 
   async createPost(post: Post) {
-    const { data, error } = await supabase.from('posts').insert(post).single();
+    const { data, error } = await supabaseClient
+      .from('posts')
+      .insert(post)
+      .single();
     if (error) throw error;
     return data[0];
   },
 
   async updatePost(id: string, post: Post) {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('posts')
       .update(post)
       .eq('id', id)
@@ -59,7 +62,7 @@ const postRepository: PostRepository = {
   },
 
   async deletePost(id: string) {
-    const { error } = await supabase.from('posts').delete().eq('id', id);
+    const { error } = await supabaseClient.from('posts').delete().eq('id', id);
     if (error) throw error;
   },
 };

@@ -1,35 +1,48 @@
-import { createClient } from '@/utils/supabase/client';
+import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
+
+import { auth } from '@/auth';
+import { User } from '@/types';
+import Loading from '@/components/Loading/loading';
 import DashboardClient from './dashboard';
-import postRepository from '../../../repositories/postRepository';
+import { fetchPostsOfOneUser } from '@/utils/api/userAPIs';
 
-export const dynamic = 'force-dynamic'; // Empêche le prérendu statique
+export const dynamic = 'force-dynamic'; // Prevents static pre-rendering
 
-export default async function DashboardPage() {
-  const supabase = createClient();
+const DashboardPage = async () => {
+  const session = await auth(); // Verify server-side authentication
+  const user = session?.user; // Get user from the session
 
-  // Vérification de l'authentification
-  const {
-    data: { user },
-    error,
-  } = await supabase.auth.getUser();
+  console.log('user : ', user);
 
-  // if (error || !user) {
-  //   redirect('/login');
-  // }
+  if (!user || !user.id) {
+    console.error('User not authenticated or ID missing, redirect to login.');
+    redirect('/login');
+  }
 
   try {
-    // Utilisation de la nouvelle méthode
-    // const posts = await postRepository.getPostsByUserId(user.id);
+    const userPosts = await fetchPostsOfOneUser(user.id);
+
+    const dashboardUser: User = {
+      id: user.id, // user.id is guaranteed to exist here
+      firstName: user.firstName ?? '',
+      lastName: user.lastName ?? '',
+      username: user.username ?? '',
+      email: user.email ?? '',
+      emailVerified: !!user.emailVerified,
+      image: user.image ?? '',
+      isAdmin: !!user.isAdmin,
+    };
 
     return (
-      <DashboardClient
-        // initialPosts={posts}
-        user={user}
-      />
+      <Suspense fallback={<Loading />}>
+        <DashboardClient userPosts={userPosts} user={dashboardUser} />
+      </Suspense>
     );
   } catch (error) {
-    console.error('Erreur lors de la récupération des posts:', error);
-    return <div>Une erreur est survenue lors du chargement de vos posts.</div>;
+    console.error('Error retrieving posts:', error);
+    return <>An error occurred while loading your posts.</>;
   }
-}
+};
+
+export default DashboardPage;

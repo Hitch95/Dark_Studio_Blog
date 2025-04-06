@@ -1,6 +1,6 @@
-import React from 'react';
-import styles from './page.module.scss';
 import Image from 'next/image';
+
+import styles from './page.module.scss';
 import Button from '../../components/Button/Button';
 
 export const metadata = {
@@ -10,8 +10,8 @@ export const metadata = {
 
 const Contact = () => {
   return (
-    <main className={styles.container} aria-label='Contact Page'>
-      <h1 className={styles.title}>Let&apos;s Keep in Touch</h1>
+    <main className={styles.contact_container} aria-label='Contact Page'>
+      <h2 className={styles.title}>Let&apos;s Keep in Touch</h2>
       <section className={styles.content}>
         <div className={styles.imgContainer}>
           <Image

@@ -1,7 +1,5 @@
-import { createClient } from '../src/utils/supabase/client';
+import supabaseClient from '../src/utils/supabase/client';
 import { User } from '../src/types';
-
-const supabase = createClient();
 
 interface UserRepository {
   findUserById: (id: string) => Promise<any>;
@@ -14,33 +12,34 @@ interface UserRepository {
 
 export const userRepository: UserRepository = {
   createUser: async (user: User) => {
-    const { data, error } = await supabase
+    const { user, error } = await supabaseClient
+    .auth.signUp({
+      email: user.email,
+      password: user.password,
+    });
+    if (user) {
+      await supabaseClient
       .from('users')
-      .insert([
-        {
+      .insert({
           username: user.username,
           email: user.email,
           email_verified: false,
           password: user.password,
-          first_name: user.firstname,
-          last_name: user.lastname,
+          first_name: user.firstName,
+          last_name: user.lastName,
           image_src: user.image,
           created_at: new Date(),
           updated_at: new Date(),
           is_admin: false,
-        },
-      ])
-      .select()
-      .single();
-
+      });
     if (error) {
       console.error('Error : ', error + ' while creating new user');
     }
-    return data as User;
-  },
+    return user;
+  }
 
   findUserById: async (id: string) => {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('users')
       .select('*')
       .eq('id', id);
@@ -49,7 +48,7 @@ export const userRepository: UserRepository = {
   },
 
   findUserByEmail: async (email: string): Promise<User | null> => {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('users')
       .select('*')
       .eq('email', email)
@@ -59,22 +58,22 @@ export const userRepository: UserRepository = {
   },
 
   findAllUsers: async () => {
-    const { data, error } = await supabase.from('users').select('*');
+    const { data, error } = await supabaseClient.from('users').select('*');
 
     if (error) throw error;
     return data;
   },
 
   updateUser: async (user: User): Promise<User | null> => {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('users')
       .update({
         username: user.username,
         email: user.email,
         email_verified: user.emailVerified,
         password: user.password,
-        first_name: user.firstname,
-        last_name: user.lastname,
+        first_name: user.firstName,
+        last_name: user.lastName,
         image_src: user.image,
         updated_at: new Date(),
         is_admin: user.isAdmin,
@@ -89,7 +88,7 @@ export const userRepository: UserRepository = {
   },
 
   verifyPassword: async (email: string, password: string): Promise<boolean> => {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('users')
       .select('password')
       .eq('email', email)

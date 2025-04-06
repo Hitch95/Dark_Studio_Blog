@@ -9,7 +9,6 @@ header.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
   position: relative;
 
   .logo {
@@ -22,7 +21,7 @@ header.container {
     gap: 1.5rem;
     transition: background-color 1s ease;
 
-    @media screen and (max-width: 750px) {
+    @media screen and (max-width: 900px) {
       position: fixed;
       z-index: 2;
       top: 0;
@@ -40,6 +39,11 @@ header.container {
       position: absolute;
       top: 2rem;
       right: 2rem;
+
+      &:hover {
+        cursor: pointer;
+        color: $greenColor;
+      }
     }
 
     .link {
@@ -108,7 +112,7 @@ header.container {
   }
 
   .responsiveNavbar {
-    @media only screen and (max-width: 750px) {
+    @media only screen and (max-width: 900px) {
       transform: none;
     }
   }
@@ -120,13 +124,17 @@ header.container {
     color: $lightColor;
     border: none;
     outline: none;
-    visibility: hidden;
+    display: none;
     opacity: 0;
     font-size: 22px;
 
-    @media screen and (max-width: 750px) {
-      visibility: visible;
+    @media screen and (max-width: 900px) {
+      display: block;
       opacity: 1;
+
+      &:hover {
+        color: $greenColor;
+      }
     }
   }
 }

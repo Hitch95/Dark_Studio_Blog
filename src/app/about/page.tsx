@@ -11,7 +11,7 @@ export const metadata = {
 
 const About = () => {
   return (
-    <main className={styles.container} aria-label='About Page'>
+    <main className={styles.about_container} aria-label='About Page'>
       <section className={styles.imgContainer}>
         <Image
           src='/about.webp'

@@ -1,34 +1,77 @@
-.container {
+$greenColor: #53c28b;
+
+main.register_container {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    margin-bottom: 2rem;
+
+    h2 {
+        margin-bottom: 2rem;
+    }
 
     .form {
-        width: 300px;
+        width: 100%;
+        max-width: 900px;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: 20px;
+        justify-content: center;
+        margin-bottom: 1.5rem;
 
         .input {
-            padding: 20px;
+            width: calc(50% - 10px);
+            min-width: 300px;
+            padding: 15px;
             background-color: transparent;
             border: 2px solid #bbb;
             color: #bbb;
             border-radius: 5px;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
         }
 
-        span.error {
-            color: rgb(220, 53, 69);
+        button {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 20px;
+            cursor: pointer;
+            background-color: $greenColor;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            padding: 15px;
+            width: 100%;
+            max-width: 300px;
+
+            &:hover {
+                background-color: #49b07d;
+                box-shadow: 2px 2px 2px #bbb;
+            }
         }
 
-        button {
-            width: 300px;
-            padding: 20px;
-            margin-top: 20px;
+        @media (max-width: 700px) {
+            flex-direction: column;
+            align-items: center;
+
+            .input {
+                width: 100%;
+                max-width: 350px;
+                min-width: unset;
+            }
+
+            button {
+                max-width: 250px;
+            }
+        }
+
+        @media (min-width: 901px) {
+            .input {
+                width: calc(33.33% - 14px);
+            }
         }
     }
 
@@ -37,31 +80,13 @@
     }
 
     .link {
+        margin-top: 1rem;
         text-decoration: underline;
         color: #7d7c7c;
 
         &:hover {
             text-decoration: none;
             font-weight: bold;
-        }
-    }
-
-    $greenColor: #53c28b;
-
-    button {
-        font-size: 18px;
-        font-weight: bold;
-        padding: 20px;
-        cursor: pointer;
-        background-color: $greenColor;
-        border: none;
-        border-radius: 5px;
-        width: max-content;
-        color: white;
-
-        &:hover {
-            background-color: #49b07d;
-            box-shadow: 2px 2px 2px #bbb;
         }
     }
 }

@@ -2,13 +2,14 @@ import { Suspense } from 'react';
 
 import { getOnePost } from '@/utils/api/postAPIs';
 import SinglePost from './post';
+import Loading from '@/components/Loading/loading';
 
 const PostPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const post = await getOnePost(id);
 
   return (
-    <Suspense fallback={<>Loading...</>}>
+    <Suspense fallback={<Loading />}>
       <SinglePost post={post} />
     </Suspense>
   );

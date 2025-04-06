@@ -12,6 +12,21 @@ export async function registerUser(userData) {
   if (!response.ok) {
     throw new Error('Fail while registering user');
   }
-
   return response;
+}
+
+export async function fetchPostsOfOneUser(id: string) {
+  const response = await fetch(`${apiUrl}/user/posts/${id}`, {
+    method: 'GET',
+    cache: 'force-cache',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.text();
+    throw new Error(`Failed to fetch post: ${errorData}`);
+  }
+  return await response.json();
 }

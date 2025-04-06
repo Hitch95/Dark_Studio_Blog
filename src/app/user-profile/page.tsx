@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { IoEye } from 'react-icons/io5';
 import Button from '../../components/Button/Button';
 import toast from 'react-hot-toast';
-import { useAuth } from '../hooks/useAuth';
+import useAuth from '@/app/hooks/useAuth';
 
 const UserProfile = () => {
   // const { userData } = useContext(UserContext);

@@ -18,20 +18,14 @@ const Layout = ({ children }) => {
   // }, [userData, router]);
 
   return (
-    <div>
-      {/* {
-                userData ? userData.isAdmin && ( */}
-      <div className={styles.container}>
-        <div className={styles.item}>
-          <div className={styles.links}>
-            {/* <Link href="/dashboard/admin/users">Users</Link>
+    <div className={styles.container}>
+      <div className={styles.item}>
+        <div className={styles.links}>
+          {/* <Link href="/dashboard/admin/users">Users</Link>
             <Link href="/dashboard/admin/posts">Posts</Link> */}
-          </div>
         </div>
-        <div className={styles.item}>{/* {children} */}</div>
       </div>
-      {/* ) : ("This Router is only accessible to Admin!")
-            } */}
+      <div className={styles.item}>{/* {children} */}</div>
     </div>
   );
 };

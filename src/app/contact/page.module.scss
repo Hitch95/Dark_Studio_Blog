@@ -1,15 +1,17 @@
-.container {
+main.contact_container {
+    margin-bottom: 1rem;
 
-    .title {
-        font-size: 60px;
-        margin-bottom: 100px;
+    h2.title {
+        font-size: 1.5em;
+        margin-bottom: 1rem;
         text-align: center;
 
-        @media (max-width: 600px) {
-            font-size: 2.6em;
+        @media (min-width: 600px) {
+            font-size: 1.8em;
         }
-        @media (max-width: 750px) and (min-width: 600px) {
-            font-size: 3.1em;
+
+        @media (min-width: 750px) {
+            font-size: 2em;
         }
     }
 
@@ -31,6 +33,7 @@
             @media (max-width: 600px) {
                 display: none;
             }
+
             @media (max-width: 750px) and (min-width: 600px) {
                 display: none;
             }
@@ -39,11 +42,12 @@
                 object-fit: contain;
                 animation: move 3s infinite ease alternate;
             }
+
             @keyframes move {
                 from {
                     transform: translateY(-15px);
                 }
-            
+
                 to {
                     transform: translateY(0px) scale(1.03);
                 }
@@ -74,6 +78,13 @@
                 @media (max-width: 600px) {
                     padding: 0px;
                     min-width: inherit;
+                }
+            }
+
+            >button {
+                @media screen and (max-width: 600px) {
+                    font-size: 1em;
+                    padding: 16px;
                 }
             }
         }

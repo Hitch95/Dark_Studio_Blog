@@ -1,6 +1,5 @@
 .container {
     display: flex;
-    gap: 20px;
 
     @media screen and (max-width: 650px) {
         flex-direction: column;
@@ -10,7 +9,7 @@
     .item {
         &:nth-of-type(1) {
             width: max-content;
-            
+
             >.links {
                 display: flex;
                 flex-direction: column;
@@ -33,6 +32,7 @@
 
         &:nth-of-type(2) {
             flex: 1;
+
             @media screen and (max-width: 650px) {
                 margin-top: 5vh;
             }

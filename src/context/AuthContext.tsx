@@ -1,29 +1,36 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
-import { SupabaseClient } from '@supabase/supabase-js';
-import { createClient } from '../utils/supabase/client';
+import { createContext, ReactNode } from 'react';
+import { useSession, signOut } from 'next-auth/react';
+import { User } from 'next-auth';
 
-type SupabaseContext = {
-  supabase: SupabaseClient;
-};
-
-const Context = createContext<SupabaseContext | undefined>(undefined);
-
-export default function AuthContext({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [supabase] = useState(() => createClient());
-
-  return <Context.Provider value={{ supabase }}>{children}</Context.Provider>;
+interface AuthContextProps {
+  user: User | null;
+  logout: () => Promise<void>;
 }
 
-export const useSupabase = () => {
-  const context = useContext(Context);
-  if (context === undefined) {
-    throw new Error('useSupabase needs to be used inside AuthContext');
-  }
-  return context.supabase;
+const defaultContext: AuthContextProps = {
+  user: null,
+  logout: async () => {},
 };
+
+const AuthContext = createContext<AuthContextProps>(defaultContext);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const { data: session } = useSession();
+
+  const logout = async () => {
+    await signOut();
+  };
+
+  const contextValue = {
+    user: session?.user || null,
+    logout,
+  };
+
+  return (
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+  );
+};
+
+export default AuthContext;

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-import { useAuth } from '../../hooks/useAuth';
+import useAuth from '@/app/hooks/useAuth';
 import styles from './page.module.scss';
 import { Post } from '@/types';
 
@@ -30,7 +30,7 @@ export default function SinglePost({ post }: SinglePostProps) {
           <form className={styles.form}>
             <input
               className={styles.input}
-              type="text"
+              type='text'
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
@@ -56,7 +56,7 @@ export default function SinglePost({ post }: SinglePostProps) {
                 <Image
                   src={post.image}
                   alt={`${post.title}`}
-                  sizes="(max-width: 600px) 100vw, 600px"
+                  sizes='(max-width: 600px) 100vw, 600px'
                   fill
                   className={styles.image}
                 />

@@ -16,6 +16,8 @@ import { useRouter } from 'next/navigation';
 const Register = () => {
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
     username: '',
     email: '',
     password: '',
@@ -32,12 +34,6 @@ const Register = () => {
     });
   };
 
-  // useEffect(() => {
-  //   if (shouldRedirect) {
-  //     router.push('/dashboard');
-  //   }
-  // }, [shouldRedirect, router]);
-
   const handleSubmit = async (formData) => {
     setLoading(true);
 
@@ -53,6 +49,8 @@ const Register = () => {
       }
 
       const form = new FormData();
+      form.append('firstName', formData.firstName);
+      form.append('lastName', formData.lastName);
       form.append('username', formData.username);
       form.append('email', formData.email);
       form.append('password', formData.password);
@@ -66,7 +64,7 @@ const Register = () => {
       } else {
         toast.success(result.message);
         setTimeout(() => {
-          router.push('/');
+          window.location.href = '/';
         }, 2000);
       }
     } catch (error: any) {
@@ -78,9 +76,8 @@ const Register = () => {
   };
 
   return (
-    <main className={styles.container} aria-label='Register Page'>
-      <h1 className={styles.title}>Create an Account</h1>
-      <h2 className={styles.subtitle}>Please sign up to see the dashboard.</h2>
+    <main className={styles.register_container} aria-label='Register Page'>
+      <h2 className={styles.title}>Create an Account</h2>
       <form
         className={styles.form}
         aria-label='Register Form'
@@ -89,49 +86,84 @@ const Register = () => {
           handleSubmit(formData);
         }}
       >
-        <label htmlFor='username' className={styles.label}></label>
-        <input
-          type='text'
-          id='username'
-          name='username'
-          placeholder='Username'
-          onChange={handleChange}
-          className={styles.input}
-          value={formData.username}
-        />
-        {/* {errors.username && (
+        <div className={styles.input_group}>
+          <label htmlFor='firstName' className={styles.label}></label>
+          <input
+            type='firstName'
+            id='firstName'
+            name='firstName'
+            placeholder='First Name'
+            onChange={handleChange}
+            className={styles.input}
+            value={formData.firstName}
+            required
+          />
+        </div>
+
+        <div className={styles.input_group}>
+          <label htmlFor='lastName' className={styles.label}></label>
+          <input
+            type='lastName'
+            id='lastName'
+            name='lastName'
+            placeholder='Last Name'
+            onChange={handleChange}
+            className={styles.input}
+            value={formData.lastName}
+            required
+          />
+        </div>
+
+        <div className={styles.input_group}>
+          <label htmlFor='username' className={styles.label}></label>
+          <input
+            type='text'
+            id='username'
+            name='username'
+            placeholder='Username'
+            onChange={handleChange}
+            className={styles.input}
+            value={formData.username}
+          />
+          {/* {errors.username && (
           <span className={styles.error}>{errors.username}</span>
         )} */}
+        </div>
 
-        <label htmlFor='email' className={styles.label}></label>
-        <input
-          type='email'
-          id='email'
-          name='email'
-          placeholder='Email'
-          onChange={handleChange}
-          className={styles.input}
-          value={formData.email}
-          required
-        />
-        {/* {errors.email && <span className={styles.error}>{errors.email}</span>} */}
+        <div className={styles.input_group}>
+          <label htmlFor='email' className={styles.label}></label>
+          <input
+            type='email'
+            id='email'
+            name='email'
+            placeholder='Email'
+            onChange={handleChange}
+            className={styles.input}
+            value={formData.email}
+            required
+          />
+          {/* {errors.email && <span className={styles.error}>{errors.email}</span>} */}
+        </div>
 
-        <label htmlFor='password' className={styles.label}></label>
-        <input
-          type='password'
-          id='password'
-          placeholder='Password'
-          className={styles.input}
-          onChange={handleChange}
-          title='The password must be at least 8 characters long, contain at least one number, one lowercase letter, one uppercase letter and one special character.'
-          name='password'
-          value={formData.password}
-          required
-        />
-        {/* {errors.password && (
+        <div className={styles.input_group}>
+          <label htmlFor='password' className={styles.label}></label>
+          <input
+            type='password'
+            id='password'
+            placeholder='Password'
+            className={styles.input}
+            onChange={handleChange}
+            title='The password must be at least 8 characters long, contain at least one number, one lowercase letter, one uppercase letter and one special character.'
+            name='password'
+            value={formData.password}
+            required
+          />
+          {/* {errors.password && (
           <span className={styles.error}>{errors.password}</span>
         )} */}
-        {/* <Button type="submit" text={loading ? 'Sending...' : 'Register'} /> */}
+          {/* <Button type="submit" text={loading ? 'Sending...' : 'Register'} /> */}
+        </div>
+
         <button type={'submit'} onClick={() => {}}>
           Sign in
         </button>
