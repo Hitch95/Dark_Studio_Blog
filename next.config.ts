@@ -1,3 +1,5 @@
+/** @type {import('next').NextConfig} */
+
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
@@ -29,14 +31,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    reactCompiler: true,
-  },
   // Deactivate optimization for react-icons
-  webpack: (config) => {
-    config.optimization.minimize = false;
-    return config;
-  },
+  turbopack: {},
 };
 
 export default nextConfig;

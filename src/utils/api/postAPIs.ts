@@ -1,3 +1,5 @@
+import { Post } from '@/types';
+
 const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // Works well
@@ -36,7 +38,7 @@ export async function fetchPost(id: string) {
   return await response.json();
 }
 
-export async function updatePost(id: string, data) {
+export async function updatePost(id: string, data: Partial<Post>) {
   const response = await fetch(`${apiUrl}/posts/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },

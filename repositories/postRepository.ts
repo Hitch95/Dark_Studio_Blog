@@ -6,7 +6,7 @@ interface PostRepository {
   getPostById(id: string): Promise<Post | null>;
   getPostsByUserId(userId: string): Promise<Post[]>;
   createPost(post: Post): Promise<Post>;
-  updatePost(id: string, post: Post);
+  updatePost(id: string, post: Post): Promise<Post>;
   deletePost(id: string): Promise<void>;
 }
 

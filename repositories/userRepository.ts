@@ -12,31 +12,31 @@ interface UserRepository {
 
 export const userRepository: UserRepository = {
   createUser: async (user: User) => {
-    const { user, error } = await supabaseClient
-    .auth.signUp({
+    const { data, error } = await supabaseClient.auth.signUp({
       email: user.email,
-      password: user.password,
+      password: user.password || '',
     });
-    if (user) {
-      await supabaseClient
-      .from('users')
-      .insert({
-          username: user.username,
-          email: user.email,
-          email_verified: false,
-          password: user.password,
-          first_name: user.firstName,
-          last_name: user.lastName,
-          image_src: user.image,
-          created_at: new Date(),
-          updated_at: new Date(),
-          is_admin: false,
-      });
     if (error) {
       console.error('Error : ', error + ' while creating new user');
+      throw error;
     }
-    return user;
-  }
+    if (data.user) {
+      await supabaseClient.from('users').insert({
+        id: data.user.id,
+        username: user.username,
+        email: user.email,
+        email_verified: false,
+        password: user.password,
+        first_name: user.firstName,
+        last_name: user.lastName,
+        image_src: user.image,
+        created_at: new Date(),
+        updated_at: new Date(),
+        is_admin: false,
+      });
+    }
+    return data.user;
+  },
 
   findUserById: async (id: string) => {
     const { data, error } = await supabaseClient

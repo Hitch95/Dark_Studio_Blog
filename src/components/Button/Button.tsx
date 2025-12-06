@@ -1,6 +1,10 @@
 import styles from './button.module.scss';
 
-const Button = ({ text }) => {
+interface ButtonProps {
+  text: string;
+}
+
+const Button = ({ text }: ButtonProps) => {
   return <button className={styles.button_component}>{text}</button>;
 };
 

@@ -3,9 +3,9 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
-export async function login(formData: FormData) {
+export async function login(formData: FormData): Promise<void> {
   // type-casting here for convenience
   // in practice, you should validate your inputs
   const data = {
@@ -15,7 +15,7 @@ export async function login(formData: FormData) {
 
   if (!data.email || !data.password) {
     console.error('All fields are required');
-    return { success: false, error: 'All fields are required' };
+    throw new Error('All fields are required');
   }
 
   console.log(data);
@@ -30,14 +30,13 @@ export async function login(formData: FormData) {
 
     if (result) {
       console.log('Login successful:', result);
-      return { success: true };
     } else {
       console.error('Login failed');
-      return { success: false, error: 'Invalid email or password' };
+      throw new Error('Invalid email or password');
     }
   } catch (error) {
     console.error('Error while try to login :', error);
-    return { success: false, error: 'Error while try to login' };
+    throw error;
   } finally {
     revalidatePath('/', 'layout');
     redirect('/');

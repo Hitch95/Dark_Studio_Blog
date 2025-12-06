@@ -4,11 +4,10 @@ import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 import styles from './page.module.scss';
 import toast from 'react-hot-toast';
-import { useAuth } from '@/app/hooks/useAuth';
-import Loading from '@/components/Loading/loading';
+import useAuth from '@/app/hooks/useAuth';
 
 const Users = () => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
 
   // const router = useRouter();
   // const fetcher = (...args) => fetch(...args).then((res) => res.json());

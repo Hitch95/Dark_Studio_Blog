@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import useSWR from 'swr';
@@ -25,11 +25,11 @@ interface PostsProps {
 
 const Posts = ({ user, userPosts }: PostsProps) => {
   const router = useRouter();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   console.log('user : ', user);
   console.log('userPosts : ', userPosts);
 
-  const [currentPostId, setCurrentPostId] = useState(null);
+  const [currentPostId, setCurrentPostId] = useState<string | null>(null);
 
   const { isOpen, requestConfirmation, handleClose, handleConfirm } =
     useConfirmationPopup();
@@ -60,18 +60,27 @@ const Posts = ({ user, userPosts }: PostsProps) => {
       toast.success('Post Deleted Successfully');
       mutate(); // Assuming mutate() is a method to revalidate data
       router.refresh();
-    } catch (error) {
-      console.error(error.message || 'Failed to delete the post');
-      setError(error.message || 'Failed to delete the post');
+    } catch (caughtError) {
+      const errorMessage =
+        caughtError instanceof Error
+          ? caughtError.message
+          : 'Failed to delete the post';
+      console.error(errorMessage);
+      setError(errorMessage);
     }
   };
 
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  const fetcher = (...args: Parameters<typeof fetch>): Promise<Post[]> =>
+    fetch(...args).then((res) => res.json());
 
   const { data, mutate, isLoading } = useSWR(
     `/api/posts?username=${user.username}`,
     fetcher
   );
+
+  // Cast the imported component to a forward-ref exotic component so TS allows passing props + ref
+  const ConfirmationPopupComponent =
+    ConfirmationPopup as unknown as React.ForwardRefExoticComponent<any>;
 
   return (
     <div className={styles.posts}>
@@ -111,11 +120,17 @@ const Posts = ({ user, userPosts }: PostsProps) => {
         ))
       )}
 
-      <ConfirmationPopup
+      <ConfirmationPopupComponent
         ref={popupRef}
         isOpen={isOpen}
         onClose={handleClose}
-        onConfirm={() => handleConfirm(() => handleDelete(currentPostId))}
+        onConfirm={() =>
+          handleConfirm(() => {
+            if (currentPostId) {
+              handleDelete(currentPostId);
+            }
+          })
+        }
         message={'The deletion of this post will be definitive.'}
       />
     </div>

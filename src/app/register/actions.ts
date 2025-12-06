@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { signIn } from '@/auth';
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 import supabaseClient from '@/utils/supabase/client';
 

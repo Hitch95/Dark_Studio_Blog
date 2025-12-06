@@ -34,14 +34,16 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async () => {
     setLoading(true);
 
     try {
       const validationErrors = RegisterValidation(formData);
 
       if (Object.keys(validationErrors).length > 0) {
-        const firstError = Object.values(validationErrors)[0];
+        const firstError =
+          (Object.values(validationErrors)[0] as string) ||
+          'Validation error';
         // setErrors(validationErrors);
         console.error('Validation errors:', validationErrors);
         toast.error(firstError);
@@ -62,7 +64,7 @@ const Register = () => {
       if (result?.error) {
         toast.error(result.error);
       } else {
-        toast.success(result.message);
+        toast.success(result.message ?? 'Registration successful');
         setTimeout(() => {
           window.location.href = '/';
         }, 2000);
@@ -83,7 +85,7 @@ const Register = () => {
         aria-label='Register Form'
         onSubmit={(e) => {
           e.preventDefault();
-          handleSubmit(formData);
+          handleSubmit();
         }}
       >
         <div className={styles.input_group}>

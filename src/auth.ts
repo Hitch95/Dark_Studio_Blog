@@ -70,14 +70,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
   callbacks: {
     async session({ session, token }) {
-      // Transfer token data to the session
-      if (token && session.user) {
-        session.user.id = token.id;
-        session.user.username = token.username;
-        session.user.firstName = token.firstName;
-        session.user.lastName = token.lastName;
-        session.user.isAdmin = token.isAdmin;
+      // Simple, explicit mapping: assign only defined token fields to session.user
+      if (!token || !session.user) return session;
+
+      if (token.id !== undefined) {
+        session.user.id = token.id as string;
       }
+
+      if (token.username !== undefined) {
+        session.user.username = token.username as string;
+      }
+
+      if (token.firstName !== undefined) {
+        session.user.firstName = token.firstName as string;
+      }
+
+      if (token.lastName !== undefined) {
+        session.user.lastName = token.lastName as string;
+      }
+
+      if (token.isAdmin !== undefined) {
+        session.user.isAdmin = token.isAdmin as boolean;
+      }
+
       return session;
     },
     async jwt({ token, user, account }) {

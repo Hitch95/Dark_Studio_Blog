@@ -52,7 +52,6 @@ const SidebarCreatePost = () => {
       <Form
         className={styles.form}
         errors={error}
-        onClearErrors={setError}
         onSubmit={async (event) => {
           event.preventDefault();
         }}

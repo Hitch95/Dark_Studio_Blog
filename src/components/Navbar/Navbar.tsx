@@ -17,7 +17,9 @@ const Navbar = () => {
   console.log('user : ', user);
 
   const showNavbar = () => {
-    navRef.current.classList.toggle(styles.responsiveNavbar);
+    if (navRef.current) {
+      navRef.current.classList.toggle(styles.responsiveNavbar);
+    }
   };
 
   return (

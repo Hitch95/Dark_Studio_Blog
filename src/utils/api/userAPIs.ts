@@ -1,6 +1,6 @@
 const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export async function registerUser(userData) {
+export async function registerUser(userData: Record<string, unknown>) {
   const response = await fetch(`${apiUrl}/auth/register`, {
     method: 'POST',
     headers: {

@@ -5,8 +5,13 @@ import styles from './page.module.scss';
 import Link from 'next/link';
 // import { UserContext } from "../../../context/UserContext";
 import { useRouter } from 'next/navigation';
+import { ReactNode } from 'react';
 
-const Layout = ({ children }) => {
+const Layout = (
+  {
+    // children
+  }
+) => {
   // const { userData } = useContext(UserContext)
   const router = useRouter();
 

@@ -28,11 +28,12 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Erreur :', error, 'while trying to get the post');
+    console.error('Erreur while fetching post:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
       {
         message: 'Server error',
-        error: error.message,
+        error: errorMessage,
       },
       { status: 500 }
     );

@@ -5,7 +5,7 @@ import styles from './page.module.css';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-const Edit = ({ params }) => {
+const Edit = ({ params }: { params: { id: string } }) => {
   // const { id } = params;
   // const [data, setData] = useState({
   //     title: "",
